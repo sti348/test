@@ -1,0 +1,39 @@
+{
+ "parent": "kino:item/flute",
+ "display": {
+  "thirdperson_righthand": {
+   "rotation": [
+    180,
+    0,
+    0
+   ],
+   "translation": [
+    0,
+    1.5,
+    1.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "thirdperson_lefthand": {
+   "rotation": [
+    180,
+    0,
+    0
+   ],
+   "translation": [
+    0,
+    1.5,
+    1.0
+   ],
+   "scale": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  }
+ }
+}

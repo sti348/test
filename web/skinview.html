@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><title>skins</title>
+<style>html,body{margin:0;background:#8a9aa8}</style>
+<script type="importmap">{"imports":{"three":"/web/node_modules/three/build/three.module.js"}}</script>
+</head><body><canvas id="c"></canvas>
+<script type="module">
+import * as THREE from 'three';
+import { PlayerModel, loadSkinTexture } from './lib/player.js';
+const q = new URLSearchParams(location.search);
+const skins = (q.get('skins') || 'kino:slim').split(',');
+const W = +(q.get('w') || 1200), H = +(q.get('h') || 520);
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.outputColorSpace = THREE.LinearSRGBColorSpace; renderer.setClearColor(0x9aaab8);
+const scene = new THREE.Scene();
+scene.add(new THREE.AmbientLight(0xffffff, 1.6));
+const dl = new THREE.DirectionalLight(0xffffff, 1.6); dl.position.set(2, 4, 5); scene.add(dl);
+const views = q.get('views') === '2' ? [0, Math.PI] : (q.get('views') === '1' ? [0.35] : [0, Math.PI, Math.PI / 2, -Math.PI * 0.8]);
+const pose = q.get('pose') || 'standing';
+let n = 0;
+skins.forEach((s, i) => {
+  const [name, kind] = s.split(':');
+  const tex = loadSkinTexture(`/resourcepack/assets/kino/textures/entity/skins/${name}.png?${Date.now()}`);
+  views.forEach((yaw, j) => {
+    const m = new PlayerModel(tex, kind === 'slim');
+    m.applyPose({ pose, aim: q.get('aim') === '1', walkAmt: +(q.get('walk') || 0), walkPos: 1.2 });
+    m.root.rotation.y = yaw;
+    m.root.position.set((n - (skins.length * views.length - 1) / 2) * 1.05, 0, 0);
+    scene.add(m.root); n++;
+  });
+});
+const cam = new THREE.PerspectiveCamera(20, W / H, 0.1, 100);
+const span = n * 1.05;
+if (q.get('zoom') === 'head') { cam.fov = 8; cam.updateProjectionMatrix(); cam.position.set(0, 1.9, span * 2.2 + 3); cam.lookAt(0, 1.72, 0); }
+else { const d = Math.max(span / (2 * Math.tan(10 * Math.PI / 180) * (W / H)) * 1.08, 2.2 / (2 * Math.tan(10 * Math.PI / 180))); cam.position.set(0, 1.2, d); cam.lookAt(0, 0.95, 0); }
+THREE.DefaultLoadingManager.onLoad = () => { renderer.render(scene, cam); window.READY = true; };
+setTimeout(() => { renderer.render(scene, cam); window.READY = true; }, 1500);
+</script></body></html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><title>奇诺之旅 · Minecraft</title>
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #wrap { position: relative; margin: 0 auto; }
+  canvas { display: block; }
+  .ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; image-rendering: pixelated; display: none; }
+  #sub { position: absolute; left: 0; right: 0; text-align: center; font-family: 'Unifont', 'WenQuanYi Zen Hei Sharp', monospace;
+         color: #fff; white-space: pre; pointer-events: none; -webkit-font-smoothing: none; font-smooth: never; }
+  #sub span.who { margin-right: 0.3em; }
+  #title, #subtitle { position: absolute; left: 0; right: 0; text-align: center; font-family: 'Unifont', 'WenQuanYi Zen Hei Sharp', monospace;
+         color: #fff; pointer-events: none; white-space: pre; }
+  #title { font-weight: normal; }
+  .shadow { text-shadow: var(--sh) var(--sh) 0 #3f3f3f; }
+</style>
+<script type="importmap">{"imports":{"three":"/web/node_modules/three/build/three.module.js"}}</script>
+</head><body>
+<div id="wrap">
+  <canvas id="c"></canvas>
+  <img id="ov_letterbox" class="ov" src="/resourcepack/assets/kino/textures/misc/letterbox.png">
+  <img id="ov_scope" class="ov" src="/resourcepack/assets/kino/textures/misc/scope.png">
+  <img id="ov_binoculars" class="ov" src="/resourcepack/assets/kino/textures/misc/binoculars.png">
+  <img id="ov_black" class="ov" src="/resourcepack/assets/kino/textures/misc/black.png">
+  <div id="title" class="shadow"></div><div id="subtitle" class="shadow"></div>
+  <div id="sub" class="shadow"></div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { Stage } from './lib/stage.js';
+import { FilmPlayer } from './lib/filmplayer.js';
+const q = new URLSearchParams(location.search);
+const W = +(q.get('w') || 1280), H = +(q.get('h') || 720);
+const gui = Math.max(1, Math.min(Math.floor(W / 320), Math.floor(H / 240)));   // vanilla auto GUI scale
+document.getElementById('wrap').style.width = W + 'px';
+document.getElementById('wrap').style.height = H + 'px';
+document.documentElement.style.setProperty('--sh', gui + 'px');
+const stage = new Stage(document.getElementById('c'), W, H);
+const [film] = await Promise.all([fetch('/build/preview/film.json').then(r => r.json()), stage.loadWorld('/build/preview')]);
+const player = new FilmPlayer(stage, film, '/resourcepack');
+await player.load();
+window.FILM = film;
+
+const subEl = document.getElementById('sub'), tEl = document.getElementById('title'), stEl = document.getElementById('subtitle');
+subEl.style.fontSize = (8 * gui) + 'px';
+subEl.style.top = (H - 68 * gui - 4 * gui) + 'px';
+tEl.style.fontSize = (8 * gui * 4) + 'px'; tEl.style.top = (H / 2 - 10 * 4 * gui * 0.9) + 'px';
+stEl.style.fontSize = (8 * gui * 2) + 'px'; stEl.style.top = (H / 2 + 5 * 2 * gui) + 'px';
+const colors = film.speakers || {};
+
+function overlays(ti) {
+  let cur = null;
+  for (const o of film.overlays) { if (o[0] <= ti) cur = o[1]; else break; }
+  for (const n of ['letterbox', 'scope', 'binoculars', 'black']) document.getElementById('ov_' + n).style.display = (cur === n || (n === 'letterbox' && cur && cur !== 'none')) ? 'block' : 'none';
+}
+function subtitles(ti) {
+  let line = null;
+  for (const s of film.subs) { if (s[0] <= ti && ti < s[1]) line = s; }
+  if (!line) { subEl.innerHTML = ''; return; }
+  const who = line[2], c = colors[who] || '#ffffff';
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  subEl.innerHTML = (who && who !== '旁白' ? `<span class="who" style="color:${c}">${esc(who)}：</span>` : '') +
+    `<span style="color:${who === '旁白' ? '#e8e0c8' : '#ffffff'}">${esc(line[3])}</span>`;
+}
+function titles(ti) {
+  let cur = null;
+  for (const t of film.titles) if (t[0] <= ti && ti < t[0] + t[3] + t[4] + t[5]) cur = t;
+  if (!cur) { tEl.textContent = ''; stEl.textContent = ''; return; }
+  const age = ti - cur[0];
+  let a = 1;
+  if (age < cur[3]) a = age / cur[3]; else if (age > cur[3] + cur[4]) a = 1 - (age - cur[3] - cur[4]) / cur[5];
+  tEl.textContent = cur[1]; stEl.textContent = cur[2];
+  tEl.style.opacity = stEl.style.opacity = Math.max(0, Math.min(1, a));
+}
+function frame(tick) {
+  const ti = Math.floor(tick);
+  player.renderAt(tick);
+  overlays(ti); subtitles(ti); titles(ti);
+}
+window.renderTick = t => { frame(t); if (q.get('nosub')) { subEl.innerHTML = ''; } return true; };
+window.LENGTH = film.length;
+if (q.get('t')) frame(+q.get('t'));
+window.READY = true;
+if (q.get('play')) {
+  let t0 = performance.now(), start = +(q.get('t') || 0);
+  const loop = () => { const t = start + (performance.now() - t0) / 50; if (t < film.length) { frame(t); requestAnimationFrame(loop); } };
+  loop();
+}
+</script>
+</body></html>
