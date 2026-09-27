@@ -20,12 +20,12 @@ def kino():
         # hair
         "H": hexc("26232b"), "h": hexc("3e3a46"), "j": hexc("17151b"),
         # skin / face
-        "S": hexc("f3d8c0"), "s": hexc("e2bea2"), "m": hexc("e2b2a2"),
-        "E": hexc("5a463a"), "e": hexc("8e7462"), "L": hexc("1c1618"),
+        "S": hexc("f3d8c0"), "s": hexc("e2bea2"), "m": hexc("e8c2b0"),
+        "E": hexc("4a3a34"), "e": hexc("8e7462"), "L": hexc("241c1e"), "W": hexc("f2eeea"),
         # cap
         "c": hexc("62483a"), "C": hexc("7a5c4a"), "k": hexc("4a362c"), "v": hexc("3e2c24"),
         "w": hexc("ece8de"), "f": hexc("d0cabc"),
-        "G": hexc("343c42"), "g": hexc("9aaeb8"), "M": hexc("a8a8a4"),
+        "G": hexc("6f8594"), "g": hexc("d6e6ee"), "M": hexc("b4b4b0"),
         "r": hexc("54392a"), "y": hexc("c4a456"),
         # coat
         "T": hexc("cfb068"), "t": hexc("b69852"), "u": hexc("977a3c"), "l": hexc("dfc684"),
@@ -48,21 +48,21 @@ def kino():
     # ---------------- head (base) ----------------
     s.paint("head", "front", """
         HHHHHHHH
-        HHHHHHHH
         HHHhHHHH
         HHsHHsHH
         HLLSSLLH
-        HEeSSeEH
+        HWESSEWH
         HSSSSSSH
-        HsSmmSsH
+        hSSmmSSh
+        HsSSSSsH
     """, P)
     right = rows("""
         HHHHHHHH
         HHHHhHHH
         HHhHHHHH
         HHHHHhHH
-        HhHHHHHH
-        HHHHhHHH
+        HhHHHHsH
+        HHHHhHsH
         HHHHHssH
         jHHHHsSH
     """)
@@ -101,9 +101,9 @@ def kino():
 
     # ---------------- head (hat layer: cap + goggles) ----------------
     s.paint("head", "front", """
-        rGgMMGgr
-        rGGMMGGr
+        rGgMMgGr
         vvvvvvvv
+        ........
         ........
         ........
         ........
@@ -113,8 +113,8 @@ def kino():
     cap_r = rows("""
         wwwwccCc
         rrrrrryr
-        wfwwkkkk
-        fwwf....
+        wfwf....
+        ........
         ........
         ........
         ........
@@ -126,8 +126,8 @@ def kino():
         wwwwwwww
         rrrrrrrr
         wfwwwfww
-        fwwfwwfw
-        .f....f.
+        f.w..w.f
+        ........
         ........
         ........
         ........

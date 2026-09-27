@@ -1,8 +1,13 @@
-"""Build everything:  python3 tools/build.py [--preview]
+"""Build everything:  python3 tools/build.py [--voices] [--preview] [--validate]
 
-  resourcepack/   skins, item models, camera overlays        -> dist/奇诺之旅_资源包.zip
+  resourcepack/   skins, item models, camera overlays, Japanese voice lines,
+                  custom sounds and music                     -> dist/奇诺之旅_资源包.zip
   datapack/       sets + the film as per-tick functions       -> dist/奇诺之旅_数据包.zip
   build/preview/  data for the web preview renderer (needs npm for vanilla textures)
+
+--voices re-synthesises changed dialogue with Kokoro TTS (tools/voices.py); the
+recorded lines and their lengths (tools/voice_index.json) are in the repository,
+so a normal build does not need the TTS model.
 """
 import json
 import os
@@ -31,6 +36,11 @@ def main():
     run("skins.py")
     run("models.py")
     run("overlays.py")
+    if "--voices" in sys.argv:
+        run("voices.py")
+    snd = os.path.join(ROOT, "resourcepack", "assets", "kino", "sounds")
+    if "--sounds" in sys.argv or not os.path.exists(os.path.join(snd, "music", "ending.ogg")):
+        run("sfx_synth.py")
     rp = os.path.join(ROOT, "resourcepack")
     with open(os.path.join(rp, "pack.mcmeta"), "w", encoding="utf-8") as fh:
         json.dump({"pack": {"description": "奇诺之旅 · 皮肤 / 艾鲁梅斯 / 道具模型 / 镜头遮罩",

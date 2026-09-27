@@ -133,13 +133,13 @@
       </div>
       <div class="how">
         <h3>在 Minecraft 里放映</h3>
-        <p>这个页面用网页渲染器实时播放，和游戏内的数据包使用同一份剧本、同一套皮肤与模型。要在游戏里放映：</p>
+        <p>这个页面用网页渲染器实时播放，和游戏内的数据包使用同一份剧本、同一套皮肤与模型，声音也一样：356 句日语配音（语音合成）、原版音效、自制的引擎声与钢琴配乐。要在游戏里放映：</p>
         <ol>
           <li>Java 版 1.21.9 或更新，新建「超平坦 · 虚空」世界并开启作弊；</li>
           <li>装入资源包 <code>奇诺之旅_资源包.zip</code>，把 <code>奇诺之旅_数据包.zip</code> 放进存档的 <code>datapacks</code>；</li>
           <li>运行 <code>/function kino:setup</code> 搭建场景，然后 <code>/function kino:play</code> 开始放映（<code>/function kino:scenes</code> 可跳到任意一场）。</li>
         </ol>
-        <p>镜头由数据包控制，放映时不要按 F1（字幕与遮罩属于界面层）。</p>
+        <p>镜头由数据包控制，放映时不要按 F1（字幕与遮罩属于界面层）。日语配音走游戏的「语音/旁白」音量，配乐走「音乐」，放映前请确认它们没有关掉。</p>
       </div>
     </div>
   </section>
@@ -225,11 +225,110 @@ function typeScale() {
 }
 typeScale();
 
-// playback
-const audio = new Audio('audio.mp4');
-audio.preload = 'auto';
-let muted = false;
-let tick = 1, playing = false, t0 = 0, tick0 = 0;
+// ---- sound --------------------------------------------------------------
+// The sound track is cut into 30-second MP3 pieces (with a little overlap) and
+// played through Web Audio: each piece is scheduled once, sample-exactly, at
+// its place on the audio clock, and that clock drives the picture.  Nothing is
+// ever seeked while playing (seeking a streamed <audio> element every frame is
+// what produced a constant buzz before).
+const Sound = (() => {
+  let meta = null, ctx = null, gain = null, delay = 0;
+  let running = false, anchorCtx = 0, anchorFilm = 0, muted = false;
+  const pending = new Map(), decoded = new Map(), sources = new Map();
+  const metaP = fetch('audio/meta.json').then(r => r.ok ? r.json() : null).then(m => (meta = m)).catch(() => null);
+  const name = k => `audio/c${String(k).padStart(3, '0')}.mp3`;
+  function load(k) {
+    if (!meta || k < 0 || k >= meta.n) return Promise.resolve(null);
+    if (!pending.has(k)) {
+      pending.set(k, fetch(name(k)).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then(b => new Promise((ok, bad) => ctx.decodeAudioData(b, ok, bad)))
+        .then(buf => { decoded.set(k, buf); return buf; })
+        .catch(() => { pending.delete(k); return null; }));
+    }
+    return pending.get(k);
+  }
+  async function init() {
+    await metaP;
+    if (!meta) return false;
+    if (!ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      ctx = new AC();
+      gain = ctx.createGain(); gain.gain.value = muted ? 0 : 1; gain.connect(ctx.destination);
+      // how many samples of encoder delay this browser's MP3 decoder leaves in front
+      try {
+        const b = await fetch('audio/sync.mp3').then(r => r.arrayBuffer());
+        const buf = await new Promise((ok, bad) => ctx.decodeAudioData(b, ok, bad));
+        const d = buf.getChannelData(0); let im = 0;
+        for (let i = 1; i < d.length; i++) if (Math.abs(d[i]) > Math.abs(d[im])) im = i;
+        const est = im / buf.sampleRate - meta.sync;
+        delay = Math.abs(est) < 0.1 ? est : 0;
+      } catch (e) { delay = 0; }
+    }
+    if (ctx.state !== 'running') { try { await ctx.resume(); } catch (e) {} }
+    return true;
+  }
+  function renderTime() { return anchorFilm + (ctx.currentTime - anchorCtx); }
+  function heardTime() {
+    let c = ctx.currentTime - (ctx.outputLatency || ctx.baseLatency || 0);
+    if (ctx.getOutputTimestamp) {
+      const o = ctx.getOutputTimestamp();
+      if (o && o.contextTime > 0 && o.performanceTime > 0) c = o.contextTime + (performance.now() - o.performanceTime) / 1000;
+    }
+    return Math.max(anchorFilm, anchorFilm + (c - anchorCtx));
+  }
+  function startPiece(k, buf) {
+    const C = meta.chunk, now = ctx.currentTime + 0.02;
+    const at = anchorCtx + (k * C - anchorFilm), end = anchorCtx + ((k + 1) * C - anchorFilm);
+    if (end <= now) return;
+    const src = ctx.createBufferSource();
+    src.buffer = buf; src.connect(gain);
+    const off = Math.max(0, now - at);
+    src.start(at + off, Math.max(0, delay + meta.pad + off));
+    src.stop(end);
+    sources.set(k, src);
+    src.onended = () => { if (sources.get(k) === src) sources.delete(k); };
+  }
+  function tickle() {
+    if (!running) return;
+    const cur = renderTime(), k = Math.floor(cur / meta.chunk);
+    for (const j of [k, k + 1]) {
+      if (j < 0 || j >= meta.n || sources.has(j)) continue;
+      if (decoded.has(j)) startPiece(j, decoded.get(j)); else load(j);
+    }
+    load(k + 2);
+    for (const j of decoded.keys()) if (j < k - 1 || j > k + 3) { decoded.delete(j); pending.delete(j); }
+  }
+  setInterval(tickle, 250);
+  return {
+    get running() { return running; },
+    get available() { return !!meta; },
+    async start(filmSec, wait = 1500) {
+      if (!(await init())) return false;
+      const k = Math.floor(filmSec / meta.chunk);
+      await Promise.race([load(k), new Promise(r => setTimeout(r, wait))]);
+      this.stop();
+      anchorCtx = ctx.currentTime + 0.06; anchorFilm = filmSec; running = true;
+      tickle();
+      return true;
+    },
+    stop() { running = false; for (const s of sources.values()) { try { s.stop(); } catch (e) {} } sources.clear(); },
+    now() { return heardTime(); },
+    tickle,
+    setMuted(m) { muted = m; if (gain) gain.gain.setTargetAtTime(m ? 0 : 1, ctx.currentTime, 0.02); },
+    prefetch(filmSec) { if (ctx && meta) load(Math.floor(filmSec / meta.chunk)); },
+  };
+})();
+
+// ---- playback -------------------------------------------------------------
+// tick: film position in ticks (20 per second).  While playing, the clock is the
+// audio clock when sound is available, else performance.now().
+let tick = 1, playing = false, t0 = 0, tick0 = 0, gen = 0, dragging = false, holding = false;
+function clockTick() {
+  if (holding) return tick;                 // waiting for the first piece of sound
+  if (Sound.running) return Sound.now() * 20;
+  return tick0 + (performance.now() - t0) / 50;
+}
 function draw(t) {
   const ti = Math.floor(t);
   player.renderAt(t);
@@ -243,51 +342,77 @@ function draw(t) {
 }
 function loop() {
   if (!playing) return;
-  tick = tick0 + (performance.now() - t0) / 50;
-  if (tick >= L - 1) { tick = L - 1; pause(); }
+  tick = dragging ? tick : clockTick();
+  if (tick >= L - 1) { tick = L - 1; draw(tick); pause(); return; }
   draw(tick);
-  if (!muted && audio.readyState >= 2 && Math.abs(audio.currentTime - tick / 20) > 0.3) audio.currentTime = tick / 20;
   requestAnimationFrame(loop);
 }
-function play() {
+async function startClock() {
+  const my = ++gen;
+  tick0 = tick; t0 = performance.now();
+  holding = true;
+  const ok = await Sound.start(tick / 20);
+  if (my !== gen) return;
+  holding = false;
+  if (!playing) { Sound.stop(); return; }
+  if (!ok) { tick0 = tick; t0 = performance.now(); }
+}
+async function play() {
+  if (playing) return;
   $('cover').hidden = true;
-  playing = true; t0 = performance.now(); tick0 = tick;
+  playing = true;
   $('pp').textContent = '❚❚';
-  if (!muted) { try { audio.currentTime = tick / 20; audio.play().catch(() => {}); } catch (e) {} }
+  await startClock();
   requestAnimationFrame(loop);
 }
-function pause() { playing = false; $('pp').textContent = '▶'; audio.pause(); }
+function pause() {
+  if (!playing) return;
+  tick = clockTick();
+  playing = false; gen++; holding = false;
+  Sound.stop();
+  $('pp').textContent = '▶';
+}
 function seek(t) {
-  tick = Math.max(0, Math.min(L - 1, t)); tick0 = tick; t0 = performance.now();
-  try { audio.currentTime = tick / 20; } catch (e) {}
+  tick = Math.max(0, Math.min(L - 1, t));
   $('cover').hidden = true;
-  if (!playing) draw(tick);
+  if (playing && !dragging) { Sound.stop(); startClock(); }
+  if (!playing || dragging) draw(tick);
 }
 $('bigplay').disabled = false; $('bigplay').textContent = '▶　开始放映';
-$('status').textContent = `${fmt(L / 20)} · 点击任一分场可直接跳转`;
+$('status').textContent = `${fmt(L / 20)} · 日语配音 · 点击任一分场可直接跳转`;
 $('pp').disabled = false;
 $('bigplay').addEventListener('click', play);
 $('pp').addEventListener('click', () => playing ? pause() : play());
+let muted = false;
 $('mute').addEventListener('click', () => {
   muted = !muted; $('mute').textContent = muted ? '声音 关' : '声音 开';
-  if (muted) audio.pause(); else if (playing) { audio.currentTime = tick / 20; audio.play().catch(() => {}); }
+  Sound.setMuted(muted);
 });
 $('fs').addEventListener('click', () => { (screenEl.requestFullscreen ? screenEl.requestFullscreen() : Promise.reject()).catch(() => {}); });
 const scrub = $('scrub');
 function scrubAt(e) { const r = scrub.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * L; }
-let dragging = false;
-scrub.addEventListener('pointerdown', e => { dragging = true; scrub.setPointerCapture(e.pointerId); seek(scrubAt(e)); });
+scrub.addEventListener('pointerdown', e => {
+  dragging = true; scrub.setPointerCapture(e.pointerId);
+  if (playing) { gen++; holding = false; Sound.stop(); }
+  seek(scrubAt(e));
+});
 scrub.addEventListener('pointermove', e => {
   const t = scrubAt(e); const h = $('hint');
   let name = ''; for (const [st, n] of film.scenes) if (st <= t) name = n;
   h.hidden = false; h.style.left = (t / L * 100) + '%'; h.textContent = fmt(t / 20) + '　' + name;
   if (dragging) seek(t);
 });
-scrub.addEventListener('pointerup', () => { dragging = false; });
+function endDrag() {
+  if (!dragging) return;
+  dragging = false;
+  if (playing) startClock();
+}
+scrub.addEventListener('pointerup', endDrag);
+scrub.addEventListener('pointercancel', endDrag);
 scrub.addEventListener('pointerleave', () => { $('hint').hidden = true; });
 scrub.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight') { seek(tick + 100); e.preventDefault(); }
-  if (e.key === 'ArrowLeft') { seek(tick - 100); e.preventDefault(); }
+  if (e.key === 'ArrowRight') { seek(clockTick() + 100); e.preventDefault(); }
+  if (e.key === 'ArrowLeft') { seek(clockTick() - 100); e.preventDefault(); }
 });
 document.addEventListener('keydown', e => {
   if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); playing ? pause() : play(); }

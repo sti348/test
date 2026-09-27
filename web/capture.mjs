@@ -10,7 +10,7 @@ page.on('pageerror', e => console.log('[err]', e.message));
 await page.goto(`http://127.0.0.1:8765/web/film.html?w=${w}&h=${h}`);
 await page.waitForFunction('window.READY === true', null, { timeout: 180000 });
 const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
-  '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', out], { stdio: ['pipe', 'inherit', 'inherit'] });
+  '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '22', '-pix_fmt', 'yuv420p', out], { stdio: ['pipe', 'inherit', 'inherit'] });
 const n = Math.round((end - start) / 20 * FPS);
 const t0 = Date.now();
 for (let i = 0; i < n; i++) {

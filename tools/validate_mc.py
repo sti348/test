@@ -19,6 +19,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.join(ROOT, "build", "cache", "mcmeta")
 DP = os.path.join(ROOT, "datapack", "data")
 RP = os.path.join(ROOT, "resourcepack", "assets")
+_sj = os.path.join(RP, "kino", "sounds.json")
+RP_SOUNDS = json.load(open(_sj)) if os.path.exists(_sj) else {}
 
 
 def load(ver, what):
@@ -202,8 +204,13 @@ class Checker:
         if not self.command(toks, line):
             self.err(f"syntax: {toks[0]} {toks[1] if len(toks) > 1 else ''}", line)
         for k, t in enumerate(toks[:-1]):
-            if t == "playsound" and ns(toks[k + 1]) not in self.reg["sound_event"]:
-                self.err(f"unknown sound {toks[k + 1]}", line)
+            if t == "playsound":
+                sid = ns(toks[k + 1])
+                if sid.startswith("kino:"):
+                    if sid[5:] not in RP_SOUNDS:
+                        self.err(f"sound {sid} missing from the resource pack", line)
+                elif sid not in self.reg["sound_event"]:
+                    self.err(f"unknown sound {toks[k + 1]}", line)
 
 
 def resource_checks(lines):
@@ -219,6 +226,11 @@ def resource_checks(lines):
         for m in re.findall(r'camera_overlay:"kino:([a-z_/]+)"', line):
             if not os.path.exists(os.path.join(RP, "kino", "textures", m + ".png")):
                 missing[f"overlay kino:{m}"] += 1
+    for ev, entry in RP_SOUNDS.items():
+        for snd in entry["sounds"]:
+            name = snd if isinstance(snd, str) else snd["name"]
+            if not os.path.exists(os.path.join(RP, "kino", "sounds", name.split(":", 1)[1] + ".ogg")):
+                missing[f"sound file {name} (event kino:{ev})"] += 1
     return missing
 
 

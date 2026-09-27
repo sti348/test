@@ -3,9 +3,13 @@ preview video, packaged as a static page with its data files."""
 from __future__ import annotations
 
 import json
+import math
 import os
 import shutil
 import subprocess
+
+import numpy as np
+import soundfile as sf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "build", "artifact")
@@ -71,8 +75,7 @@ def main():
         copy(os.path.join(RP, "textures", "misc", o + ".png"), os.path.join(OUT, "rp", "assets", "kino", "textures", "misc", o + ".png"))
     wav = os.path.join(PRE, "audio.wav")
     if os.path.exists(wav):
-        subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-ac", "1", "-c:a", "aac", "-b:a", "40k",
-                               os.path.join(OUT, "audio.mp4")])
+        write_audio(wav, film["length"] / 20)
     poster = os.path.join(ROOT, "build", "poster.jpg")
     if os.path.exists(poster):
         copy(poster, os.path.join(OUT, "poster.jpg"))
@@ -80,6 +83,43 @@ def main():
     n = sum(len(fs) for _, _, fs in os.walk(OUT))
     size = sum(os.path.getsize(os.path.join(b, f)) for b, _, fs in os.walk(OUT) for f in fs)
     print(f"artifact: {n} files, {size / 1e6:.1f} MB -> {OUT}")
+
+
+CHUNK = 30.0     # seconds per piece
+PAD = 0.2        # overlap before / after each piece (covers decoder delay differences)
+SYNC_AT = 0.25   # position of the click in sync.mp3
+
+
+def mp3(samples, sr, path):
+    raw = (np.clip(samples, -1, 1) * 32767).astype("<i2").tobytes()
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", str(sr), "-ac", "2", "-i", "-",
+                    "-c:a", "libmp3lame", "-b:a", "64k", path], input=raw, check=True)
+
+
+def write_audio(wav, length_s):
+    """The sound track as 30 s MP3 pieces for Web Audio (see Sound in index.html):
+    piece k holds [k*30 - 0.2, (k+1)*30 + 0.2) s; sync.mp3 has a click at 0.25 s so
+    the page can measure the MP3 decoder delay of the browser it runs in."""
+    x, sr = sf.read(wav, dtype="float32", always_2d=True)
+    if x.shape[1] == 1:
+        x = np.repeat(x, 2, axis=1)
+    d = os.path.join(OUT, "audio")
+    os.makedirs(d, exist_ok=True)
+    n = int(math.ceil(length_s / CHUNK))
+    for k in range(n):
+        a, b = int(round((k * CHUNK - PAD) * sr)), int(round(((k + 1) * CHUNK + PAD) * sr))
+        seg = np.zeros((b - a, 2), np.float32)
+        lo, hi = max(a, 0), min(b, len(x))
+        if hi > lo:
+            seg[lo - a:hi - a] = x[lo:hi]
+        mp3(seg, sr, os.path.join(d, f"c{k:03d}.mp3"))
+    click = np.zeros((sr, 2), np.float32)
+    click[int(SYNC_AT * sr)] = 0.9
+    mp3(click, sr, os.path.join(d, "sync.mp3"))
+    with open(os.path.join(d, "meta.json"), "w") as fh:
+        json.dump({"chunk": CHUNK, "pad": PAD, "n": n, "sync": SYNC_AT, "rate": sr}, fh)
+    size = sum(os.path.getsize(os.path.join(d, f)) for f in os.listdir(d))
+    print(f"audio: {n} pieces of {CHUNK:.0f} s, {size / 1e6:.1f} MB")
 
 
 def _mk(p):

@@ -1,0 +1,2891 @@
+{
+ "sfx.engine_bike": {
+  "sounds": [
+   "kino:sfx/engine_bike"
+  ]
+ },
+ "sfx.engine_truck": {
+  "sounds": [
+   "kino:sfx/engine_truck"
+  ]
+ },
+ "sfx.engine_start": {
+  "sounds": [
+   "kino:sfx/engine_start"
+  ]
+ },
+ "sfx.birds": {
+  "sounds": [
+   {
+    "name": "kino:sfx/birds1",
+    "attenuation_distance": 24
+   },
+   {
+    "name": "kino:sfx/birds2",
+    "attenuation_distance": 24
+   },
+   {
+    "name": "kino:sfx/birds3",
+    "attenuation_distance": 24
+   },
+   {
+    "name": "kino:sfx/birds4",
+    "attenuation_distance": 24
+   },
+   {
+    "name": "kino:sfx/birds5",
+    "attenuation_distance": 24
+   }
+  ]
+ },
+ "sfx.wind": {
+  "sounds": [
+   "kino:sfx/wind"
+  ]
+ },
+ "sfx.radio": {
+  "sounds": [
+   "kino:sfx/radio"
+  ]
+ },
+ "music.theme": {
+  "sounds": [
+   {
+    "name": "kino:music/theme",
+    "stream": true
+   }
+  ]
+ },
+ "music.ending": {
+  "sounds": [
+   {
+    "name": "kino:music/ending",
+    "stream": true
+   }
+  ]
+ },
+ "voice.000aa94c4b": {
+  "sounds": [
+   {
+    "name": "kino:voice/000aa94c4b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.000d1c0f92": {
+  "sounds": [
+   {
+    "name": "kino:voice/000d1c0f92",
+    "stream": true
+   }
+  ]
+ },
+ "voice.01d2a2d5b3": {
+  "sounds": [
+   {
+    "name": "kino:voice/01d2a2d5b3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.0293cc9c00": {
+  "sounds": [
+   {
+    "name": "kino:voice/0293cc9c00",
+    "stream": true
+   }
+  ]
+ },
+ "voice.02fcf87308": {
+  "sounds": [
+   {
+    "name": "kino:voice/02fcf87308",
+    "stream": true
+   }
+  ]
+ },
+ "voice.03dffeb6d9": {
+  "sounds": [
+   {
+    "name": "kino:voice/03dffeb6d9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.05f7b48d86": {
+  "sounds": [
+   {
+    "name": "kino:voice/05f7b48d86",
+    "stream": true
+   }
+  ]
+ },
+ "voice.060913643c": {
+  "sounds": [
+   {
+    "name": "kino:voice/060913643c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.075463cf23": {
+  "sounds": [
+   {
+    "name": "kino:voice/075463cf23",
+    "stream": true
+   }
+  ]
+ },
+ "voice.07ac918850": {
+  "sounds": [
+   {
+    "name": "kino:voice/07ac918850",
+    "stream": true
+   }
+  ]
+ },
+ "voice.092be472d3": {
+  "sounds": [
+   {
+    "name": "kino:voice/092be472d3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.09e1045eff": {
+  "sounds": [
+   {
+    "name": "kino:voice/09e1045eff",
+    "stream": true
+   }
+  ]
+ },
+ "voice.0a8d99dbdc": {
+  "sounds": [
+   {
+    "name": "kino:voice/0a8d99dbdc",
+    "stream": true
+   }
+  ]
+ },
+ "voice.0b3cd1d066": {
+  "sounds": [
+   {
+    "name": "kino:voice/0b3cd1d066",
+    "stream": true
+   }
+  ]
+ },
+ "voice.0bf33982bb": {
+  "sounds": [
+   {
+    "name": "kino:voice/0bf33982bb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.0c73f7832a": {
+  "sounds": [
+   {
+    "name": "kino:voice/0c73f7832a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.0d05ec9b60": {
+  "sounds": [
+   {
+    "name": "kino:voice/0d05ec9b60",
+    "stream": true
+   }
+  ]
+ },
+ "voice.0f29bc1c4c": {
+  "sounds": [
+   {
+    "name": "kino:voice/0f29bc1c4c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1014cc4775": {
+  "sounds": [
+   {
+    "name": "kino:voice/1014cc4775",
+    "stream": true
+   }
+  ]
+ },
+ "voice.105fab1647": {
+  "sounds": [
+   {
+    "name": "kino:voice/105fab1647",
+    "stream": true
+   }
+  ]
+ },
+ "voice.106b50fb49": {
+  "sounds": [
+   {
+    "name": "kino:voice/106b50fb49",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1072e169ea": {
+  "sounds": [
+   {
+    "name": "kino:voice/1072e169ea",
+    "stream": true
+   }
+  ]
+ },
+ "voice.10e1d6b45d": {
+  "sounds": [
+   {
+    "name": "kino:voice/10e1d6b45d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.10ee12c79f": {
+  "sounds": [
+   {
+    "name": "kino:voice/10ee12c79f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.11e5651bdb": {
+  "sounds": [
+   {
+    "name": "kino:voice/11e5651bdb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1206c16e2f": {
+  "sounds": [
+   {
+    "name": "kino:voice/1206c16e2f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.13652900f1": {
+  "sounds": [
+   {
+    "name": "kino:voice/13652900f1",
+    "stream": true
+   }
+  ]
+ },
+ "voice.13d9bc5806": {
+  "sounds": [
+   {
+    "name": "kino:voice/13d9bc5806",
+    "stream": true
+   }
+  ]
+ },
+ "voice.147296511b": {
+  "sounds": [
+   {
+    "name": "kino:voice/147296511b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.152f7db948": {
+  "sounds": [
+   {
+    "name": "kino:voice/152f7db948",
+    "stream": true
+   }
+  ]
+ },
+ "voice.15f80ef82e": {
+  "sounds": [
+   {
+    "name": "kino:voice/15f80ef82e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.16c554d4aa": {
+  "sounds": [
+   {
+    "name": "kino:voice/16c554d4aa",
+    "stream": true
+   }
+  ]
+ },
+ "voice.180249a843": {
+  "sounds": [
+   {
+    "name": "kino:voice/180249a843",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1885181e06": {
+  "sounds": [
+   {
+    "name": "kino:voice/1885181e06",
+    "stream": true
+   }
+  ]
+ },
+ "voice.190886c144": {
+  "sounds": [
+   {
+    "name": "kino:voice/190886c144",
+    "stream": true
+   }
+  ]
+ },
+ "voice.195b55b9c9": {
+  "sounds": [
+   {
+    "name": "kino:voice/195b55b9c9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1ad044ae13": {
+  "sounds": [
+   {
+    "name": "kino:voice/1ad044ae13",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1ba3cb728b": {
+  "sounds": [
+   {
+    "name": "kino:voice/1ba3cb728b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1cf2d132df": {
+  "sounds": [
+   {
+    "name": "kino:voice/1cf2d132df",
+    "stream": true
+   }
+  ]
+ },
+ "voice.1da4906c60": {
+  "sounds": [
+   {
+    "name": "kino:voice/1da4906c60",
+    "stream": true
+   }
+  ]
+ },
+ "voice.221b4caa2f": {
+  "sounds": [
+   {
+    "name": "kino:voice/221b4caa2f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.224b92da4a": {
+  "sounds": [
+   {
+    "name": "kino:voice/224b92da4a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.224e46503e": {
+  "sounds": [
+   {
+    "name": "kino:voice/224e46503e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.22ec607a44": {
+  "sounds": [
+   {
+    "name": "kino:voice/22ec607a44",
+    "stream": true
+   }
+  ]
+ },
+ "voice.23325487bd": {
+  "sounds": [
+   {
+    "name": "kino:voice/23325487bd",
+    "stream": true
+   }
+  ]
+ },
+ "voice.236eef7925": {
+  "sounds": [
+   {
+    "name": "kino:voice/236eef7925",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2466cd495b": {
+  "sounds": [
+   {
+    "name": "kino:voice/2466cd495b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2556df3cb1": {
+  "sounds": [
+   {
+    "name": "kino:voice/2556df3cb1",
+    "stream": true
+   }
+  ]
+ },
+ "voice.25b778ca95": {
+  "sounds": [
+   {
+    "name": "kino:voice/25b778ca95",
+    "stream": true
+   }
+  ]
+ },
+ "voice.25d8e65f62": {
+  "sounds": [
+   {
+    "name": "kino:voice/25d8e65f62",
+    "stream": true
+   }
+  ]
+ },
+ "voice.26130debcb": {
+  "sounds": [
+   {
+    "name": "kino:voice/26130debcb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.26296ffa7f": {
+  "sounds": [
+   {
+    "name": "kino:voice/26296ffa7f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.26cc75d0e9": {
+  "sounds": [
+   {
+    "name": "kino:voice/26cc75d0e9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.274f552745": {
+  "sounds": [
+   {
+    "name": "kino:voice/274f552745",
+    "stream": true
+   }
+  ]
+ },
+ "voice.27aa156fc6": {
+  "sounds": [
+   {
+    "name": "kino:voice/27aa156fc6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.286203c7b8": {
+  "sounds": [
+   {
+    "name": "kino:voice/286203c7b8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.298c2035a3": {
+  "sounds": [
+   {
+    "name": "kino:voice/298c2035a3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2abd3a8d1d": {
+  "sounds": [
+   {
+    "name": "kino:voice/2abd3a8d1d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2b06cf4f69": {
+  "sounds": [
+   {
+    "name": "kino:voice/2b06cf4f69",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2b8f0c6c3c": {
+  "sounds": [
+   {
+    "name": "kino:voice/2b8f0c6c3c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2c4cb22b9e": {
+  "sounds": [
+   {
+    "name": "kino:voice/2c4cb22b9e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2c9c343b30": {
+  "sounds": [
+   {
+    "name": "kino:voice/2c9c343b30",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2ca7fef06b": {
+  "sounds": [
+   {
+    "name": "kino:voice/2ca7fef06b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2def9d5e47": {
+  "sounds": [
+   {
+    "name": "kino:voice/2def9d5e47",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2e3846898b": {
+  "sounds": [
+   {
+    "name": "kino:voice/2e3846898b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.2f11ea3243": {
+  "sounds": [
+   {
+    "name": "kino:voice/2f11ea3243",
+    "stream": true
+   }
+  ]
+ },
+ "voice.31bade6bd0": {
+  "sounds": [
+   {
+    "name": "kino:voice/31bade6bd0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.31e4c44d5f": {
+  "sounds": [
+   {
+    "name": "kino:voice/31e4c44d5f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.31f00ee689": {
+  "sounds": [
+   {
+    "name": "kino:voice/31f00ee689",
+    "stream": true
+   }
+  ]
+ },
+ "voice.327953e605": {
+  "sounds": [
+   {
+    "name": "kino:voice/327953e605",
+    "stream": true
+   }
+  ]
+ },
+ "voice.336655ed97": {
+  "sounds": [
+   {
+    "name": "kino:voice/336655ed97",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3412ef64e5": {
+  "sounds": [
+   {
+    "name": "kino:voice/3412ef64e5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.356ac42c6d": {
+  "sounds": [
+   {
+    "name": "kino:voice/356ac42c6d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.35c187d30e": {
+  "sounds": [
+   {
+    "name": "kino:voice/35c187d30e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.361e7839e7": {
+  "sounds": [
+   {
+    "name": "kino:voice/361e7839e7",
+    "stream": true
+   }
+  ]
+ },
+ "voice.371223220c": {
+  "sounds": [
+   {
+    "name": "kino:voice/371223220c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.375ceda715": {
+  "sounds": [
+   {
+    "name": "kino:voice/375ceda715",
+    "stream": true
+   }
+  ]
+ },
+ "voice.386d0a1e29": {
+  "sounds": [
+   {
+    "name": "kino:voice/386d0a1e29",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3a1d4cca8d": {
+  "sounds": [
+   {
+    "name": "kino:voice/3a1d4cca8d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3a30b779cc": {
+  "sounds": [
+   {
+    "name": "kino:voice/3a30b779cc",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3a63b044cd": {
+  "sounds": [
+   {
+    "name": "kino:voice/3a63b044cd",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3aa3a415dc": {
+  "sounds": [
+   {
+    "name": "kino:voice/3aa3a415dc",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3b386c14e1": {
+  "sounds": [
+   {
+    "name": "kino:voice/3b386c14e1",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3f89616616": {
+  "sounds": [
+   {
+    "name": "kino:voice/3f89616616",
+    "stream": true
+   }
+  ]
+ },
+ "voice.3fadff94e6": {
+  "sounds": [
+   {
+    "name": "kino:voice/3fadff94e6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.405b0843a6": {
+  "sounds": [
+   {
+    "name": "kino:voice/405b0843a6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.40e9b7f2d0": {
+  "sounds": [
+   {
+    "name": "kino:voice/40e9b7f2d0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.41f230ae0e": {
+  "sounds": [
+   {
+    "name": "kino:voice/41f230ae0e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.425d6e0ad8": {
+  "sounds": [
+   {
+    "name": "kino:voice/425d6e0ad8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.429727ef4d": {
+  "sounds": [
+   {
+    "name": "kino:voice/429727ef4d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.43528e39c3": {
+  "sounds": [
+   {
+    "name": "kino:voice/43528e39c3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.43be73a682": {
+  "sounds": [
+   {
+    "name": "kino:voice/43be73a682",
+    "stream": true
+   }
+  ]
+ },
+ "voice.45c00918fc": {
+  "sounds": [
+   {
+    "name": "kino:voice/45c00918fc",
+    "stream": true
+   }
+  ]
+ },
+ "voice.45ee2d40fb": {
+  "sounds": [
+   {
+    "name": "kino:voice/45ee2d40fb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.463773f335": {
+  "sounds": [
+   {
+    "name": "kino:voice/463773f335",
+    "stream": true
+   }
+  ]
+ },
+ "voice.466a23d510": {
+  "sounds": [
+   {
+    "name": "kino:voice/466a23d510",
+    "stream": true
+   }
+  ]
+ },
+ "voice.467a39e43c": {
+  "sounds": [
+   {
+    "name": "kino:voice/467a39e43c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.468e47a452": {
+  "sounds": [
+   {
+    "name": "kino:voice/468e47a452",
+    "stream": true
+   }
+  ]
+ },
+ "voice.470b6be0c5": {
+  "sounds": [
+   {
+    "name": "kino:voice/470b6be0c5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.47472a3097": {
+  "sounds": [
+   {
+    "name": "kino:voice/47472a3097",
+    "stream": true
+   }
+  ]
+ },
+ "voice.47f642a12a": {
+  "sounds": [
+   {
+    "name": "kino:voice/47f642a12a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4816c8c52a": {
+  "sounds": [
+   {
+    "name": "kino:voice/4816c8c52a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.48545cde18": {
+  "sounds": [
+   {
+    "name": "kino:voice/48545cde18",
+    "stream": true
+   }
+  ]
+ },
+ "voice.48cbcd0230": {
+  "sounds": [
+   {
+    "name": "kino:voice/48cbcd0230",
+    "stream": true
+   }
+  ]
+ },
+ "voice.490f234146": {
+  "sounds": [
+   {
+    "name": "kino:voice/490f234146",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4932062b1c": {
+  "sounds": [
+   {
+    "name": "kino:voice/4932062b1c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.49769035a5": {
+  "sounds": [
+   {
+    "name": "kino:voice/49769035a5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.49b0f2223c": {
+  "sounds": [
+   {
+    "name": "kino:voice/49b0f2223c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4b6a8a6301": {
+  "sounds": [
+   {
+    "name": "kino:voice/4b6a8a6301",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4c76e72fe2": {
+  "sounds": [
+   {
+    "name": "kino:voice/4c76e72fe2",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4cfc04c298": {
+  "sounds": [
+   {
+    "name": "kino:voice/4cfc04c298",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4d15f7afd9": {
+  "sounds": [
+   {
+    "name": "kino:voice/4d15f7afd9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4e04ba62dc": {
+  "sounds": [
+   {
+    "name": "kino:voice/4e04ba62dc",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4e1d574b2d": {
+  "sounds": [
+   {
+    "name": "kino:voice/4e1d574b2d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4ed3105a42": {
+  "sounds": [
+   {
+    "name": "kino:voice/4ed3105a42",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4ed7e18422": {
+  "sounds": [
+   {
+    "name": "kino:voice/4ed7e18422",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4eebc1f373": {
+  "sounds": [
+   {
+    "name": "kino:voice/4eebc1f373",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4efae660e8": {
+  "sounds": [
+   {
+    "name": "kino:voice/4efae660e8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.4fc0c70f92": {
+  "sounds": [
+   {
+    "name": "kino:voice/4fc0c70f92",
+    "stream": true
+   }
+  ]
+ },
+ "voice.500617fcd3": {
+  "sounds": [
+   {
+    "name": "kino:voice/500617fcd3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.50ada34e21": {
+  "sounds": [
+   {
+    "name": "kino:voice/50ada34e21",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5191ee60b5": {
+  "sounds": [
+   {
+    "name": "kino:voice/5191ee60b5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.52a65e7319": {
+  "sounds": [
+   {
+    "name": "kino:voice/52a65e7319",
+    "stream": true
+   }
+  ]
+ },
+ "voice.52e6d0d05c": {
+  "sounds": [
+   {
+    "name": "kino:voice/52e6d0d05c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.532b616de4": {
+  "sounds": [
+   {
+    "name": "kino:voice/532b616de4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.535d3c8847": {
+  "sounds": [
+   {
+    "name": "kino:voice/535d3c8847",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5378fb3cf8": {
+  "sounds": [
+   {
+    "name": "kino:voice/5378fb3cf8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.544338a618": {
+  "sounds": [
+   {
+    "name": "kino:voice/544338a618",
+    "stream": true
+   }
+  ]
+ },
+ "voice.54fe07f75a": {
+  "sounds": [
+   {
+    "name": "kino:voice/54fe07f75a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.55aa3d822c": {
+  "sounds": [
+   {
+    "name": "kino:voice/55aa3d822c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.55b743ae25": {
+  "sounds": [
+   {
+    "name": "kino:voice/55b743ae25",
+    "stream": true
+   }
+  ]
+ },
+ "voice.55fc8e9d3d": {
+  "sounds": [
+   {
+    "name": "kino:voice/55fc8e9d3d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.56dd6e5fc0": {
+  "sounds": [
+   {
+    "name": "kino:voice/56dd6e5fc0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.57a9cec610": {
+  "sounds": [
+   {
+    "name": "kino:voice/57a9cec610",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5afc52c958": {
+  "sounds": [
+   {
+    "name": "kino:voice/5afc52c958",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5c09e772e3": {
+  "sounds": [
+   {
+    "name": "kino:voice/5c09e772e3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5c2c0c35c9": {
+  "sounds": [
+   {
+    "name": "kino:voice/5c2c0c35c9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5d10419eed": {
+  "sounds": [
+   {
+    "name": "kino:voice/5d10419eed",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5deb429d64": {
+  "sounds": [
+   {
+    "name": "kino:voice/5deb429d64",
+    "stream": true
+   }
+  ]
+ },
+ "voice.5f5af6be01": {
+  "sounds": [
+   {
+    "name": "kino:voice/5f5af6be01",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6003a9ed41": {
+  "sounds": [
+   {
+    "name": "kino:voice/6003a9ed41",
+    "stream": true
+   }
+  ]
+ },
+ "voice.60f62615ed": {
+  "sounds": [
+   {
+    "name": "kino:voice/60f62615ed",
+    "stream": true
+   }
+  ]
+ },
+ "voice.612fd14a5a": {
+  "sounds": [
+   {
+    "name": "kino:voice/612fd14a5a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.62162c83d3": {
+  "sounds": [
+   {
+    "name": "kino:voice/62162c83d3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.64b2bdc890": {
+  "sounds": [
+   {
+    "name": "kino:voice/64b2bdc890",
+    "stream": true
+   }
+  ]
+ },
+ "voice.64c0b5cb64": {
+  "sounds": [
+   {
+    "name": "kino:voice/64c0b5cb64",
+    "stream": true
+   }
+  ]
+ },
+ "voice.650444cb55": {
+  "sounds": [
+   {
+    "name": "kino:voice/650444cb55",
+    "stream": true
+   }
+  ]
+ },
+ "voice.657b453350": {
+  "sounds": [
+   {
+    "name": "kino:voice/657b453350",
+    "stream": true
+   }
+  ]
+ },
+ "voice.65eca8f284": {
+  "sounds": [
+   {
+    "name": "kino:voice/65eca8f284",
+    "stream": true
+   }
+  ]
+ },
+ "voice.66a745574f": {
+  "sounds": [
+   {
+    "name": "kino:voice/66a745574f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.67ec7454ff": {
+  "sounds": [
+   {
+    "name": "kino:voice/67ec7454ff",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6a841c9d27": {
+  "sounds": [
+   {
+    "name": "kino:voice/6a841c9d27",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6b0d6fc3ac": {
+  "sounds": [
+   {
+    "name": "kino:voice/6b0d6fc3ac",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6b90ab8c5b": {
+  "sounds": [
+   {
+    "name": "kino:voice/6b90ab8c5b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6bc5f678d9": {
+  "sounds": [
+   {
+    "name": "kino:voice/6bc5f678d9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6c764d8a79": {
+  "sounds": [
+   {
+    "name": "kino:voice/6c764d8a79",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6cc09c1e86": {
+  "sounds": [
+   {
+    "name": "kino:voice/6cc09c1e86",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6d6307f81f": {
+  "sounds": [
+   {
+    "name": "kino:voice/6d6307f81f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6dce7cf8e6": {
+  "sounds": [
+   {
+    "name": "kino:voice/6dce7cf8e6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6e1fbaf697": {
+  "sounds": [
+   {
+    "name": "kino:voice/6e1fbaf697",
+    "stream": true
+   }
+  ]
+ },
+ "voice.6e95461777": {
+  "sounds": [
+   {
+    "name": "kino:voice/6e95461777",
+    "stream": true
+   }
+  ]
+ },
+ "voice.703d902882": {
+  "sounds": [
+   {
+    "name": "kino:voice/703d902882",
+    "stream": true
+   }
+  ]
+ },
+ "voice.708eda55c6": {
+  "sounds": [
+   {
+    "name": "kino:voice/708eda55c6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.70d69be0bd": {
+  "sounds": [
+   {
+    "name": "kino:voice/70d69be0bd",
+    "stream": true
+   }
+  ]
+ },
+ "voice.70fc647d14": {
+  "sounds": [
+   {
+    "name": "kino:voice/70fc647d14",
+    "stream": true
+   }
+  ]
+ },
+ "voice.71587664c8": {
+  "sounds": [
+   {
+    "name": "kino:voice/71587664c8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.7180abf6da": {
+  "sounds": [
+   {
+    "name": "kino:voice/7180abf6da",
+    "stream": true
+   }
+  ]
+ },
+ "voice.71d3bd7434": {
+  "sounds": [
+   {
+    "name": "kino:voice/71d3bd7434",
+    "stream": true
+   }
+  ]
+ },
+ "voice.71d498ae14": {
+  "sounds": [
+   {
+    "name": "kino:voice/71d498ae14",
+    "stream": true
+   }
+  ]
+ },
+ "voice.72d496db8b": {
+  "sounds": [
+   {
+    "name": "kino:voice/72d496db8b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.774ea49067": {
+  "sounds": [
+   {
+    "name": "kino:voice/774ea49067",
+    "stream": true
+   }
+  ]
+ },
+ "voice.78beea6483": {
+  "sounds": [
+   {
+    "name": "kino:voice/78beea6483",
+    "stream": true
+   }
+  ]
+ },
+ "voice.78dfbcb6e4": {
+  "sounds": [
+   {
+    "name": "kino:voice/78dfbcb6e4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.7ba78cfa29": {
+  "sounds": [
+   {
+    "name": "kino:voice/7ba78cfa29",
+    "stream": true
+   }
+  ]
+ },
+ "voice.7defabb022": {
+  "sounds": [
+   {
+    "name": "kino:voice/7defabb022",
+    "stream": true
+   }
+  ]
+ },
+ "voice.7f86721541": {
+  "sounds": [
+   {
+    "name": "kino:voice/7f86721541",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8029068460": {
+  "sounds": [
+   {
+    "name": "kino:voice/8029068460",
+    "stream": true
+   }
+  ]
+ },
+ "voice.804a150f36": {
+  "sounds": [
+   {
+    "name": "kino:voice/804a150f36",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8263eaa1c0": {
+  "sounds": [
+   {
+    "name": "kino:voice/8263eaa1c0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.827c1973f6": {
+  "sounds": [
+   {
+    "name": "kino:voice/827c1973f6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.83951a27b1": {
+  "sounds": [
+   {
+    "name": "kino:voice/83951a27b1",
+    "stream": true
+   }
+  ]
+ },
+ "voice.84c7ef4944": {
+  "sounds": [
+   {
+    "name": "kino:voice/84c7ef4944",
+    "stream": true
+   }
+  ]
+ },
+ "voice.85b3a201bb": {
+  "sounds": [
+   {
+    "name": "kino:voice/85b3a201bb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.85d009fd61": {
+  "sounds": [
+   {
+    "name": "kino:voice/85d009fd61",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8717cc7708": {
+  "sounds": [
+   {
+    "name": "kino:voice/8717cc7708",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8783bde2f4": {
+  "sounds": [
+   {
+    "name": "kino:voice/8783bde2f4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.881083e3e4": {
+  "sounds": [
+   {
+    "name": "kino:voice/881083e3e4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.885b5edeaf": {
+  "sounds": [
+   {
+    "name": "kino:voice/885b5edeaf",
+    "stream": true
+   }
+  ]
+ },
+ "voice.89341b6d3a": {
+  "sounds": [
+   {
+    "name": "kino:voice/89341b6d3a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8a140d3a22": {
+  "sounds": [
+   {
+    "name": "kino:voice/8a140d3a22",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8a3bab10a9": {
+  "sounds": [
+   {
+    "name": "kino:voice/8a3bab10a9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8b1527a47d": {
+  "sounds": [
+   {
+    "name": "kino:voice/8b1527a47d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8b1ce377f4": {
+  "sounds": [
+   {
+    "name": "kino:voice/8b1ce377f4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8bb8783bdc": {
+  "sounds": [
+   {
+    "name": "kino:voice/8bb8783bdc",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8be752de20": {
+  "sounds": [
+   {
+    "name": "kino:voice/8be752de20",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8c0a120455": {
+  "sounds": [
+   {
+    "name": "kino:voice/8c0a120455",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8d541b03aa": {
+  "sounds": [
+   {
+    "name": "kino:voice/8d541b03aa",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8d6a62d051": {
+  "sounds": [
+   {
+    "name": "kino:voice/8d6a62d051",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8dacfc8f7b": {
+  "sounds": [
+   {
+    "name": "kino:voice/8dacfc8f7b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.8fae1be42c": {
+  "sounds": [
+   {
+    "name": "kino:voice/8fae1be42c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.90262283fa": {
+  "sounds": [
+   {
+    "name": "kino:voice/90262283fa",
+    "stream": true
+   }
+  ]
+ },
+ "voice.906db7ba4a": {
+  "sounds": [
+   {
+    "name": "kino:voice/906db7ba4a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.90e882704c": {
+  "sounds": [
+   {
+    "name": "kino:voice/90e882704c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.910b81a2fb": {
+  "sounds": [
+   {
+    "name": "kino:voice/910b81a2fb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9218832b65": {
+  "sounds": [
+   {
+    "name": "kino:voice/9218832b65",
+    "stream": true
+   }
+  ]
+ },
+ "voice.92d03790ff": {
+  "sounds": [
+   {
+    "name": "kino:voice/92d03790ff",
+    "stream": true
+   }
+  ]
+ },
+ "voice.944ed333e0": {
+  "sounds": [
+   {
+    "name": "kino:voice/944ed333e0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.945637a1c8": {
+  "sounds": [
+   {
+    "name": "kino:voice/945637a1c8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.967aef2f51": {
+  "sounds": [
+   {
+    "name": "kino:voice/967aef2f51",
+    "stream": true
+   }
+  ]
+ },
+ "voice.96ada199d5": {
+  "sounds": [
+   {
+    "name": "kino:voice/96ada199d5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.96ec3eb10b": {
+  "sounds": [
+   {
+    "name": "kino:voice/96ec3eb10b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.97c2a0cc37": {
+  "sounds": [
+   {
+    "name": "kino:voice/97c2a0cc37",
+    "stream": true
+   }
+  ]
+ },
+ "voice.980ea53d47": {
+  "sounds": [
+   {
+    "name": "kino:voice/980ea53d47",
+    "stream": true
+   }
+  ]
+ },
+ "voice.98826c5f22": {
+  "sounds": [
+   {
+    "name": "kino:voice/98826c5f22",
+    "stream": true
+   }
+  ]
+ },
+ "voice.98b75c4a17": {
+  "sounds": [
+   {
+    "name": "kino:voice/98b75c4a17",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9916af7244": {
+  "sounds": [
+   {
+    "name": "kino:voice/9916af7244",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9b4702e0fd": {
+  "sounds": [
+   {
+    "name": "kino:voice/9b4702e0fd",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9be0bcd7aa": {
+  "sounds": [
+   {
+    "name": "kino:voice/9be0bcd7aa",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9d28279c56": {
+  "sounds": [
+   {
+    "name": "kino:voice/9d28279c56",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9d3f5074f2": {
+  "sounds": [
+   {
+    "name": "kino:voice/9d3f5074f2",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9d9a5565af": {
+  "sounds": [
+   {
+    "name": "kino:voice/9d9a5565af",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9db1d3adbd": {
+  "sounds": [
+   {
+    "name": "kino:voice/9db1d3adbd",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9e571b69ca": {
+  "sounds": [
+   {
+    "name": "kino:voice/9e571b69ca",
+    "stream": true
+   }
+  ]
+ },
+ "voice.9ea739f7ea": {
+  "sounds": [
+   {
+    "name": "kino:voice/9ea739f7ea",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a1756122f9": {
+  "sounds": [
+   {
+    "name": "kino:voice/a1756122f9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a20c951381": {
+  "sounds": [
+   {
+    "name": "kino:voice/a20c951381",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a6e60a5eb1": {
+  "sounds": [
+   {
+    "name": "kino:voice/a6e60a5eb1",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a724a2eb36": {
+  "sounds": [
+   {
+    "name": "kino:voice/a724a2eb36",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a7b18374fd": {
+  "sounds": [
+   {
+    "name": "kino:voice/a7b18374fd",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a8583f1601": {
+  "sounds": [
+   {
+    "name": "kino:voice/a8583f1601",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a8674623d5": {
+  "sounds": [
+   {
+    "name": "kino:voice/a8674623d5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.a98209cc1f": {
+  "sounds": [
+   {
+    "name": "kino:voice/a98209cc1f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.aa6ea848c4": {
+  "sounds": [
+   {
+    "name": "kino:voice/aa6ea848c4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.aa96d6cfbe": {
+  "sounds": [
+   {
+    "name": "kino:voice/aa96d6cfbe",
+    "stream": true
+   }
+  ]
+ },
+ "voice.aad906730d": {
+  "sounds": [
+   {
+    "name": "kino:voice/aad906730d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ab69108049": {
+  "sounds": [
+   {
+    "name": "kino:voice/ab69108049",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ac5646ec2e": {
+  "sounds": [
+   {
+    "name": "kino:voice/ac5646ec2e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.acd5ef3e85": {
+  "sounds": [
+   {
+    "name": "kino:voice/acd5ef3e85",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ad0648f8aa": {
+  "sounds": [
+   {
+    "name": "kino:voice/ad0648f8aa",
+    "stream": true
+   }
+  ]
+ },
+ "voice.aeaf11b48e": {
+  "sounds": [
+   {
+    "name": "kino:voice/aeaf11b48e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.aee93ba31d": {
+  "sounds": [
+   {
+    "name": "kino:voice/aee93ba31d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b14645b387": {
+  "sounds": [
+   {
+    "name": "kino:voice/b14645b387",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b1ed63108a": {
+  "sounds": [
+   {
+    "name": "kino:voice/b1ed63108a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b3e04ea568": {
+  "sounds": [
+   {
+    "name": "kino:voice/b3e04ea568",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b3ea718f0f": {
+  "sounds": [
+   {
+    "name": "kino:voice/b3ea718f0f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b4a08d8dac": {
+  "sounds": [
+   {
+    "name": "kino:voice/b4a08d8dac",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b55244abeb": {
+  "sounds": [
+   {
+    "name": "kino:voice/b55244abeb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b6257deafb": {
+  "sounds": [
+   {
+    "name": "kino:voice/b6257deafb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b648dfa1d0": {
+  "sounds": [
+   {
+    "name": "kino:voice/b648dfa1d0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b84c99ff12": {
+  "sounds": [
+   {
+    "name": "kino:voice/b84c99ff12",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b9b024c1be": {
+  "sounds": [
+   {
+    "name": "kino:voice/b9b024c1be",
+    "stream": true
+   }
+  ]
+ },
+ "voice.b9d1da7ec6": {
+  "sounds": [
+   {
+    "name": "kino:voice/b9d1da7ec6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ba0a5769d8": {
+  "sounds": [
+   {
+    "name": "kino:voice/ba0a5769d8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ba5251dff3": {
+  "sounds": [
+   {
+    "name": "kino:voice/ba5251dff3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.bb8198798d": {
+  "sounds": [
+   {
+    "name": "kino:voice/bb8198798d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.bc8ca01876": {
+  "sounds": [
+   {
+    "name": "kino:voice/bc8ca01876",
+    "stream": true
+   }
+  ]
+ },
+ "voice.bdab6e7f22": {
+  "sounds": [
+   {
+    "name": "kino:voice/bdab6e7f22",
+    "stream": true
+   }
+  ]
+ },
+ "voice.bdd5377ba7": {
+  "sounds": [
+   {
+    "name": "kino:voice/bdd5377ba7",
+    "stream": true
+   }
+  ]
+ },
+ "voice.bdd5731267": {
+  "sounds": [
+   {
+    "name": "kino:voice/bdd5731267",
+    "stream": true
+   }
+  ]
+ },
+ "voice.bf42a5efec": {
+  "sounds": [
+   {
+    "name": "kino:voice/bf42a5efec",
+    "stream": true
+   }
+  ]
+ },
+ "voice.bfbfb97e03": {
+  "sounds": [
+   {
+    "name": "kino:voice/bfbfb97e03",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c059352184": {
+  "sounds": [
+   {
+    "name": "kino:voice/c059352184",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c150d4c6ea": {
+  "sounds": [
+   {
+    "name": "kino:voice/c150d4c6ea",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c24d1b8371": {
+  "sounds": [
+   {
+    "name": "kino:voice/c24d1b8371",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c2e32ef9fe": {
+  "sounds": [
+   {
+    "name": "kino:voice/c2e32ef9fe",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c3e4e16575": {
+  "sounds": [
+   {
+    "name": "kino:voice/c3e4e16575",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c44166a2ab": {
+  "sounds": [
+   {
+    "name": "kino:voice/c44166a2ab",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c4c1b8c837": {
+  "sounds": [
+   {
+    "name": "kino:voice/c4c1b8c837",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c5b9ed09b1": {
+  "sounds": [
+   {
+    "name": "kino:voice/c5b9ed09b1",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c5dc525a16": {
+  "sounds": [
+   {
+    "name": "kino:voice/c5dc525a16",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c65429b907": {
+  "sounds": [
+   {
+    "name": "kino:voice/c65429b907",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c69646ed85": {
+  "sounds": [
+   {
+    "name": "kino:voice/c69646ed85",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c6cfffe55e": {
+  "sounds": [
+   {
+    "name": "kino:voice/c6cfffe55e",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c7e3ee29a4": {
+  "sounds": [
+   {
+    "name": "kino:voice/c7e3ee29a4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c818c0130c": {
+  "sounds": [
+   {
+    "name": "kino:voice/c818c0130c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.c912aa62eb": {
+  "sounds": [
+   {
+    "name": "kino:voice/c912aa62eb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ca302a94b9": {
+  "sounds": [
+   {
+    "name": "kino:voice/ca302a94b9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.cc05feb227": {
+  "sounds": [
+   {
+    "name": "kino:voice/cc05feb227",
+    "stream": true
+   }
+  ]
+ },
+ "voice.cc8fbb0430": {
+  "sounds": [
+   {
+    "name": "kino:voice/cc8fbb0430",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ccafa572ae": {
+  "sounds": [
+   {
+    "name": "kino:voice/ccafa572ae",
+    "stream": true
+   }
+  ]
+ },
+ "voice.cd8e1afdbf": {
+  "sounds": [
+   {
+    "name": "kino:voice/cd8e1afdbf",
+    "stream": true
+   }
+  ]
+ },
+ "voice.cf6d6a779a": {
+  "sounds": [
+   {
+    "name": "kino:voice/cf6d6a779a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.cf71c592d6": {
+  "sounds": [
+   {
+    "name": "kino:voice/cf71c592d6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d2603d1900": {
+  "sounds": [
+   {
+    "name": "kino:voice/d2603d1900",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d2b41d0c38": {
+  "sounds": [
+   {
+    "name": "kino:voice/d2b41d0c38",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d42c631141": {
+  "sounds": [
+   {
+    "name": "kino:voice/d42c631141",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d46ddecead": {
+  "sounds": [
+   {
+    "name": "kino:voice/d46ddecead",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d53a7b008f": {
+  "sounds": [
+   {
+    "name": "kino:voice/d53a7b008f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d58c3be0da": {
+  "sounds": [
+   {
+    "name": "kino:voice/d58c3be0da",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d66d6d7e46": {
+  "sounds": [
+   {
+    "name": "kino:voice/d66d6d7e46",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d6c3783e6c": {
+  "sounds": [
+   {
+    "name": "kino:voice/d6c3783e6c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d9c84ec3c5": {
+  "sounds": [
+   {
+    "name": "kino:voice/d9c84ec3c5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.d9ec489576": {
+  "sounds": [
+   {
+    "name": "kino:voice/d9ec489576",
+    "stream": true
+   }
+  ]
+ },
+ "voice.da2afbc407": {
+  "sounds": [
+   {
+    "name": "kino:voice/da2afbc407",
+    "stream": true
+   }
+  ]
+ },
+ "voice.db64bd268a": {
+  "sounds": [
+   {
+    "name": "kino:voice/db64bd268a",
+    "stream": true
+   }
+  ]
+ },
+ "voice.db8e96fde6": {
+  "sounds": [
+   {
+    "name": "kino:voice/db8e96fde6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.dc37210430": {
+  "sounds": [
+   {
+    "name": "kino:voice/dc37210430",
+    "stream": true
+   }
+  ]
+ },
+ "voice.dc750e85d5": {
+  "sounds": [
+   {
+    "name": "kino:voice/dc750e85d5",
+    "stream": true
+   }
+  ]
+ },
+ "voice.dcc661e239": {
+  "sounds": [
+   {
+    "name": "kino:voice/dcc661e239",
+    "stream": true
+   }
+  ]
+ },
+ "voice.dd44705537": {
+  "sounds": [
+   {
+    "name": "kino:voice/dd44705537",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ddf76a3e96": {
+  "sounds": [
+   {
+    "name": "kino:voice/ddf76a3e96",
+    "stream": true
+   }
+  ]
+ },
+ "voice.de72e59fad": {
+  "sounds": [
+   {
+    "name": "kino:voice/de72e59fad",
+    "stream": true
+   }
+  ]
+ },
+ "voice.dedddd2a00": {
+  "sounds": [
+   {
+    "name": "kino:voice/dedddd2a00",
+    "stream": true
+   }
+  ]
+ },
+ "voice.dfbd1b23f8": {
+  "sounds": [
+   {
+    "name": "kino:voice/dfbd1b23f8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.dfffe3562b": {
+  "sounds": [
+   {
+    "name": "kino:voice/dfffe3562b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e062cf3e8b": {
+  "sounds": [
+   {
+    "name": "kino:voice/e062cf3e8b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e09616a9b9": {
+  "sounds": [
+   {
+    "name": "kino:voice/e09616a9b9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e09765de15": {
+  "sounds": [
+   {
+    "name": "kino:voice/e09765de15",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e1799c038b": {
+  "sounds": [
+   {
+    "name": "kino:voice/e1799c038b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e1ca27f162": {
+  "sounds": [
+   {
+    "name": "kino:voice/e1ca27f162",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e2d71205ae": {
+  "sounds": [
+   {
+    "name": "kino:voice/e2d71205ae",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e339d28d49": {
+  "sounds": [
+   {
+    "name": "kino:voice/e339d28d49",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e360fc5b3c": {
+  "sounds": [
+   {
+    "name": "kino:voice/e360fc5b3c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e40a7dd107": {
+  "sounds": [
+   {
+    "name": "kino:voice/e40a7dd107",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e4b5ca37c6": {
+  "sounds": [
+   {
+    "name": "kino:voice/e4b5ca37c6",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e5c71d1ddb": {
+  "sounds": [
+   {
+    "name": "kino:voice/e5c71d1ddb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e77c8ce527": {
+  "sounds": [
+   {
+    "name": "kino:voice/e77c8ce527",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e7a63b6bad": {
+  "sounds": [
+   {
+    "name": "kino:voice/e7a63b6bad",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e84155b203": {
+  "sounds": [
+   {
+    "name": "kino:voice/e84155b203",
+    "stream": true
+   }
+  ]
+ },
+ "voice.e9f42d74df": {
+  "sounds": [
+   {
+    "name": "kino:voice/e9f42d74df",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ea411ea175": {
+  "sounds": [
+   {
+    "name": "kino:voice/ea411ea175",
+    "stream": true
+   }
+  ]
+ },
+ "voice.eb6fd24088": {
+  "sounds": [
+   {
+    "name": "kino:voice/eb6fd24088",
+    "stream": true
+   }
+  ]
+ },
+ "voice.eb810b73e3": {
+  "sounds": [
+   {
+    "name": "kino:voice/eb810b73e3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ec5588b050": {
+  "sounds": [
+   {
+    "name": "kino:voice/ec5588b050",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ed0a792527": {
+  "sounds": [
+   {
+    "name": "kino:voice/ed0a792527",
+    "stream": true
+   }
+  ]
+ },
+ "voice.edb7e0a693": {
+  "sounds": [
+   {
+    "name": "kino:voice/edb7e0a693",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ef1f8ee854": {
+  "sounds": [
+   {
+    "name": "kino:voice/ef1f8ee854",
+    "stream": true
+   }
+  ]
+ },
+ "voice.effc1d568c": {
+  "sounds": [
+   {
+    "name": "kino:voice/effc1d568c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f05f144838": {
+  "sounds": [
+   {
+    "name": "kino:voice/f05f144838",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f0daf0b3dc": {
+  "sounds": [
+   {
+    "name": "kino:voice/f0daf0b3dc",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f1ea66c70f": {
+  "sounds": [
+   {
+    "name": "kino:voice/f1ea66c70f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f1fd1493ce": {
+  "sounds": [
+   {
+    "name": "kino:voice/f1fd1493ce",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f422bf0a4c": {
+  "sounds": [
+   {
+    "name": "kino:voice/f422bf0a4c",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f492fdc66b": {
+  "sounds": [
+   {
+    "name": "kino:voice/f492fdc66b",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f499bb8cf9": {
+  "sounds": [
+   {
+    "name": "kino:voice/f499bb8cf9",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f5c33a1ce3": {
+  "sounds": [
+   {
+    "name": "kino:voice/f5c33a1ce3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f7bbd7f1a0": {
+  "sounds": [
+   {
+    "name": "kino:voice/f7bbd7f1a0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f817857c7d": {
+  "sounds": [
+   {
+    "name": "kino:voice/f817857c7d",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f903fe9ef4": {
+  "sounds": [
+   {
+    "name": "kino:voice/f903fe9ef4",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f93229d8f3": {
+  "sounds": [
+   {
+    "name": "kino:voice/f93229d8f3",
+    "stream": true
+   }
+  ]
+ },
+ "voice.f9894f5910": {
+  "sounds": [
+   {
+    "name": "kino:voice/f9894f5910",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fa320d5619": {
+  "sounds": [
+   {
+    "name": "kino:voice/fa320d5619",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fa93197c3f": {
+  "sounds": [
+   {
+    "name": "kino:voice/fa93197c3f",
+    "stream": true
+   }
+  ]
+ },
+ "voice.facb30a2ef": {
+  "sounds": [
+   {
+    "name": "kino:voice/facb30a2ef",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fad4080cdf": {
+  "sounds": [
+   {
+    "name": "kino:voice/fad4080cdf",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fb3ffd71f0": {
+  "sounds": [
+   {
+    "name": "kino:voice/fb3ffd71f0",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fd17a6f5eb": {
+  "sounds": [
+   {
+    "name": "kino:voice/fd17a6f5eb",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fd73199baa": {
+  "sounds": [
+   {
+    "name": "kino:voice/fd73199baa",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fdde54f9db": {
+  "sounds": [
+   {
+    "name": "kino:voice/fdde54f9db",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fe4b0283fe": {
+  "sounds": [
+   {
+    "name": "kino:voice/fe4b0283fe",
+    "stream": true
+   }
+  ]
+ },
+ "voice.fe97e041f8": {
+  "sounds": [
+   {
+    "name": "kino:voice/fe97e041f8",
+    "stream": true
+   }
+  ]
+ },
+ "voice.feedd0f293": {
+  "sounds": [
+   {
+    "name": "kino:voice/feedd0f293",
+    "stream": true
+   }
+  ]
+ },
+ "voice.ff849f0b97": {
+  "sounds": [
+   {
+    "name": "kino:voice/ff849f0b97",
+    "stream": true
+   }
+  ]
+ }
+}

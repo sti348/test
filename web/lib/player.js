@@ -146,13 +146,13 @@ export class PlayerModel {
 
     const PXs = PX;
     if (pose === 'crouching') {
+      // vanilla HumanoidModel: torso tilts 0.5 rad, legs move 4px BACK (three -z), upper body drops
       this.body.rotation.x = 0.5;
       this.rightArm.rotation.x += 0.4; this.leftArm.rotation.x += 0.4;
-      this.rightLeg.position.set(-1.9 * PXs, 12.2 * PXs, 4 * PXs);
-      this.leftLeg.position.set(1.9 * PXs, 12.2 * PXs, 4 * PXs);
+      this.rightLeg.position.set(-1.9 * PXs, 12 * PXs, -4 * PXs);
+      this.leftLeg.position.set(1.9 * PXs, 12 * PXs, -4 * PXs);
       this.head.position.y = 19.8 * PXs; this.body.position.y = 20.8 * PXs;
       this.rightArm.position.y = 18.8 * PXs; this.leftArm.position.y = 18.8 * PXs;
-      this.pivot.position.y = -1 * PXs;
     } else {
       this.rightLeg.position.set(-1.9 * PXs, 12 * PXs, 0); this.leftLeg.position.set(1.9 * PXs, 12 * PXs, 0);
       this.head.position.y = 24 * PXs; this.body.position.y = 24 * PXs;

@@ -22,6 +22,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 import boxes as boxlib  # noqa: E402
 import film as filmlib  # noqa: E402
+import sfx as sfxlib  # noqa: E402
 import world as worldlib  # noqa: E402
 from film import state_at  # noqa: E402
 
@@ -29,24 +30,6 @@ NS = "kino"
 DATA_VERSION = 3955          # 1.21.1 - structures are upgraded by the game on load
 PACK_FORMAT = 88             # 1.21.9 / 1.21.10
 
-# Sound ids used in the script -> vanilla sound events (volume factor, pitch factor)
-SOUNDS = {
-    "kino.gun_rifle": ("minecraft:entity.generic.explode", 0.35, 1.9),
-    "kino.gun_pistol": ("minecraft:entity.firework_rocket.blast", 1.0, 0.7),
-    "kino.gun_suppressed": ("minecraft:item.crossbow.shoot", 1.0, 0.6),
-    "kino.engine": ("minecraft:entity.minecart.riding", 0.6, 0.6),
-    "kino.kickstart": ("minecraft:block.piston.extend", 0.8, 0.6),
-    "kino.brake": ("minecraft:block.grindstone.use", 1.0, 0.6),
-    "kino.stone": ("minecraft:block.stone.break", 1.0, 0.8),
-    "kino.kick": ("minecraft:entity.player.attack.knockback", 1.0, 1.0),
-    "kino.baby_cry": ("minecraft:entity.cat.stray_ambient", 1.0, 1.35),
-    "kino.cannon": ("minecraft:entity.generic.explode", 1.0, 0.6),
-    "kino.explosion": ("minecraft:entity.generic.explode", 1.0, 0.5),
-    "kino.snap": ("minecraft:entity.skeleton.hurt", 1.0, 0.5),
-    "kino.punch": ("minecraft:entity.player.attack.strong", 1.0, 0.9),
-    "kino.hit": ("minecraft:entity.player.attack.crit", 1.0, 0.7),
-    "kino.splash": ("minecraft:entity.generic.splash", 1.0, 1.0),
-}
 PARTICLES = {
     "flame": "minecraft:flame", "small_flame": "minecraft:small_flame", "lava": "minecraft:lava",
     "smoke": "minecraft:smoke", "large_smoke": "minecraft:large_smoke", "poof": "minecraft:poof",
@@ -204,6 +187,29 @@ def subtitle_json(F, who, text):
     return jtext({"text": "", "extra": [{"text": who + "：", "color": color}, {"text": text, "color": "#FFFFFF"}]})
 
 
+def sound_cmds(F, t, d):
+    """playsound commands for one sound event (all its layers): at a point, at an
+    entity, or at every player (global: voices, music, point-of-view sounds)."""
+    key = d["sound"]
+    cat = sfxlib.category(key)
+    out = []
+    for layer in sfxlib.SFX[key]:
+        ev, lv, lp = layer[:3]
+        tt = t + (layer[3] if len(layer) > 3 else 0)
+        vol = d.get("vol", 1.0) * lv
+        pit = max(0.5, min(2.0, d.get("pitch", 1.0) * lp))
+        tail = f"{f(vol)} {f(pit)}"
+        if d.get("global"):
+            out.append((tt, f"execute as @a at @s run playsound {ev} {cat} @s ~ ~ ~ {tail}"))
+        elif "follow" in d:
+            sel = sel_actor(d["follow"]) if d["follow"] in F.actors else sel_prop(d["follow"])
+            out.append((tt, f"execute at {sel} run playsound {ev} {cat} @a ~ ~ ~ {tail}"))
+        else:
+            p = d["pos"]
+            out.append((tt, f"playsound {ev} {cat} @a {f(p[0])} {f(p[1])} {f(p[2])} {tail}"))
+    return out
+
+
 def overlay_cmd(name):
     if not name or name == "none":
         return "item replace entity @a armor.head with minecraft:air"
@@ -339,19 +345,18 @@ def write_datapack(F, S, root):
             if d["type"] == "explosion" and cnt >= 20:
                 ticks[t].append(f"particle minecraft:explosion_emitter {f(pos[0])} {f(pos[1])} {f(pos[2])} 0 0 0 0 1 force @a")
         elif kind == "sound":
-            snd, vk, pk = SOUNDS[d["sound"]]
-            vol = d.get("vol", 1.0) * vk
-            pit = max(0.5, min(2.0, d.get("pitch", 1.0) * pk))
-            if "follow" in d:
-                ticks[t].append(f"execute at {sel_prop(d['follow'])} run playsound {snd} master @a ~ ~ ~ {f(vol)} {f(pit)}")
-            else:
-                p = d["pos"]
-                ticks[t].append(f"playsound {snd} master @a {f(p[0])} {f(p[1])} {f(p[2])} {f(vol)} {f(pit)}")
+            for (tt, cmd) in sound_cmds(F, t, d):
+                if tt < n:
+                    ticks[tt].append(cmd)
         elif kind == "drop":
             p, v = d["pos"], d["vel"]
             ticks[t].append(f"summon minecraft:item {f(p[0])} {f(p[1])} {f(p[2])} "
                             f"{{Tags:[\"{NS}\"],PickupDelay:32767,Item:{item_nbt(d['model'])},"
                             f"Motion:[{f(v[0])}d,{f(v[1])}d,{f(v[2])}d]}}")
+
+    # the Japanese dub: each recorded line starts with its subtitle
+    for (t, vid, _dur, _who) in sfxlib.voice_events(F):
+        ticks[t].append(f"execute as @a at @s run playsound {NS}:voice.{vid} voice @s ~ ~ ~ 1 1")
 
     # subtitles (actionbar, refreshed while the line is up), titles, overlays, time
     for (t0, t1, who, text) in F.subs:
@@ -395,6 +400,7 @@ def write_datapack(F, S, root):
     dp.fn("film/run", [f"$function {NS}:film/t/$(f)"])
     dp.fn("stop", [
         f"scoreboard players set #playing {NS}.t 0",
+        "stopsound @a",
         "item replace entity @a armor.head with minecraft:air",
         'title @a actionbar ""',
         f'tellraw @a {{"text":"[奇诺之旅] 放映结束。/function {NS}:play 重新播放","color":"gold"}}',
@@ -420,7 +426,7 @@ def write_datapack(F, S, root):
 
     def seek_lines(T0):
         """Commands that reconstruct the complete film state at tick T0."""
-        L = [f"tp @e[tag={NS}.actor] ~ 330 ~", f"kill @e[tag={NS}]", "gamemode spectator @a", "difficulty peaceful",
+        L = ["stopsound @a", f"tp @e[tag={NS}.actor] ~ 330 ~", f"kill @e[tag={NS}]", "gamemode spectator @a", "difficulty peaceful",
              "weather clear 1000000"]
         L += blocks_at(T0)
         c = S["cam"][T0]

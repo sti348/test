@@ -2,9 +2,9 @@
 
 用 Minecraft（Java 版）拍摄的《奇诺之旅》第七话同人电影。仓库里有：
 
-- **资源包**：由立绘转换的奇诺皮肤、按插画重建的艾鲁梅斯（摩托车）3D 模型、其余 20 个角色皮肤、卡车、大炮、「长笛」「卡农」等道具模型，以及电影遮罩（宽银幕黑边、狙击镜、望远镜）。
-- **数据包**：一条命令搭好全部场景（春天的森林道路、被水淹没的碉堡遗迹、旅馆房间），再用一条命令在游戏里自动放映整部电影（约 25 分 35 秒，19 场，206 个镜头，375 句中文字幕）。
-- **生成工具**：皮肤、模型、场景、剧本全部由 `tools/` 里的 Python 代码生成；同一份剧本还能用网页渲染器输出预览视频。
+- **资源包**：由立绘转换的奇诺皮肤、按插画重建的艾鲁梅斯（摩托车）3D 模型、其余 20 个角色皮肤、卡车、大炮、「长笛」「卡农」等道具模型，电影遮罩（宽银幕黑边、狙击镜、望远镜），**356 句日语配音**，以及原版没有的音效（摩托车 / 卡车引擎、鸟鸣、无线电）和钢琴配乐。
+- **数据包**：一条命令搭好全部场景（春天的森林道路、被水淹没的碉堡遗迹、旅馆房间），再用一条命令在游戏里自动放映整部电影（约 32 分 47 秒，19 场，206 个镜头，375 句中文字幕 + 日语配音，约 3300 个音效）。
+- **生成工具**：皮肤、模型、场景、剧本、配音、音效全部由 `tools/` 里的 Python 代码生成；同一份剧本还能用网页渲染器输出预览视频。
 
 | 奇诺皮肤（纤细手臂，64×64） | 艾鲁梅斯 + 奇诺 |
 | --- | --- |
@@ -32,6 +32,8 @@
 
 放映时的建议设置：视野 FOV 70、渲染距离 ≥ 12 区块、界面尺寸「自动」。**不要按 F1**——字幕（动作栏）和宽银幕黑边属于界面层。录制可以用 OBS，或用 Replay Mod 离线渲染成高画质视频。
 
+声音：配音走「**语音/旁白**」（Voice/Speech）音量，配乐走「音乐」，鸟鸣、流水、营火走「环境」，脚步声与引擎走「友好生物」，枪声等其余音效走「主音量」——放映前请确认这些滑块没有调到 0。
+
 ### 单独使用皮肤和模型
 
 - 皮肤文件在 `resourcepack/assets/kino/textures/entity/skins/`，奇诺是 `kino.png`（**纤细/Alex 手臂**）。也可以直接上传到 minecraft.net 作为自己的皮肤。
@@ -53,6 +55,9 @@
 | 摄影机 | 玩家旁观模式 `spectate` 一个带 `teleport_duration` 的 `item_display`，镜头运动平滑；切镜头前把插值临时设为 0 |
 | 宽银幕、瞄准镜、望远镜、黑场 | 给玩家头上戴一个带 `equippable.camera_overlay` 的物品（和南瓜头遮罩同一机制） |
 | 字幕 / 片名 | `title … actionbar`（每 1.5 秒刷新）/ `title … title` |
+| 日语配音 | 每句台词一个声音事件 `kino:voice.<id>`，在字幕出现的那一刻对每位玩家 `playsound … voice @s ~ ~ ~`；台词的时长由录音长度决定 |
+| 音效 | 剧本里的每个音效键（`tools/sfx.py`）对应一到三层原版声音事件（例如枪声 = 烟花爆炸 + 低音量、升调的爆炸声），在世界中的位置播放，按原版规则随距离衰减；狙击镜 / 望远镜视角的声音直接在玩家处播放 |
+| 脚步、引擎、环境声 | 自动生成：按演员走路动画的落脚时刻、脚下方块（草、泥土、石头、木板、浅水）播放脚步声；引擎是 2 秒循环、按车速变调；森林里有鸟鸣，遗迹里有流水和滴水声，敌营有营火声 |
 | 时间线 | 每一刻一个函数 `kino:film/t/<刻>`，由宏 `$function kino:film/t/$(f)` 调用；`kino:scene/<n>` 会重建该场开始时的完整状态 |
 | 场景 | 贪心合并的 `fill`（每条 ≤ 32768 方块）+ 树木结构模板（`place template`）+ `fillbiome` 白桦森林配色 |
 | 爆炸、火焰、血迹、水花 | 原版粒子与音效（燃烧用每刻粒子，因为站在水里的实体会立刻熄火） |
@@ -60,14 +65,18 @@
 ## 重新生成
 
 ```bash
-pip install pillow numpy scipy
-python3 tools/build.py              # 皮肤、模型、遮罩、数据包 → dist/*.zip
+pip install pillow numpy scipy soundfile
+python3 tools/build.py              # 皮肤、模型、遮罩、音效、数据包 → dist/*.zip
 python3 tools/build.py --validate   # 同上，并用 1.21.10 / 26.3 的命令树检查数据包
+
+# 改了台词或日语对白（tools/dialogue_ja.py）之后重新配音（离线 Kokoro TTS，首次运行会下载约 340 MB 模型）
+pip install kokoro-onnx "misaki[ja]"
+python3 tools/build.py --voices
 
 # 预览视频（需要 Node 与 Playwright/Chromium；原版方块贴图会通过 npm 的 minecraft-assets 包下载，不收录在本仓库）
 cd web && npm install && cd ..
 python3 tools/build.py --preview    # 另外生成 build/preview/（世界网格数据、剧本 JSON）
-python3 tools/audio.py              # 合成音效与配乐
+python3 tools/audio.py              # 混音：原版音效（首次运行从游戏资源镜像下载）、配音、配乐 → build/preview/audio.wav
 python3 -m http.server 8765 &       # 渲染器通过本地服务器读取文件
 python3 tools/render.py 3 1280 720 20   # → build/奇诺之旅_第七话_Minecraft.mp4
 ```
@@ -78,8 +87,13 @@ python3 tools/render.py 3 1280 720 20   # → build/奇诺之旅_第七话_Minec
 tools/skins.py        22 个角色皮肤（像素画以字符画写成）
 tools/models.py       物品模型（艾鲁梅斯、卡车、大炮…）与自动打包的贴图
 tools/world.py        场景方块数据（森林道路、侧路、水之遗迹、碉堡、旅馆）
-tools/script.py       剧本：演员走位、镜头、台词、特效（整部电影就在这里）
-tools/film.py         剧本 DSL 与逐刻采样
+tools/script.py       剧本：演员走位、镜头、台词、特效、音效（整部电影就在这里）
+tools/film.py         剧本 DSL 与逐刻采样（台词时长取自配音长度）
+tools/dialogue_ja.py  日语对白与每个角色的声音（Kokoro 声线混合、语速）
+tools/voices.py       日语配音 → resourcepack/…/sounds/voice/*.ogg 与 tools/voice_index.json
+tools/sfx.py          音效表（音效键 → 原版声音事件）与自动脚步声、引擎、环境声
+tools/sfx_synth.py    自制音效与钢琴配乐 → resourcepack/…/sounds/{sfx,music}/
+tools/audio.py        预览视频 / 网页播放器的混音（与游戏内同样的声音文件和衰减规则）
 tools/compile_mc.py   剧本 → 数据包
 web/                  three.js 渲染器（预览视频与网页播放器共用）
 resourcepack/         生成好的资源包
@@ -90,7 +104,8 @@ dist/                 可直接使用的资源包 / 数据包压缩包
 
 - 剧情按原文顺序改编：森林里的相遇、旅馆的委托（倒叙）、狙击、障碍物与侧路、水之遗迹、真正的山贼尸体、医生的坦白、投降者、抛尸与交涉、大炮、狙击兵的结局、干杯，以及黄昏与尾声的旁白。部分叙述性文字改成字幕旁白，少量对话为衔接而精简。血腥描写以粒子与镜头回避处理。
 - Minecraft 的演员无法做挥手、踢腿、拥抱等动作，这些动作用剪辑、音效和道具（例如被踢飞的左轮）来表达。
+- 日语配音由开源的 [Kokoro](https://github.com/thewh1teagle/kokoro-onnx) 语音合成模型（Apache-2.0）离线生成，不是真人声优；男性角色的声线是日语男声与不同英语声线的混合，以便区分角色。台词是按中文译本改写的日语，并非小说日文原文。
 - **本项目在无法运行 Minecraft 的环境中制作**，因此数据包**尚未在游戏客户端里实测**。已做的检查：`tools/validate_mc.py` 用 [misode/mcmeta](https://github.com/misode/mcmeta) 的官方命令树与注册表，逐条检查了全部约 7 万行命令（命令结构、方块状态、物品、实体、粒子、音效、游戏规则），在 **1.21.10 与 26.3** 上都通过；人体模型 `profile.texture/model`、展示实体、`equippable.camera_overlay` 等 NBT 字段也对照了 SpyglassMC 的 vanilla-mcdoc 定义。游戏规则在 1.21.11 后改了名，两套写法分别放在 `kino:rules/legacy` 和 `kino:rules/modern`，不认识的那个版本会忽略，不影响其余内容。实际放映时如遇问题，请把报错告诉我。
-- 预览视频中的方块/粒子贴图来自 Minecraft 原版（© Mojang），仅在本地渲染时下载使用。
+- 预览视频中的方块/粒子贴图与音效来自 Minecraft 原版（© Mojang），仅在本地渲染 / 混音时下载使用，不收录在本仓库；游戏内直接使用玩家自己游戏里的声音。
 
 原作：时雨泽惠一《奇诺之旅》（插画：黑星红白）。本作为粉丝向非商业改编；角色皮肤与模型为本项目原创绘制。

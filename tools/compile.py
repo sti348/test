@@ -61,12 +61,19 @@ def main():
     t0 = time.time()
     F = script.build()
     S = filmlib.sample(F)
+    import sfx
+    auto = sfx.auto_events(F, S)
+    F.events += auto
+    sfx.write_sounds_json()
     os.makedirs(os.path.join(ROOT, "build", "preview"), exist_ok=True)
     export_preview(F, S, os.path.join(ROOT, "build", "preview", "film.json"))
     if "--no-mc" not in sys.argv:
         import compile_mc
         compile_mc.write_datapack(F, S, os.path.join(ROOT, "datapack"))
     L = F.length / filmlib.TPS
+    nsnd = sum(1 for e in F.events if e[1] == "sound")
+    print(f"sound: {nsnd} sound events ({len(auto)} automatic: footsteps, engines, ambience), "
+          f"{len(sfx.voice_events(F))} voice lines")
     print(f"film: {F.length} ticks ({int(L // 60)}:{int(L % 60):02d}), {len(F.shots)} shots, {len(F.subs)} lines, "
           f"{len(F.actors)} actors, {len(F.props)} props  [{time.time() - t0:.1f}s]")
 

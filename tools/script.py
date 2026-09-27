@@ -94,10 +94,12 @@ def build():
 
     def mount(t):
         K.ride(t, H)
+        sfx(t, "kino.cloth", follow="hermes", vol=0.5)
 
     def dismount(t, right=-0.9, back=0.3):
-        """Kino steps off to the left side of Hermes."""
+        """Kino steps off to the left side of Hermes (and puts the stand down)."""
         K.ride(t, None)
+        sfx(t + T(0.35), "kino.kickstand", follow="hermes", vol=0.8)
         p = side_of(H, t, right=right, back=back)
         K.place(t, (p[0], p[1] - BIKE, p[2]), H.track.at(t)[3])
 
@@ -271,9 +273,20 @@ def build():
                 break
         return Cam.static(best, mid)
 
-    def gunshot(t, pos, loud=True, suppressed=False):
-        F.event(t, "sound", sound="kino.gun_suppressed" if suppressed else ("kino.gun_rifle" if loud else "kino.gun_pistol"),
-                pos=pos, vol=3.0 if not suppressed else 1.5, pitch=1.0)
+    def sfx(t, key, pos=None, follow=None, vol=1.0, pitch=1.0, glob=False):
+        """A sound effect (see sfx.SFX): at a point, following an entity, or at the listener (glob)."""
+        d = {"sound": key, "vol": vol, "pitch": pitch}
+        if glob:
+            d["global"] = True
+        elif follow:
+            d["follow"] = follow
+        else:
+            d["pos"] = [round(v, 2) for v in pos]
+        F.event(int(t), "sound", **d)
+
+    def gunshot(t, pos, loud=True, suppressed=False, glob=False):
+        key = "kino.gun_suppressed" if suppressed else ("kino.gun_rifle" if loud else "kino.gun_pistol")
+        sfx(t, key, pos=pos, vol=(0.9 if glob else (3.0 if not suppressed else 1.5)), glob=glob)
         F.event(t, "particle", type="smoke", pos=pos, delta=(0.05, 0.05, 0.05), speed=0.01, count=6)
         if not suppressed:
             F.event(t, "particle", type="small_flame", pos=pos, delta=(0.02, 0.02, 0.02), speed=0.0, count=3)
@@ -282,9 +295,9 @@ def build():
         F.event(t, "particle", type="blood", pos=pos, delta=(0.12, 0.15, 0.12), speed=0.05, count=n,
                 color=(0.55, 0.03, 0.03))
 
-    def engine(t0, t1, prop, every=24, vol=0.6, pitch=0.6):
-        for t in range(t0, t1, every):
-            F.event(t, "sound", sound="kino.engine", follow=prop.id, vol=vol, pitch=pitch)
+    def engine(t0, t1, prop, vol=None, pitch=1.0, **_old):
+        """The engine runs (a looping sample, pitch follows the speed; see sfx.engines)."""
+        F.engines.append((t0, t1, prop.id, vol if vol is not None else (0.75 if prop.id == "truck" else 0.5), pitch))
 
     def title_card(sec, title, sub=""):
         F.overlay(F.cursor, "black")
@@ -298,6 +311,7 @@ def build():
     # 1  森林之路 — morning, Kino and Hermes ride west
     # ======================================================================
     F.scene("森林之路", daytime=1000)
+    F.event(T(0.4), "sound", sound="kino.music_theme", vol=0.9, pitch=1.0, **{"global": True})
     title_card(6.0, "奇诺之旅", "第七话　战斗者的故事 —Reasonable—")
     t_s1 = F.cursor
     K.show(t_s1)
@@ -330,7 +344,7 @@ def build():
     t_stop = t_fast + T(5.0)
     H.move(t_fast, t_stop, [(89, G + BIKE, RZ), (46.5, G + BIKE, RZ)], ease_kind="out")
     engine(t_s1, t_stop, H)
-    F.event(t_fast, "sound", sound="kino.engine", follow="hermes", vol=1.0, pitch=0.9)
+    sfx(t_stop - T(1.1), "kino.brake", follow="hermes", vol=0.35, pitch=1.6)
     with F.shot(Cam.static((66, G + 0.6, 4.2), (40, G + 1.3, 0)), dur=5.0, name="speed past"):
         pass
 
@@ -379,13 +393,15 @@ def build():
     t_go = F.cursor
     CAP.move(t_go, t_go + T(1.2), [(43.2, G, 0.9), (43.0, G, 3.0)], ease_kind="out", yaw=270)
     t_pass = ride_to(H, t_go, [(46.5, G + BIKE, RZ), (30, G + BIKE, RZ), (8.0, G + BIKE, RZ)], 7.5, kind="in")
-    engine(t_go, t_pass, H, vol=0.8, pitch=0.8)
+    sfx(t_go - T(0.5), "kino.kickstart", follow="hermes", vol=0.9)
+    engine(t_go + T(1.4), t_pass, H)
     with F.shot(Cam.static((24.0, G + 1.2, -2.8), (40, G + 1.3, 0)), dur=3.2, name="ride through") as s:
         s.say("男子们", "再见！", pause=0.8, dur=1.4)
     # men get up and head east toward the truck
     t_up = F.cursor - T(0.5)
     for i in (2, 5, 8):
         guards[i].ride(t_up, None)
+        sfx(t_up, "kino.cloth", pos=men_spots[i][0], vol=0.5)
     for i, (p, yw) in men_spots.items():
         q = (p[0] + 0.0, G, p[2])
         guards[i].place(t_up, q, 270)
@@ -402,6 +418,7 @@ def build():
     F.scene("无线电")
     t3 = F.cursor
     t_in = ride_to(H, t3, [(8.0, G + BIKE, RZ), (4.5, G + BIKE, -2.8), (2.2, G + BIKE, -6.4)], 2.5, kind="out")
+    engine(t3, t_in - T(0.6), H, vol=0.4)
     with F.shot(Cam.static((-4.0, G + 1.4, 2.4), (3.0, G + 1.0, -4.5)), name="pull in") as s:
         s.wait(max(0.0, (t_in - t3) / 20 - 0.2))
         dismount(s.cursor, right=-0.9)
@@ -414,9 +431,14 @@ def build():
     rp = side_of(H, t_bag, right=0.0, back=1.3, up=0.3)
     RADIO.show(t_bag + T(2.0)).place(t_bag + T(2.0), rp, H.track.at(t_bag)[3] + 180)
     K.pose(t_bag + T(2.2), "crouching")
+    sfx(t_bag + T(1.5), "kino.bag", pos=rp, vol=0.9)
+    sfx(t_bag + T(2.0), "kino.cloth", pos=rp, vol=0.6, pitch=1.3)
     with F.shot(Cam.static((kp[0] + 2.4, G + 1.3, kp[2] + 1.6), (kp[0], G + 0.9, kp[2] - 0.6)), name="radio") as s:
+        sfx(s.cursor + T(1.4), "kino.radio_on", pos=rp, vol=0.9)
+        sfx(s.cursor + T(2.0), "kino.radio", pos=rp, vol=0.7)
         s.wait(2.6)
         s.say("奇诺", "『帽子』呼叫『车篷』——听得见我说话吗？")
+        sfx(s.cursor + T(0.1), "kino.radio", pos=rp, vol=0.8, pitch=0.9)
         s.wait(0.6)
 
     build2(F, locals())
@@ -431,6 +453,7 @@ def build2(F, L):
                        "gunshot", "blood", "engine", "title_card"))
     RADIO = F.props["radio"]
     S = L["S"]
+    sfx = L["sfx"]
     RZ = -1.3
     L2 = {}
 
@@ -476,10 +499,14 @@ def build2(F, L):
     # they leave
     tl = F.cursor
     door = (ix + 3.0, IY, iz + 3.4)
+    exits = []
     for a, d in ((DOC, 0.0), (WOMAN, 0.6), (R[2], 1.0), (R[3], 1.4), (R[4], 1.8)):
         p = a.track.at(tl)
         te = walk(a, tl + T(d), [p[:3], (ix + 1.0, IY, iz + 1.6), door], speed=2.4)
         a.show(te, False)
+        exits.append(te)
+    sfx(min(exits) - T(0.5), "kino.door_open", pos=(door[0], IY + 1, door[2]), vol=0.9)
+    sfx(max(exits) + T(0.4), "kino.door_close", pos=(door[0], IY + 1, door[2]), vol=0.9)
     WOMAN.hold(tl, "baby")
     with F.shot(S((ix - 3.0, IY + 1.9, iz + 2.6), (ix + 2.0, IY + 1.0, iz + 1.0)), dur=4.5, name="leave") as s:
         pass
@@ -506,6 +533,9 @@ def build2(F, L):
     K.pose(t5, "standing")
     K.hold(t5, "flute_carry")
     RADIO.show(t5 + T(3.0), False)
+    sfx(t5 + T(0.5), "kino.assemble", pos=(kp[0], G + 1.0, kp[2]), vol=0.9)
+    sfx(t5 + T(1.3), "kino.bolt", pos=(kp[0], G + 1.0, kp[2]), vol=0.9)
+    sfx(t5 + T(2.6), "kino.radio_on", pos=RADIO.track.at(t5)[:3], vol=0.5, pitch=0.8)
     with F.shot(S((kp[0] - 2.6, G + 1.5, kp[2] + 1.6), (kp[0] + 0.3, G + 1.1, kp[2] - 0.6)), name="assemble") as s:
         s.wait(1.2)
         s.say("艾鲁梅斯", "果真是他们吗？")
@@ -524,6 +554,8 @@ def build2(F, L):
     K.place(tp, (55.4, G, -2.3), -90)
     K.pose(tp, "swimming")
     K.hold(tp, "flute", aim=True)
+    sfx(tp + T(0.1), "kino.cloth", pos=(55.4, G + 0.3, -2.3), vol=0.8)
+    sfx(tp + T(1.2), "kino.bolt", pos=(55.4, G + 0.3, -2.3), vol=0.6)
     # the ambush group (12 men) waiting for the truck
     amb = {}
     for i in range(1, 11):
@@ -543,6 +575,7 @@ def build2(F, L):
     with F.shot(S((52.8, G + 0.7, -3.3), (70, G + 0.9, -1.2)), name="prone") as s:
         s.wait(2.4)
     F.overlay(F.cursor, "scope")
+    sfx(F.cursor, "kino.spyglass", glob=True, vol=0.8)
     with F.shot(S((108.5, G + 1.45, -1.4), (122.0, G + 1.3, 0.4)), name="scope") as s:
         s.wait(1.6)
         s.say("奇诺", "请不要怨我哟……", pause=0.2)
@@ -550,8 +583,11 @@ def build2(F, L):
         t_hit1 = s.cursor
         s.wait(2.6)
     g8 = guards[8]
-    gunshot(t_hit1, (55.9, G + 0.4, -2.3), suppressed=True)
+    gunshot(t_hit1, (55.9, G + 0.4, -2.3), suppressed=True, glob=True)
     blood(t_hit1 + 2, (amb[8][0], G + 1.35, amb[8][2]))
+    sfx(t_hit1 + 2, "kino.bullet_hit", pos=(amb[8][0], G + 1.3, amb[8][2]), vol=1.2)
+    sfx(t_hit1 + T(0.7), "kino.drop_metal", pos=(amb[8][0], G + 0.2, amb[8][2]), vol=0.8)
+    sfx(t_hit1 + T(0.9), "kino.fall", pos=(amb[8][0], G + 0.2, amb[8][2]), vol=0.9)
     g8.hold(t_hit1 + 2, None)
     F.event(t_hit1 + 2, "drop", model="grenade", pos=[amb[8][0], G + 1.0, amb[8][2]], vel=[0.05, 0.1, 0.08], floor=G)
     F.subs.append((t_hit1 + 3, t_hit1 + T(1.5), "部下", "哇！"))
@@ -560,8 +596,11 @@ def build2(F, L):
     t_turn = t_hit1 + T(0.8)
     g1.turn(t_turn, t_turn + 6, 90)
     t_hit2 = t_hit1 + T(1.9)
-    gunshot(t_hit2, (55.9, G + 0.4, -2.3), suppressed=True)
+    sfx(t_hit1 + T(0.9), "kino.bolt", glob=True, vol=0.5)
+    gunshot(t_hit2, (55.9, G + 0.4, -2.3), suppressed=True, glob=True)
     blood(t_hit2 + 2, (amb[1][0], G + 0.7, amb[1][2]))
+    sfx(t_hit2 + 2, "kino.bullet_hit", pos=(amb[1][0], G + 0.7, amb[1][2]), vol=1.2)
+    sfx(t_hit2 + 3, "kino.fall", pos=(amb[1][0], G + 0.2, amb[1][2]), vol=0.9)
     g1.pose(t_hit2 + 3, "swimming")
     # the rest run for the trees
     for i in (2, 3, 4, 5, 6, 7, 9):
@@ -572,11 +611,16 @@ def build2(F, L):
     g10 = guards[10]
     t_hit3 = t_hit2 + T(1.6)
     walk(g10, t_hit2 + T(0.6), [amb[10], (amb[10][0] + 0.6, G, amb[10][2] - 2.2)], speed=2.0)
-    gunshot(t_hit3, (55.9, G + 0.4, -2.3), suppressed=True)
+    sfx(t_hit2 + T(0.8), "kino.bolt", glob=True, vol=0.5)
+    gunshot(t_hit3, (55.9, G + 0.4, -2.3), suppressed=True, glob=True)
     blood(t_hit3 + 2, (amb[10][0] + 0.6, G + 0.6, amb[10][2] - 2.2))
+    sfx(t_hit3 + 2, "kino.bullet_hit", pos=(amb[10][0] + 0.6, G + 0.6, amb[10][2] - 2.2), vol=1.2)
+    sfx(t_hit3 + 3, "kino.fall", pos=(amb[10][0] + 0.6, G + 0.2, amb[10][2] - 2.2), vol=0.9)
+    sfx(t_hit3 + T(0.8), "kino.bolt", glob=True, vol=0.5)
     g10.pose(t_hit3 + 3, "swimming")
     with F.shot(S((108.5, G + 1.45, -1.4), (122.0, G + 1.1, 0.8)), dur=2.8, name="scope2") as s:
         pass
+    sfx(F.cursor - T(0.2), "kino.spyglass_off", glob=True, vol=0.7)
     F.overlay(F.cursor, "letterbox")
     # truck: travels west along the road at 7 b/s
     tt = F.cursor
@@ -606,6 +650,7 @@ def build2(F, L):
     # truck reaches Kino's spot as she finishes; keep the truck timeline continuous
     t_meet = F.cursor
     TRUCK.move(t_at_amb, t_meet, [(126.0, G, 0.0), (6.0, G, 0.0)])
+    engine(t_truck0, t_meet, TRUCK)
     L2.update(t_meet=t_meet, kp=kp, hp=hp)
 
     # ======================================================================
@@ -622,12 +667,13 @@ def build2(F, L):
         R[i].hold(t6, "rifle_carry")
     t_stop = t6 + T(13.0)
     TRUCK.move(t6, t_stop, [(6.0, G, 0.0), (-40.0, G, 0.0), (-84.0, G, 0.0)], ease_kind="out")
-    engine(t6, t_stop, TRUCK, every=20, vol=1.0, pitch=0.5)
+    engine(t6, t_stop, TRUCK)
     # Hermes follows the truck
     H.move(t6, t6 + T(1.5), [hp, (2.0, G + BIKE, -2.5), (-2.0, G + BIKE, RZ)], ease_kind="in")
     h_stop = t_stop + T(0.4)
     H.move(t6 + T(1.5), h_stop, [(-2.0, G + BIKE, RZ), (-40.0, G + BIKE, RZ), (-75.5, G + BIKE, RZ)], ease_kind="out")
     engine(t6, h_stop, H)
+    sfx(h_stop - T(0.9), "kino.brake", follow="hermes", vol=0.35, pitch=1.6)
     with F.shot(Cam.follow("hermes", (1.6, 1.8, 3.4), look=("truck", 1.6)), dur=0.5, name="behind truck") as s:
         s.wait(0.5)
         s.say("男子", "成、成功了！那些家伙并没有追过来！")
@@ -654,6 +700,7 @@ def build2(F, L):
     track = [(-84.0, G, 0.0)] + [(x, G, z) for (x, _, z) in [(p[0], 0, p[2]) for p in L["arc_"](-84.0, -3.0, 3.0, 0, 90, 6)]]
     track += [(x, G, z) for (x, z) in world.TRACK[1:4]]
     t_gone = ride_to(TRUCK, t_turn, track, 4.0, kind="in")
+    engine(t_turn, t_gone, TRUCK)
     with F.shot(S((-78.5, G + 1.6, -1.2), (-87.0, G + 1.2, -5.0)), name="turn") as s:
         s.wait(1.4)
         s.say("奇诺", "什么——", dur=1.2)
@@ -671,7 +718,8 @@ def build2(F, L):
     tf = F.cursor
     h_path = [(-75.5, G + BIKE, RZ), (-82.0, G + BIKE, -0.8)] + [(x, G + BIKE, z) for (x, z) in world.TRACK[:4]]
     t_h6 = ride_to(H, tf, h_path, 4.0, kind="in")
-    engine(tf, t_h6, H)
+    sfx(tf - T(0.8), "kino.kickstart", follow="hermes", vol=0.9)
+    engine(tf + T(1.2), t_h6, H)
     with F.shot(Cam.follow("hermes", (0.9, 1.9, 3.4), look=("kino", 1.3)), name="follow") as s:
         s.wait(1.5)
         s.say("奇诺", "伤脑筋……这下子可就麻烦了呢……")
@@ -709,6 +757,8 @@ def build2(F, L):
         s.say("胡须男", "是啊，接下来不必太急躁，还是有机会可以把那个旅行者干掉——")
         s.say("胡须男", "好了，把树干移开，不要在路面留下任何痕迹。")
     F.event(F.cursor + T(1.2), "blocks", list=[[x, y, z, None] for (x, y, z, _) in world.barricade_blocks()])
+    for k in range(3):
+        sfx(F.cursor + T(0.4 + 0.55 * k), "kino.logs", pos=(-93.0, G + 0.5, -1.5 + 1.5 * k), vol=1.2, pitch=0.9 + 0.1 * k)
     with F.shot(S((-99.0, G + 3.5, 6.0), (-91.0, G + 0.5, 0.0)), dur=2.6, name="moved") as s:
         pass
     for a in (CAP, g2, g8, g9, g10):
@@ -726,11 +776,13 @@ def build2(F, L):
     tr8 = [(x, G, z) for (x, z) in world.TRACK[3:]] + [(-79.5, W, -74.0), (-79.5, W, -112.0), (-72.0, W, -121.0),
                                                        (-68.0, W, -126.0), (-68.0, W, -129.5)]
     t_park = ride_to(TRUCK, t8, tr8, 4.5, kind="out")
-    engine(t8, t_park, TRUCK, every=20, vol=1.0, pitch=0.5)
+    engine(t8, t_park, TRUCK)
     for t in range(t8 + T(4.0), t_park, 6):
         p = TRUCK.track.at(t)
         if p[2] < -73:
             F.event(t, "particle", type="splash", pos=[p[0], W + 0.4, p[2]], delta=(1.0, 0.1, 1.6), speed=0.1, count=6)
+            if t % 12 == 0:
+                sfx(t, "kino.small_splash", pos=(p[0], W + 0.3, p[2]), vol=1.0, pitch=0.7 + 0.1 * ((t // 12) % 3))
     for i, st in ((5, "bed5"), (6, "bed6")):
         attach(seats[st] if False else F.props["seat_" + st], TRUCK, t8, t8 + T(200), right=(0.55 if i == 5 else -0.55),
                back=2.35, up=0.42, dyaw=180)
@@ -741,6 +793,10 @@ def build2(F, L):
                                                             (-80.2, W + BIKE, -103.0)]
     t_h8 = ride_to(H, t8 + T(2.0), h8, 6.5, kind="out")
     engine(t8, t_h8, H)
+    for t in range(t8 + T(2.0), t_h8, 8):
+        p = H.track.at(t)
+        if p[2] < -73:
+            sfx(t, "kino.small_splash", pos=(p[0], W + 0.3, p[2]), vol=0.7, pitch=1.0 + 0.1 * ((t // 8) % 3))
     with F.shot(Cam.move((-80.0, G + 3.0, -60.0), (-80.5, G + 14.0, -64.0), (-80.0, 66.0, -110.0), (-79.0, 67.0, -135.0), kind="inout"),
                 dur=9.0, name="reveal") as s:
         pass
@@ -767,6 +823,7 @@ def build3(F, L):
                        "gunshot", "blood", "engine", "title_card"))
     t_park = L["t_park"]
     S = L["S"]
+    sfx = L["sfx"]
     DOORZ = -131.0
     g = guards
 
@@ -788,6 +845,11 @@ def build3(F, L):
     }
     for i in (5, 6):
         R[i].ride(t_out, None)
+    sfx(t_out, "kino.tailgate", pos=(tp[0] + 0.3, W + 1.2, tp[2] + 3.0), vol=1.0)
+    sfx(t_out + T(0.3), "kino.truck_door", pos=(tp[0] + 1.2, W + 1.2, tp[2] - 1.0), vol=0.8)
+    for k in range(4):
+        sfx(t_out + T(0.8 + 0.6 * k), "kino.fall_water" if k == 0 else "kino.small_splash", pos=(tp[0] + 0.3, W + 0.3, tp[2] + 3.4),
+            vol=0.6, pitch=1.0 + 0.1 * k)
     for k, (p, yw) in group.items():
         a = DOC if k == "doctor" else (WOMAN if k == "woman" else R[k])
         src = (tp[0] + 0.3, W, tp[2] + 3.4)
@@ -837,11 +899,18 @@ def build3(F, L):
     t_m = th + T(2.4)
     H.move(t_m, t_m + T(2.5), [(-80.2, W + BIKE, -103.0), (-75.5, W + BIKE, -106.5), HIDE], ease_kind="inout")
     K.move(t_m, t_m + T(2.5), [(-78.8, W, -104.0), (-74.6, W, -107.0), (-74.6, W, -109.2)], ease_kind="inout")
+    for k in range(5):
+        hp_ = H.track.at(t_m + T(0.5 * k))
+        sfx(t_m + T(0.5 * k), "kino.small_splash", pos=(hp_[0], W + 0.3, hp_[2]), vol=0.6, pitch=1.1 + 0.05 * k)
+    sfx(t_m + T(2.6), "kino.kickstand", follow="hermes", vol=0.8)
     with F.shot(S((-77.0, W + 1.6, -113.0), (-74.0, W + 0.9, -107.5)), name="hide") as s:
         s.wait(4.6)
         s.say("艾鲁梅斯", "把我们排挤在外实在很过分呢——等会儿再请你们把事情跟奇诺说清楚。")
         s.say("奇诺", "知道了啦，你在这里稍等一会儿吧。")
     with F.shot(S((-76.2, W + 2.2, -121.5), (-80.0, W + 1.6, -131.0)), name="go in") as s:
+        for k in range(3):
+            sfx(s.t0 + T(0.5 + 1.1 * k), "kino.bag", pos=(-68.0, W + 1.2, -126.5), vol=0.8, pitch=0.9 + 0.1 * k)
+        sfx(s.t0 + T(1.4), "kino.metal", pos=(-68.0, W + 1.2, -126.5), vol=0.6)
         s.say("医生", "动作快！只要搬武器跟粮食就好！")
         s.wait(2.2)
     t_in = F.cursor
@@ -944,7 +1013,8 @@ def build3(F, L):
     with F.shot(S((-78.8, W + 2.2, -135.8), (-82.0, W + 1.1, -134.0)), name="stones") as s:
         s.say("奇诺", "把这些石头搬开。", pause=0.3)
         s.wait(2.4)
-        F.event(s.cursor - T(1.0), "sound", sound="kino.stone", pos=[-82.5, 65.5, -134.0], vol=1.0, pitch=0.8)
+        for k in range(3):
+            sfx(s.cursor - T(2.0 - 0.8 * k), "kino.stone", pos=(-82.5, 65.5, -134.0 + 0.4 * k), vol=1.0, pitch=0.8 + 0.08 * k)
     F.event(F.cursor, "blocks", list=[list(b) for b in world.rubble_cleared()])
     # the real bandits, dead since last night
     BD = []
@@ -1001,7 +1071,10 @@ def build3(F, L):
     F.event(t_kick, "drop", model="canon", pos=[rp3[0], W + 1.3, rp3[2]], vel=[-0.05, 0.25, -0.12], floor=W + 0.3)
     F.event(t_kick, "sound", sound="kino.kick", pos=list(rp3), vol=1.0, pitch=1.0)
     F.event(t_kick + 12, "particle", type="splash", pos=[rp3[0] - 0.5, W + 0.4, rp3[2] - 1.2], delta=(0.2, 0.05, 0.2), speed=0.1, count=10)
+    sfx(t_kick + 12, "kino.small_splash", pos=(rp3[0] - 0.5, W + 0.3, rp3[2] - 1.2), vol=1.0, pitch=1.2)
+    sfx(tk + T(0.5), "kino.holster", pos=(rp3[0], W + 1.0, rp3[2]), vol=0.8)
     K.hold(t_kick + T(0.8), "canon")
+    sfx(t_kick + T(0.8), "kino.holster", follow="kino", vol=0.7, pitch=0.9)
     with F.shot(S((-73.4, W + 1.9, -135.6), (-76.0, W + 1.1, -133.4)), name="calm down") as s:
         s.say("医生", "大家请住手，跟奇诺战斗也毫无意义。虽然不愿意承认，但奇诺她终究比较强，")
         s.say("医生", "就算我们人数多过她，那接下来呢？我们的目的呢？", pause=0.1)
@@ -1088,6 +1161,8 @@ def build3(F, L):
         a.show(t12).place(t12, p, yw)
     for i in (1, 2, 3, 4):
         R[i].hold(t12, "rifle_carry")
+    sfx(t12 + T(0.3), "kino.metal", pos=(-80.0, W + 0.8, -139.5), vol=0.9)
+    sfx(t12 + T(1.5), "kino.drop_metal", pos=(-80.5, W + 0.5, -139.5), vol=0.6, pitch=1.1)
     with F.shot(S((-77.6, W + 2.4, -141.6), (-81.0, W + 0.8, -138.2)), name="weapons") as s:
         s.wait(0.5)
         s.say("男子", "全部应该就这些了。")
@@ -1099,6 +1174,8 @@ def build3(F, L):
         s.say("男子", "应该几乎飞不去才对。这种款式的大炮只要打出一发就没了，")
         s.say("男子", "要是没有把台车固定好，还会因为发射的后座力往后冲，所以无法轻易改变它瞄准的方向。", pause=0.1)
     CANNON.move(F.cursor, F.cursor + T(1.5), [(-80.0, W, -138.2), (-80.0, W, -137.2), (-80.0, W, -138.2)], yaw=180)
+    sfx(F.cursor, "kino.cannon_roll", pos=(-80.0, W + 0.5, -137.8), vol=1.0)
+    sfx(F.cursor + T(0.8), "kino.cannon_roll", pos=(-80.0, W + 0.5, -137.8), vol=0.8, pitch=0.9)
     with F.shot(close("kino", F.cursor, 1.8, 25), name="i see") as s:
         s.wait(1.6)
         s.say("奇诺", "原来如此。")
@@ -1112,6 +1189,8 @@ def build3(F, L):
     t_run = F.cursor
     r1.hold(t_run, None)
     F.event(t_run, "drop", model="rifle", pos=[-81.4, W + 1.0, -135.6], vel=[0.02, 0.1, 0.04], floor=W + 0.3)
+    sfx(t_run + T(0.4), "kino.drop_metal", pos=(-81.4, W + 0.3, -135.6), vol=0.8)
+    sfx(t_run + T(0.45), "kino.small_splash", pos=(-81.4, W + 0.3, -135.6), vol=0.8)
     run_end = walk(r1, t_run + T(0.3), [(-81.4, W, -135.6), (-80.0, W, -132.0), (-80.0, W, -120.0), (-80.2, W, -83.2)], speed=5.2)
     for t in range(t_run, run_end, 3):
         p = r1.track.at(t)
@@ -1123,8 +1202,10 @@ def build3(F, L):
         s.say("年轻男子", "我投降！放过我一马！我投降！我投降！")
         s.wait(max(0.0, (run_end - s.cursor) / 20 - 0.2))
     t_shot = max(F.cursor, run_end)
-    F.event(t_shot, "sound", sound="kino.gun_rifle", pos=[-66.5, 75, -66], vol=6.0, pitch=0.9)
+    F.event(t_shot, "sound", sound="kino.gun_rifle_far", pos=[-66.5, 75, -66], vol=6.0, pitch=1.0)
     blood(t_shot + 2, (-80.2, W + 1.2, -83.2), 18)
+    sfx(t_shot + 2, "kino.bullet_hit", pos=(-80.2, W + 1.2, -83.2), vol=1.0)
+    sfx(t_shot + 4, "kino.fall_water", pos=(-80.2, W + 0.3, -83.2), vol=1.3)
     r1.pose(t_shot + 3, "swimming")
     F.event(t_shot + 6, "particle", type="splash", pos=[-80.2, W + 0.4, -83.2], delta=(0.5, 0.05, 0.5), speed=0.15, count=24)
     with F.shot(S((-77.6, W + 1.4, -86.8), (-80.2, W + 0.5, -83.0)), dur=3.2, name="shot") as s:
@@ -1134,6 +1215,7 @@ def build3(F, L):
     with F.shot(S((-82.5, 74.6, -128.0), (-84.0, 74.4, -132.3)), name="roof fires") as s:
         s.say("屋顶的男子", "可恶！", pause=0.1)
         gunshot(s.cursor, (-84.0, 74.6, -131.4))
+        sfx(s.cursor + T(0.6), "kino.bolt", pos=(-84.0, 74.6, -131.4), vol=0.8, pitch=0.8)
         s.wait(0.8)
     K.show(F.cursor).place(F.cursor, (-80.0, W, -131.6), 0, -35)
     with F.shot(S((-78.6, W + 0.9, -127.0), ("kino", 1.3)), name="don't waste") as s:
@@ -1149,6 +1231,7 @@ def build3(F, L):
     for t in range(cry0, cry0 + T(40), 26):
         F.event(t, "sound", sound="kino.baby_cry", pos=[-78.6, 66.0, -140.4], vol=2.5, pitch=1.3)
     K.hold(F.cursor, "canon")
+    sfx(F.cursor + T(0.3), "kino.holster", pos=(-79.6, W + 1.0, -137.6), vol=0.8)
     K.place(F.cursor, (-79.6, W, -137.6), 160)
     with F.shot(close("kino", F.cursor, 1.6, -15, dy=-0.1), name="draw") as s:
         s.wait(2.2)
@@ -1165,15 +1248,24 @@ def build4(F, L):
         L[k] for k in ("seat", "ride_to", "walk", "side_of", "attach", "mount", "dismount", "close", "over", "two",
                        "gunshot", "blood", "engine", "title_card", "S"))
     CANNON = L["CANNON"]
+    sfx = L["sfx"]
     g = guards
 
     def pos(a, t):
         p = a.track.at(t)
         return (p[0], p[1], p[2])
 
-    def cry(t0, sec):
+    def cry(t0, sec, far=False):
+        """The princess crying in the keep; heard faintly all the way to the forest edge."""
         for t in range(t0, t0 + T(sec), 26):
-            F.event(t, "sound", sound="kino.baby_cry", pos=[-79.0, 66.0, -134.0], vol=3.0, pitch=1.3)
+            if far:
+                sfx(t, "kino.baby_cry", glob=True, vol=0.45, pitch=1.3)
+            else:
+                F.event(t, "sound", sound="kino.baby_cry", pos=[-79.0, 66.0, -134.0], vol=3.0, pitch=1.3)
+
+    def spyglass(t0, t1):
+        sfx(t0, "kino.spyglass", glob=True, vol=0.7)
+        sfx(t1 - T(0.15), "kino.spyglass_off", glob=True, vol=0.6)
 
     # ======================================================================
     # 13  森林边缘的男人们
@@ -1215,6 +1307,7 @@ def build4(F, L):
     walk(g9, tt, [pos(g9, tt), (-85.5, G, -62.5), (-83.2, G, -63.4)], speed=1.2)
     CAP.turn(tt + T(2.0), tt + T(3.0), 90)
     with F.shot(two("captain", "g9", tt + T(4.0), 3.8), name="tea") as s:
+        sfx(s.t0 + T(1.6), "kino.pour", pos=(-83.6, G + 1.0, -63.2), vol=0.8)
         s.wait(3.0)
         s.say("部下", "队长，请喝茶。")
         s.say("胡须男", "谢谢你，脚伤得怎么样？")
@@ -1223,7 +1316,8 @@ def build4(F, L):
         s.say("部下", "是！")
     g9.hold(F.cursor - T(1.0), None)
     CAP.hold(F.cursor - T(1.0), "mug")
-    cry(F.cursor, 6)
+    sfx(F.cursor - T(0.2), "kino.drink", follow="captain", vol=0.8)
+    cry(F.cursor, 6, far=True)
     with F.shot(S((-78.6, G + 1.6, -60.2), (-84.0, G + 1.2, -62.0)), name="laugh") as s:
         s.say("", "（远方清楚传来婴儿的哭泣声）", pause=0.4, dur=2.4)
         s.say("部下", "是公主殿下，看样子她精神不错呢！")
@@ -1233,7 +1327,8 @@ def build4(F, L):
     for k in range(18):
         t = tg + T(0.4) + int(k * 32 * (0.6 + 0.4 * ((k * 7) % 5) / 5))
         loud = k % 3 != 1
-        F.event(t, "sound", sound="kino.gun_pistol" if loud else "kino.gun_rifle", pos=[-80.0, 66.0, -136.0], vol=4.0, pitch=1.0)
+        F.event(t, "sound", sound="kino.gun_pistol_far" if loud else "kino.gun_rifle_far", pos=[-80.0, 66.0, -136.0], vol=8.0,
+                pitch=1.0)
         wx, wz = ((-80.0, -131.2), (-85.0, -131.2), (-75.0, -131.2))[k % 3]
         F.event(t, "particle", type="small_flame", pos=[wx, 67.6 if k % 3 else 65.8, wz], delta=(0.2, 0.2, 0.05), speed=0.0, count=6)
         F.event(t, "particle", type="smoke", pos=[wx, 67.6 if k % 3 else 65.8, wz - 0.2], delta=(0.2, 0.2, 0.1), speed=0.01, count=5)
@@ -1250,6 +1345,7 @@ def build4(F, L):
     with F.shot(S((-80.4, 67.0, -118.0), (-80.0, 67.0, -131.0)), name="bino1") as s:
         s.wait(1.6)
         s.say("胡须男", "他们……开始起内讧了吗？")
+        spyglass(s.t0, s.cursor + T(0.4))
     F.overlay(F.cursor, "letterbox")
     with F.shot(S((-88.6, G + 1.7, -57.0), (-83.5, G + 1.2, -62.0)), name="angry") as s:
         s.say("部下", "王八蛋！怎么当着公主殿下的面干这种事！")
@@ -1293,7 +1389,8 @@ def build4(F, L):
         K.move(t, t + T(1.2), [(-80.0, W, -132.6), (-80.0 + (x + 80) * 0.25, W, -131.4)], ease_kind="out")
         K.show(t + T(2.0), False)
         F.event(t + T(1.2), "particle", type="splash", pos=[x, W + 0.4, z], delta=(0.5, 0.05, 0.5), speed=0.15, count=24)
-        F.event(t + T(1.2), "sound", sound="kino.splash", pos=[x, W, z], vol=1.5, pitch=0.9)
+        F.event(t + T(1.2), "sound", sound="kino.fall_water", pos=[x, W, z], vol=1.5, pitch=0.9)
+        sfx(t + T(0.2), "kino.cloth", pos=(-80.0, W + 1.0, -131.8), vol=0.8, pitch=0.8)
         throw_times.append(t)
 
     F.overlay(t_b, "binoculars")
@@ -1302,12 +1399,13 @@ def build4(F, L):
         throw(0, s.cursor)
         s.say("胡须男", "什么！", pause=0.4)
         s.wait(1.4)
+        spyglass(s.t0, s.cursor + T(0.4))
     F.overlay(F.cursor, "letterbox")
     with F.shot(S((-64.8, 71.6, -69.4), ("sniper", 1.3)), name="again") as s:
         throw(1, s.t0 + T(0.4))
         s.say("狙击兵", "又开始了。", pause=0.8)
         s.say("狙击兵", "等那旅行者再次出现时，就射击她的手臂怎么样？")
-    cry(F.cursor, 5)
+    cry(F.cursor, 5, far=True)
     with F.shot(close("captain", F.cursor, 2.0, 20), name="stop") as s:
         s.say("", "（婴儿的哭声）", dur=1.4)
         s.say("胡须男", "住手！公主殿下没事！")
@@ -1317,6 +1415,7 @@ def build4(F, L):
         s.wait(0.3)
         throw(2, s.cursor)
         s.say("", "（尸体的脸被染得一片鲜红，根本就看不出是谁）", pause=0.8, dur=3.0)
+        spyglass(s.t0, s.cursor + T(0.4))
     F.overlay(F.cursor, "letterbox")
     with F.shot(S((-88.6, G + 1.7, -57.0), (-83.5, G + 1.2, -62.0)), name="guess") as s:
         s.say("部下", "那家伙在干什么啊……？")
@@ -1337,6 +1436,7 @@ def build4(F, L):
         s.wait(8.0)
         s.say("狙击兵", "是第六个。建筑物里面还有两个男人，其他就只剩下公主殿下跟那个女人而已。")
         s.say("胡须男", "好了，你是否能顺利把所有人都杀了呢，旅行者呀！")
+        sfx(s.t0, "kino.spyglass", glob=True, vol=0.7)
     # the seventh: the grey suit, three shots at point-blank range
     with F.shot(bino_cam, name="suit") as s:
         throw(6, s.t0 + T(0.4))
@@ -1347,9 +1447,11 @@ def build4(F, L):
             tj = t7 + T(1.0 + 0.45 * j)
             gunshot(tj, (-81.1, W + 1.3, -130.6), loud=False)
             blood(tj + 1, (spots[6][0] + 0.3, W + 0.4, spots[6][1] + 0.8), 16)
+            sfx(tj + 1, "kino.bullet_hit", pos=(spots[6][0] + 0.3, W + 0.4, spots[6][1] + 0.8), vol=0.9, pitch=1.0 + 0.1 * j)
         K.show(t7 + T(3.2), False)
         K.hold(t7 + T(3.2), None)
         s.wait(4.2)
+        sfx(s.cursor + T(0.2), "kino.spyglass_off", glob=True, vol=0.6)
     F.overlay(F.cursor, "letterbox")
     with F.shot(S((-88.6, G + 1.7, -57.0), (-83.5, G + 1.2, -62.0)), name="cruel") as s:
         s.say("部下", "致命的一击啊……")
@@ -1360,6 +1462,7 @@ def build4(F, L):
         throw(7, s.t0 + T(0.4))
         s.say("狙击兵", "最后一个了。", pause=1.2)
         s.wait(0.8)
+        spyglass(s.t0, s.cursor + T(0.4))
     F.overlay(F.cursor, "letterbox")
     with F.shot(close("captain", F.cursor, 2.1, 25), name="admire") as s:
         s.say("胡须男", "没想到她把他们全干掉了……真让我感到佩服，了不起。")
@@ -1374,6 +1477,8 @@ def build4(F, L):
     with F.shot(close("captain", F.cursor, 2.0, -20), name="reply") as s:
         s.say("胡须男", "啊啊！听得见！你那边情况如何？")
     with F.shot(S((-78.6, W + 0.9, -133.6), ("kino", 1.0)), name="wash") as s:
+        for k in range(3):
+            sfx(s.t0 + T(0.2 + 0.45 * k), "kino.small_splash", follow="kino", vol=0.7, pitch=1.3 + 0.1 * k)
         s.say("奇诺", "喔——这个可帮了不少忙呢？", pause=0.6)
         K.pose(s.cursor, "standing")
         s.say("奇诺", "我听见你说话了——！我有话想跟你说，可以吗？")
@@ -1433,6 +1538,7 @@ def build4(F, L):
         s.say("奇诺", "不过这种事情我在学校里学过，应该会很顺利才对。")
         s.say("奇诺", "也请你们照计划去做，导火线的长度可是很重要的呢。")
     CANNON.place(F.cursor, (-80.0, W, -133.9), 180)
+    sfx(F.cursor, "kino.cannon_roll", pos=(-80.0, W + 0.5, -134.5), vol=0.9, pitch=0.9)
     with F.shot(Cam.move((-86.0, W + 2.2, -118.0), (-86.0, W + 2.6, -110.0), "captain", "captain", kind="linear"),
                 dur=max(3.0, (t_halt - F.cursor) / 20 + 0.5), name="walk in") as s:
         pass
@@ -1498,6 +1604,8 @@ def build4(F, L):
         K.pose(s.cursor + T(0.4), "crouching")
         s.say("奇诺", "开车！", pause=0.4, dur=1.0)
     t_fire = F.cursor
+    sfx(t_fire - T(2.6), "kino.fuse", pos=(-80.0, W + 0.8, -134.4), vol=1.6)
+    sfx(t_fire - T(2.7), "kino.ignite", pos=(-80.0, W + 0.8, -134.4), vol=0.9)
     # ---------------- the cannon ------------------------------------------
     F.event(t_fire, "sound", sound="kino.cannon", pos=[-80.0, 66.0, -135.5], vol=8.0, pitch=0.7)
     F.event(t_fire, "particle", type="explosion", pos=[-80.0, 66.0, -135.6], delta=(0.6, 0.4, 0.6), speed=0.0, count=10)
@@ -1524,11 +1632,19 @@ def build4(F, L):
     F.event(t_ex + 4, "particle", type="large_smoke", pos=list(EX), delta=(2.0, 1.4, 2.0), speed=0.05, count=90)
     for tt_ in range(t_ex, t_ex + T(6), 10):
         F.event(tt_, "particle", type="flame", pos=[EX[0], W + 0.6, EX[2]], delta=(1.4, 0.2, 1.4), speed=0.02, count=12)
+    for k, tt_ in enumerate(range(t_ex + 4, t_ex + T(6), 16)):
+        sfx(tt_, "kino.fire", pos=(EX[0] + (k % 3 - 1) * 1.2, W + 0.8, EX[2]), vol=1.4, pitch=0.8 + 0.1 * (k % 3))
+    for k in range(6):
+        a_ = k * 1.1
+        sfx(t_ex + T(0.5 + 0.2 * k), "kino.small_splash", pos=(EX[0] + math.sin(a_) * 3, W + 0.3, EX[2] + math.cos(a_) * 3),
+            vol=0.9, pitch=0.8 + 0.1 * (k % 4))
     # burning front four, the rest blown into the walls
     burning = [CAP, g[1], g[2], g[3]]
     for j, a in enumerate(burning):
         a.burn(t_ex, t_ex + T(3.0 + 0.7 * j))
         a.hold(t_ex, None)
+        for tt_ in range(t_ex + T(0.3 + 0.2 * j), t_ex + T(2.6), T(0.8)):
+            sfx(tt_, "kino.burn_hurt", follow=a.id, vol=0.9, pitch=0.9 + 0.05 * j)
         p = pos(a, t_ex)
         wob = [p]
         for k in range(1, 6):
@@ -1543,6 +1659,8 @@ def build4(F, L):
         a.place(t_ex + 7, (x + (0.6 if x < -80 else -0.6), W, z), 90 if x < -80 else -90)
         a.pose(t_ex + 7, "swimming")
         blood(t_ex + 6, (x, W + 1.2, z), 20)
+        sfx(t_ex + 6, "kino.hit", pos=(x, W + 1.2, z), vol=1.2, pitch=0.8)
+        sfx(t_ex + 8, "kino.fall_water", pos=(x, W + 0.3, z), vol=1.0)
     # the barrel flies and smashes a wall
     BARREL = F.prop("barrel", "cannon_barrel", translation=(0, 0.5, 0))
     BARREL.show(t_ex)
@@ -1566,10 +1684,13 @@ def build4(F, L):
         s.wait(0.3)
         for j, a in enumerate(burning):
             tj = s.cursor + T(0.9 * j)
-            F.event(tj, "sound", sound="kino.gun_rifle", pos=[-66.5, 72.0, -67.5], vol=6.0, pitch=0.9)
+            sfx(tj, "kino.gun_rifle", glob=True, vol=0.9, pitch=0.95)
+            if j < 3:
+                sfx(tj + T(0.45), "kino.bolt", glob=True, vol=0.5)
             a.burn(t_ex, tj)
             a.pose(tj + 2, "swimming")
             blood(tj + 2, pos(a, tj), 10)
+            sfx(tj + 3, "kino.fall_water", pos=pos(a, tj), vol=0.8)
             a.move(tj + 2, tj + 3, [pos(a, tj + 2), pos(a, tj + 2)])
         s.wait(3.6)
         s.say("", "（首先是敬爱的队长。过去在军校的同期战友。有时候让人感到讨厌的二年级学弟。当成弟弟看待的年轻男子。）",
@@ -1599,6 +1720,7 @@ def build4(F, L):
     walk(g8, tr2, [(-83.0, G, -61.0)] + [(x + 0.8, y, z - 1.2) for (x, y, z) in run_pts], speed=3.0)
     t_fall = walk(g9, tr2, [(-83.8, G, -61.2)] + [(x - 0.6, y, z + 0.4) for (x, y, z) in run_pts[:2]], speed=2.6)
     g9.pose(t_fall, "crouching")
+    sfx(t_fall, "kino.hurt", follow="g9", vol=0.8, pitch=0.8)
     with F.shot(Cam.move((-77.0, G + 1.8, -44.0), (-77.4, G + 1.8, -40.0), "g9", "g9"), name="run") as s:
         s.wait(max(1.0, (t_fall - s.t0) / 20))
         s.say("狙击兵", "撑着点！没事的！对方不会马上追过来的！只要到达道路，跑到我们系马的地方就没问题了！知道吗？")
@@ -1624,8 +1746,9 @@ def build4(F, L):
     x3.hold(ta, "knife")
     x3.move(ta, ta + T(0.4), [(p8[0] + 2.2, G, p8[2] - 0.6), (p8[0] + 0.6, G, p8[2])], yaw=90)
     blood(ta + T(0.4), (p8[0], G + 1.0, p8[2]), 20)
-    F.event(ta + T(0.4), "sound", sound="kino.hit", pos=list(p8), vol=2.0, pitch=0.8)
+    F.event(ta + T(0.4), "sound", sound="kino.stab", pos=list(p8), vol=2.0, pitch=1.0)
     g8.pose(ta + T(0.9), "swimming")
+    sfx(ta + T(0.9), "kino.fall", pos=p8, vol=1.0)
     x3.pose(ta + T(1.0), "crouching")
     with F.shot(S((p8[0] - 3.0, G + 1.6, p8[2] - 2.6), ("g8", 1.0)), dur=1.8, name="stab") as s:
         pass
@@ -1635,8 +1758,9 @@ def build4(F, L):
     x4.hold(tb - T(0.4), "axe", aim=True)
     x4.move(tb, tb + T(0.4), [(p9[0] - 2.0, G, p9[2] + 1.2), (p9[0] - 0.7, G, p9[2] + 0.4)], yaw=-60)
     blood(tb + T(0.5), (p9[0], G + 1.6, p9[2]), 24)
-    F.event(tb + T(0.5), "sound", sound="kino.hit", pos=list(p9), vol=2.0, pitch=0.6)
+    F.event(tb + T(0.5), "sound", sound="kino.axe", pos=list(p9), vol=2.0, pitch=1.0)
     g9.pose(tb + T(0.9), "swimming")
+    sfx(tb + T(0.9), "kino.fall", pos=p9, vol=1.0)
     with F.shot(close("sniper", tb, 2.4, 30), name="axe") as s:
         s.say("山贼", "哇啊啊啊！", pause=0.0, dur=1.4)
     SNIPER.hold(F.cursor - T(0.6), "srifle", aim=True)
@@ -1653,18 +1777,20 @@ def build4(F, L):
     x7.move(tj, tj + T(0.5), [(ps[0], G + 0.1, ps[2] + 0.7), (ps[0], G + 1.6, ps[2]), (ps[0], G, ps[2] - 1.4)], yaw=0)
     x7.pose(tj + T(0.4), "sleeping")
     F.event(tj + T(0.5), "sound", sound="kino.punch", pos=list(ps), vol=2.0, pitch=0.7)
+    sfx(tj + T(0.55), "kino.fall", pos=(ps[0], G, ps[2] - 1.4), vol=1.2)
     SNIPER.hold(tj, None)
     SNIPER.turn(tj + T(0.8), tj + T(1.2), 90, 0)
     p4 = pos(x4, tj)
     x4.move(tj + T(1.0), tj + T(1.6), [p4, (ps[0] - 1.1, G, ps[2] + 0.2)], yaw=-90)
     blood(tj + T(1.7), (ps[0], G + 1.6, ps[2]), 30)
-    F.event(tj + T(1.7), "sound", sound="kino.hit", pos=list(ps), vol=2.5, pitch=0.5)
+    F.event(tj + T(1.7), "sound", sound="kino.axe", pos=list(ps), vol=2.5, pitch=0.8)
     SNIPER.pose(tj + T(1.9), "swimming")
+    sfx(tj + T(1.9), "kino.fall", pos=ps, vol=1.0)
     with F.shot(S((ps[0] + 3.2, G + 1.7, ps[2] + 1.8), ("sniper", 1.0)), dur=3.0, name="throw") as s:
         pass
     F.overlay(F.cursor, "black")
     for k in range(5):
-        F.event(F.cursor + T(0.3 + 0.35 * k), "sound", sound="kino.hit", pos=list(ps), vol=2.0, pitch=0.5 + 0.05 * k)
+        sfx(F.cursor + T(0.3 + 0.35 * k), "kino.stab" if k % 2 else "kino.axe", glob=True, vol=0.55, pitch=0.8 + 0.05 * k)
     with F.shot(Cam.static((0, 120, 0), (10, -30)), dur=2.6, name="black"):
         pass
     F.overlay(F.cursor, "letterbox")
@@ -1678,6 +1804,7 @@ def build5(F, L):
     K, H, TRUCK, DOC, WOMAN, R = (L[k] for k in ("K", "H", "TRUCK", "DOC", "WOMAN", "R"))
     seat, walk, side_of, mount, close, over, two, blood, engine, title_card, S = (
         L[k] for k in ("seat", "walk", "side_of", "mount", "close", "over", "two", "blood", "engine", "title_card", "S"))
+    sfx = L["sfx"]
 
     def pos(a, t):
         p = a.track.at(t)
@@ -1722,7 +1849,7 @@ def build5(F, L):
     with F.shot(S((-74.6, W + 2.8, -116.0), (-80.2, W + 0.9, -121.0)), name="toast wide") as s:
         s.wait(1.0)
         s.say("", "（下午三、四点。当作替身的尸体已被挪开，士兵们的尸体运进了森林。）", dur=3.4)
-        s.say("女子", "想不到我会遭到这种对待！", pause=0.3)
+        s.say("艾鲁梅斯", "想不到我会遭到这种对待！", pause=0.3)
     with F.shot(close("doctor_b", F.cursor, 2.4, 20), name="speech") as s:
         s.say("医生", "各位——你们表现得太好了，这是一场漂亮的战斗。")
         s.say("医生", "虽然过程很辛苦，也很让人害怕。不仅让我们失去了一名无可取代的伙伴，")
@@ -1730,6 +1857,9 @@ def build5(F, L):
         s.say("医生", "这瓶酒原本是为了等到那天找到安身之处再享用的，因为它代表了最后的故乡味道，")
         s.say("医生", "然而我认为现在正是品尝它的时候！大家应该没有异议吧？就算有也已经来不及了。", pause=0.1)
     with F.shot(S((-84.4, W + 1.6, -118.4), (-79.8, W + 1.1, -121.2)), name="laugh") as s:
+        sfx(s.t0 + T(0.1), "kino.cork", pos=(-82.0, W + 1.3, -121.9), vol=0.9)
+        for k in range(4):
+            sfx(s.t0 + T(0.9 + 0.7 * k), "kino.pour", pos=(-81.0 + 0.6 * k, W + 1.1, -121.5), vol=0.6, pitch=1.0 + 0.08 * k)
         s.say("男子们", "没有异议！我们早就等不及了！")
     t_toast = F.cursor + T(2.2)
     for k, a in ring.items():
@@ -1739,6 +1869,8 @@ def build5(F, L):
     with F.shot(S((-80.4, W + 3.6, -125.8), (-80.0, W + 1.2, -121.0)), name="cheers") as s:
         s.say("医生", "为祖国的安定、这孩子的未来、我们生存的意义，以及死去的伙伴们——", pause=0.2)
         s.say("男子们", "干杯！", dur=1.4)
+        for k, (x_, z_) in enumerate(((-80.2, -120.6), (-79.4, -121.6), (-80.9, -121.9), (-79.9, -122.4), (-80.6, -120.9))):
+            sfx(s.cursor - T(0.9 - 0.07 * k), "kino.clink", pos=(x_, W + 1.6, z_), vol=0.8, pitch=0.95 + 0.06 * k)
         s.wait(0.8)
     t_drink = F.cursor
     for k, a in ring.items():
@@ -1746,6 +1878,8 @@ def build5(F, L):
             a.hold(t_drink + T(1.0), "mug")
     K.hold(t_drink + T(1.0), "mug")
     t_poison = t_drink + T(2.4)
+    for k, (x_, z_) in enumerate(((-81.4, -119.0), (-79.8, -123.4), (-78.4, -122.6), (-81.6, -123.3))):
+        sfx(t_drink + T(0.1 + 0.2 * k), "kino.drink", pos=(x_, W + 1.5, z_), vol=0.7, pitch=0.9 + 0.08 * k)
     with F.shot(S((-76.6, W + 1.7, -118.6), (-80.6, W + 1.2, -121.2)), dur=2.0, name="drink") as s:
         pass
     with F.shot(S((-76.6, W + 1.7, -118.6), (-80.6, W + 1.2, -121.2)), name="don't") as s:
@@ -1762,6 +1896,9 @@ def build5(F, L):
         F.event(tj + 4, "drop", model="mug", pos=[p[0], W + 1.0, p[2]], vel=[0.02, 0.05, 0.02], floor=W + 0.3, life=1200)
         a.pose(tj + T(0.9), "crouching")
         a.pose(tj + T(1.8), "swimming")
+        sfx(tj + T(0.1), "kino.choke", pos=mouth, vol=0.9, pitch=0.8 + 0.07 * j)
+        sfx(tj + 10, "kino.mug_drop", pos=(p[0], W + 0.3, p[2]), vol=0.6, pitch=1.0 + 0.05 * j)
+        sfx(tj + T(1.8), "kino.fall_water", pos=(p[0], W + 0.3, p[2]), vol=0.9, pitch=0.9 + 0.05 * j)
         F.event(tj + T(1.8), "particle", type="splash", pos=[p[0], W + 0.4, p[2]], delta=(0.5, 0.05, 0.5), speed=0.1, count=16)
     F.subs.append((t_poison, t_poison + T(1.8), "男子们", "喔嘎！……嘎！　耶嘎啊！　咕！　喔啊啊啊！"))
     with F.shot(S((-79.0, W + 1.4, -117.4), ("doctor_b", 1.2)), name="why") as s:
@@ -1773,9 +1910,13 @@ def build5(F, L):
     walk(DB, t_doc, [pos(DB, t_doc), (-80.6, W, -120.1)], speed=0.9)
     DB.pose(t_doc + T(1.2), "crouching")
     DB.pose(t_doc + T(2.4), "swimming")
+    sfx(t_doc + T(0.2), "kino.choke", follow="doctor_b", vol=0.8, pitch=0.7)
+    sfx(t_doc + T(2.4), "kino.fall_water", pos=(-80.6, W + 0.3, -120.1), vol=1.0, pitch=0.85)
     with F.shot(close("doctor_b", t_doc, 2.3, -30), dur=3.6, name="doc falls") as s:
         pass
     with F.shot(close("kino", F.cursor, 2.0, 20), name="kino tea") as s:
+        sfx(s.t0 + T(0.5), "kino.drink", follow="kino", vol=0.5, pitch=1.3)
+        sfx(s.t0 + T(1.4), "kino.drink", follow="kino", vol=0.5, pitch=1.25)
         s.say("", "（奇诺「滋滋滋」地细细啜饮她的茶，然后大大叹了口气）", pause=0.4, dur=3.0)
     WOMAN.hold(F.cursor, None)
     WOMAN.hold(F.cursor, "baby", hand="main")
@@ -1845,10 +1986,12 @@ def build5(F, L):
         s.say("医生", "……拜、托了……", dur=2.2)
     F.event(t_snap, "sound", sound="kino.snap", pos=list(wp), vol=2.0, pitch=0.8)
     WOMAN.pose(t_snap + T(0.6), "swimming")
+    sfx(t_snap + T(0.6), "kino.fall_water", pos=(wp[0], W + 0.3, wp[2]), vol=1.0)
     WOMAN.hold(t_snap + T(0.3), None)
     walk(K, t_snap, [pos(K, t_snap), (wp[0] + 0.7, W, wp[2] + 0.3)], speed=5.0)
     K.hold(t_snap + T(0.4), "baby")
     DB.pose(F.cursor - T(0.4), "swimming")
+    sfx(F.cursor - T(0.4), "kino.fall_water", pos=(wp[0] - 0.9, W + 0.3, wp[2] - 0.5), vol=0.8, pitch=0.8)
     F.event(t_snap + T(0.6), "particle", type="splash", pos=[wp[0], W + 0.4, wp[2]], delta=(0.5, 0.05, 0.5), speed=0.1, count=20)
     tbaby = F.cursor
     walk(K, tbaby, [pos(K, tbaby), side_of(H, tbaby, right=-0.8, back=0.9)[:1] + (W,) + side_of(H, tbaby, right=-0.8, back=0.9)[2:]],
@@ -1856,6 +1999,7 @@ def build5(F, L):
     BABY = F.prop("baby", "baby", translation=(0, 0, 0))
     K.hold(tbaby + T(2.0), None)
     BABY.show(tbaby + T(2.0)).place(tbaby + T(2.0), side_of(H, tbaby, right=0.0, back=0.75, up=0.62 + 0.62), 0)
+    sfx(tbaby + T(2.0), "kino.cloth", follow="hermes", vol=0.6, pitch=1.2)
     with F.shot(S((-77.2, W + 1.8, -120.0), ("hermes", 0.9)), name="rack") as s:
         s.wait(2.4)
         s.say("艾鲁梅斯", "这不是婴儿床耶。")
@@ -1872,6 +2016,8 @@ def build5(F, L):
     # ======================================================================
     F.scene("暮色", daytime=12250)
     t17 = F.cursor
+    sfx(t17 + T(0.2), "kino.wind", glob=True, vol=0.35)
+    sfx(t17 + T(7.4), "kino.wind", glob=True, vol=0.3)
     K.place(t17, (-78.4, W, -118.9), 150)
     with F.shot(Cam.move((-70.0, W + 2.6, -104.0), (-72.0, W + 3.4, -108.0), (-79.6, W + 0.8, -121.0), (-79.6, W + 0.8, -121.0)),
                 dur=6.0, name="dusk") as s:
@@ -1905,7 +2051,7 @@ def build5(F, L):
     TRUCK.show(tt)
     t_tr = tt + T(14.0)
     TRUCK.move(tt, t_tr, [(-62.0, G, 0.4), (-40.0, G, 0.4), (-10.0, G, 0.4)], yaw=-90)
-    engine(tt, t_tr, TRUCK, every=20, vol=0.8, pitch=0.5)
+    engine(tt, t_tr, TRUCK, vol=0.6)
     with F.shot(Cam.move((-66.0, G + 2.0, 3.4), (-54.0, G + 2.8, 3.4), "truck", "truck", kind="linear"), dur=6.5, name="truck away") as s:
         s.say("旁白", "可是有关我们出生的国家，还有我母亲的事情——他到最后都没有告诉我。", pause=0.4)
         s.say("旁白", "说那并不重要，知道了也没有用。")
@@ -1929,5 +2075,9 @@ def build5(F, L):
         s.say("旁白", "不知道那位旅行者如今在什么地方做些什么？", pause=0.6)
         s.say("旁白", "还继续旅行吗？还在为某人战斗吗？")
         s.say("旁白", "或者——", dur=2.4)
+    for k in range(3):
+        sfx(F.cursor - T(9.0) + T(7.4 * k), "kino.wind", glob=True, vol=0.3)
     L["title_card"](8.0, "奇诺之旅", "第七话「战斗者的故事」完")
     L["title_card"](7.0, "原作　时雨泽惠一", "Minecraft 同人改编 · 非商业")
+    # the piano comes back under the narration and ends with the credits
+    F.event(max(t18 + T(1.0), F.cursor - T(56.0)), "sound", sound="kino.music_ending", vol=0.9, pitch=1.0, **{"global": True})

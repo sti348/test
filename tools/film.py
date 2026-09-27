@@ -8,10 +8,23 @@ The timeline is sampled tick by tick and compiled to
 from __future__ import annotations
 
 import bisect
+import json
 import math
+import os
 from contextlib import contextmanager
 
 TPS = 20
+_VOICES = None
+
+
+def voice_dur(who, text):
+    """Length (s) of the recorded Japanese line for a subtitle, if any (tools/voices.py)."""
+    global _VOICES
+    if _VOICES is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "voice_index.json")
+        _VOICES = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
+    v = _VOICES.get(f"{who}|{text}")
+    return v["dur"] if v else None
 
 
 def T(sec):
@@ -209,8 +222,14 @@ class Shot:
         return self.cursor
 
     def say(self, who, text, pause=0.15, dur=None, extra=0.0):
+        """A subtitle line; its length follows the recorded voice when there is one
+        (voice + a short breath, but never shorter than a comfortable reading time)."""
         start = self.cursor + T(pause)
-        d = dur if dur is not None else max(1.5, len(text) / 8.5 + 0.7)
+        vd = voice_dur(who, text) if who else None
+        if vd is not None:
+            d = max(dur or 0.0, vd + 0.4, len(text) / 10.0 + 0.5, 1.2)
+        else:
+            d = dur if dur is not None else max(1.5, len(text) / 8.5 + 0.7)
         end = start + T(d + extra)
         self.film.subs.append((start, end, who, text))
         self.cursor = end
@@ -235,6 +254,7 @@ class Film:
         self.titles = []         # (t, title, subtitle, fade_in, stay, fade_out)
         self.scenes = []         # (t, name)
         self.labels = {}         # speaker -> colour
+        self.engines = []        # (t0, t1, prop id, volume, base pitch) engine running
         self.scene_name = ""
 
     # ---- cast --------------------------------------------------------------
