@@ -518,7 +518,8 @@ def write_datapack(F, S, root):
     # a parse error in one never breaks the rest of the pack
     dp.fn("rules/legacy", ["gamerule doDaylightCycle false", "gamerule doWeatherCycle false", "gamerule doMobSpawning false",
                            "gamerule commandModificationBlockLimit 2000000", "gamerule maxCommandChainLength 10000000"])
-    dp.fn("rules/modern", ["gamerule advance_time false", "gamerule advance_weather false", "gamerule spawn_mobs false"])
+    dp.fn("rules/modern", ["gamerule advance_time false", "gamerule advance_weather false", "gamerule spawn_mobs false",
+                           "gamerule max_block_modifications 2000000", "gamerule max_command_sequence_length 10000000"])
     tags = os.path.join(root, "data", "minecraft", "tags", "function")
     os.makedirs(tags, exist_ok=True)
     with open(os.path.join(tags, "load.json"), "w") as fh:

@@ -41,6 +41,8 @@ def main():
         run("compile.py")
     else:
         run("compile.py")
+    if "--validate" in sys.argv:
+        run("validate_mc.py", "1.21.10", "26.3")
     dist = os.path.join(ROOT, "dist")
     os.makedirs(dist, exist_ok=True)
     zipdir(rp, os.path.join(dist, "奇诺之旅_资源包.zip"))
