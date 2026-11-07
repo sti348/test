@@ -15,7 +15,7 @@ The API is OpenAI-Images compatible (POST /images/generations, and
   IMAGE_API_BASE   default https://api.openai.com/v1
   IMAGE_MODEL      default gpt-image-2.6-flare (the key also lists gpt-image-2.6-sunburst)
   IMAGE_API_KEY    the key (in a Claude cloud session the network proxy adds it; leave unset)
-  IMAGE_SIZE       default 1536x1024 (cropped and resized to 1920x1080 afterwards)
+  IMAGE_SIZE       default 3840x2160 (native 16:9; a 1920x1080 copy is saved too)
   IMAGE_QUALITY    default high
 
 Output: vn/out/<id>/<variant>.png (as generated), <variant>_1080p.png (16:9,
@@ -39,7 +39,7 @@ OUT = os.path.join(HERE, "out")
 
 BASE = os.environ.get("IMAGE_API_BASE", "https://api.openai.com/v1").rstrip("/")
 MODEL = os.environ.get("IMAGE_MODEL", "gpt-image-2.6-flare")
-SIZE = os.environ.get("IMAGE_SIZE", "1536x1024")
+SIZE = os.environ.get("IMAGE_SIZE", "3840x2160")       # native 16:9; the API allows any multiple of 16 up to 3840
 QUALITY = os.environ.get("IMAGE_QUALITY", "high")
 
 # The art direction of style.md, in the words the model gets: an art style (swappable, see
@@ -77,8 +77,8 @@ def scenes():
     return json.load(open(os.path.join(HERE, "scenes.json"), encoding="utf-8"))
 
 
-def styles():
-    return json.load(open(os.path.join(HERE, "styles.json"), encoding="utf-8"))
+def styles(name="styles.json"):
+    return json.load(open(os.path.join(HERE, name), encoding="utf-8"))
 
 
 def prompt_of(sc, variant, with_ref, art=None):
@@ -214,20 +214,21 @@ def prompt_style(sc, variant, st):
     tod = {"dusk": "at dusk, a soft violet-grey sky with the first stars and some windows lit warm",
            "day": "on a clear day", "night": "at night, lit windows and lamps"}[variant]
     return "\n\n".join([
-        f"An image made entirely in this style - {st['name_en']}: {st['art']}",
-        f"Subject: {sc.get('short') or sc['prompt']}, {tod}. The buildings are enormous; tiny benches and lamps "
-        "show the scale. No people. No text or lettering anywhere.",
+        f"A Japanese 2D anime-style background image made entirely in this style - {st['name_en']}: {st['art']}",
+        f"Subject: {sc.get('short') or sc['prompt']}, {tod}. The architecture is colossal (tiny benches and lamps "
+        "show the scale), with very tall storeys and windows gathered into wide bands or tall strips between "
+        "large solid walls, never a dense grid of small windows. No people. No text or lettering anywhere.",
         f"Important: every part of the image must be rendered strictly in the style described above "
         f"({st['name_en']}), with its characteristic marks, palette and simplifications. Do not drift toward a "
         "generic polished digital painting, and avoid the usual AI-art look (glossy surfaces, neon gradients, "
         "evenly spread hyper-detail)."])
 
 
-def style_test(sc, variant, only=(), jobs=4, tag="r2"):
+def style_test(sc, variant, only=(), jobs=4, tag="r2", set_file="styles.json"):
     """The same shot in every art style of styles.json (or the named ones), and a labelled sheet."""
     d = os.path.join(OUT, "_styles", f"{sc['id']}_{variant}_{tag}")
     os.makedirs(d, exist_ok=True)
-    todo = [st for st in styles() if not only or st["id"] in only]
+    todo = [st for st in styles(set_file) if not only or st["id"] in only]
 
     def one(st):
         png = os.path.join(d, f"{st['id']}.png")
@@ -251,7 +252,7 @@ def style_test(sc, variant, only=(), jobs=4, tag="r2"):
     with cf.ThreadPoolExecutor(jobs) as ex:
         for msg in ex.map(one, todo):
             print(msg, flush=True)
-    style_sheet(d, [st for st in styles()])
+    style_sheet(d, [st for st in styles(set_file)])
 
 
 def style_sheet(d, sts, cols=3, w=640):
@@ -311,7 +312,17 @@ def main(argv):
     elif cmd == "sheet":
         sheet()
     elif cmd == "styles":
-        style_test(S[rest[0]], rest[1] if len(rest) > 1 else "dusk", rest[2:])
+        # styles SCENE[,SCENE] VARIANT [--set styles_anime.json] [--tag r3] [STYLE ...]
+        set_file, tag, only, it = "styles.json", "r2", [], iter(rest[2:])
+        for a in it:
+            if a == "--set":
+                set_file = next(it)
+            elif a == "--tag":
+                tag = next(it)
+            else:
+                only.append(a)
+        for sid in rest[0].split(","):
+            style_test(S[sid], rest[1] if len(rest) > 1 else "dusk", only, tag=tag, set_file=set_file)
     else:
         print(__doc__)
 
