@@ -1,0 +1,74 @@
+[
+ {
+  "id": "cel_gouache",
+  "name": "老派动画手绘背景（广告颜料）",
+  "art": "Hand-painted background for a 1980s-90s cel-animated film: opaque poster colour (gouache) on illustration board, simplified flat shapes with soft brush edges, visible brush strokes and slight paper texture, restrained palette, painted by hand rather than rendered; gentle, nostalgic, a little naive.",
+  "name_en": "hand-painted gouache background of a 1980s-90s cel-animated film"
+ },
+ {
+  "id": "watercolor",
+  "name": "透明水彩",
+  "art": "Transparent watercolour on cold-press paper: loose wet-in-wet skies, hard dry-brush edges on the buildings, visible paper grain and pigment granulation, white of the paper left as highlights, unfinished edges fading out at the borders of the picture, limited palette of five or six pigments.",
+  "name_en": "loose transparent watercolour"
+ },
+ {
+  "id": "ink_wash",
+  "name": "钢笔线稿＋淡彩",
+  "art": "Architectural ink sketch with light watercolour wash: confident hand-drawn pen lines with slight wobble, hatching for shadows, colour applied sparingly in pale washes that do not fill every shape, lots of white paper; like a travel sketchbook page by an architect.",
+  "name_en": "pen-and-ink architectural sketch with pale watercolour wash"
+ },
+ {
+  "id": "impasto_oil",
+  "name": "厚涂油画",
+  "art": "Oil painting on canvas with thick impasto: chunky palette-knife and bristle-brush marks, colours mixed on the canvas, edges lost and found, simplified detail, rich but muted colour, the texture of real paint clearly visible.",
+  "name_en": "thick impasto oil painting"
+ },
+ {
+  "id": "shin_hanga",
+  "name": "新版画（木刻）",
+  "art": "Early 20th-century Japanese shin-hanga woodblock print: crisp carved key-block outlines, flat areas of colour with subtle bokashi gradations in the sky, visible wood grain and paper fibres, limited palette, calm poetic atmosphere.",
+  "name_en": "Japanese shin-hanga woodblock print"
+ },
+ {
+  "id": "mid_century",
+  "name": "中世纪现代插画",
+  "art": "1950s-60s mid-century modern illustration: flat geometric shapes, gouache and dry-brush texture, offset-print feel with slight misregistration, a bold limited palette of four to six colours, stylised simplified architecture, playful but elegant.",
+  "name_en": "1950s mid-century modern gouache illustration"
+ },
+ {
+  "id": "pencil_pastel",
+  "name": "彩铅与粉彩",
+  "art": "Coloured pencil and soft pastel on toned grey paper: grainy strokes, visible directional hatching, soft smudged skies, highlights in white pencil, a quiet hand-made look with uneven pressure.",
+  "name_en": "coloured pencil and pastel on toned paper"
+ },
+ {
+  "id": "muted_matte",
+  "name": "低饱和概念绘画",
+  "art": "Restrained digital matte painting in the manner of film concept art: desaturated, mostly greys with one or two accent colours, large simple value shapes, detail only at the focal point, soft painterly edges, atmospheric depth; calm and understated, no glossy effects.",
+  "name_en": "muted, desaturated film concept painting"
+ },
+ {
+  "id": "flat_shapes",
+  "name": "扁平色块",
+  "art": "Flat-colour illustration: clean vector-like shapes with no gradients and no outlines, a carefully chosen palette of about six colours, depth shown only by overlapping shapes and colour temperature, minimal detail, generous negative space.",
+  "name_en": "flat-colour shape illustration with no gradients"
+ },
+ {
+  "id": "sumi_color",
+  "name": "水墨淡彩",
+  "art": "East Asian ink-wash painting with light colour: expressive sumi ink brushwork of varying wetness on rice paper, mist and empty space doing much of the work, buildings suggested with a few strokes, touches of mineral blue and ochre, a red seal-like accent absent (no text or seals).",
+  "name_en": "East Asian ink-wash painting with light colour"
+ },
+ {
+  "id": "linocut",
+  "name": "麻胶版画",
+  "art": "Linocut print in three or four colours: bold carved shapes, gouge marks visible in the large areas, slight ink unevenness and paper texture, strong silhouettes, a graphic poster-like composition.",
+  "name_en": "three-colour linocut print"
+ },
+ {
+  "id": "storybook",
+  "name": "欧洲绘本插画",
+  "art": "European picture-book illustration: gouache and coloured pencil, slightly naive perspective, warm hand-made textures, charming wobbly lines, soft muted colours, a sense of quiet wonder rather than spectacle.",
+  "name_en": "European picture-book illustration in gouache and coloured pencil"
+ }
+]

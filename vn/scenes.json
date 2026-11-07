@@ -1,0 +1,260 @@
+[
+ {
+  "id": "gate_street",
+  "title": "校门外的小街（开场）",
+  "ref": "megaschool/docs/horizon/gate.jpg",
+  "variants": [
+   "dusk",
+   "day",
+   "night"
+  ],
+  "prompt": "A quiet street of small two-storey shops and a bus stop in the foreground, normal human scale, crossing a zebra crossing toward a colossal pale-stone triumphal arch that is the school gate, 260 m tall, its deep barrel vault lined with glowing coffers. Through the arch, far away, a Gothic stone tower and an endless curved wall of school buildings rise into the sky. Cherry trees and street lamps line the plaza.",
+  "short": "a small street of two-storey shops in the foreground and, beyond a crossing, a colossal pale stone triumphal arch that is the school gate, with giant school buildings far behind it"
+ },
+ {
+  "id": "arch_passage",
+  "title": "凯旋门主拱通道",
+  "ref": null,
+  "variants": [
+   "dusk"
+  ],
+  "prompt": "Standing inside the main passage of a gigantic triumphal arch: a coffered barrel vault far overhead with softly glowing coffers, massive stone walls with sunken relief panels and lamp niches at eye level, the paved road running through, and at the far end the bright opening framing a distant Gothic tower and a curved school building."
+ },
+ {
+  "id": "forecourt",
+  "title": "升旗广场与弯弓楼",
+  "ref": "megaschool/docs/horizon/plaza.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "A vast crescent-shaped stone forecourt with concentric paving rings and a tall flagpole. A kilometre-long school building bent into a bow embraces the square, about 35 storeys of very tall floors, its concave face made of continuous open corridors with lit ceiling lights, framed by giant solid piers and stone belts. At the centre of the bow rises a 650-metre Gothic stone 'tower of learning' with unbroken vertical ribs and a pointed crown.",
+  "short": "a crescent-shaped school building of about fifteen tall storeys embracing a round stone plaza, a very tall Gothic stone tower rising at its centre, a flagpole and a few trees and lamps in front"
+ },
+ {
+  "id": "tower_foot",
+  "title": "学习塔脚下（仰视）",
+  "ref": "megaschool/docs/horizon/tower.jpg",
+  "variants": [
+   "dusk"
+  ],
+  "prompt": "Low-angle view looking up at the base of a colossal Gothic stone school tower: a tall pointed lancet entrance glowing warm inside, unbroken vertical stone ribs soaring into the twilight sky until they vanish in perspective, the curved wings of the bow-shaped hall on both sides."
+ },
+ {
+  "id": "outer_corridor",
+  "title": "弯弓楼外廊（六楼）",
+  "ref": "megaschool/docs/horizon/bow_corridor.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "An open-air school corridor on a high floor of a curved building: a waist-high parapet on one side open to the sky and the campus far below, square columns in a long receding rhythm, a high ceiling with flush square lights, classroom doors and large windows on the other side. The corridor curves gently and continues out of sight."
+ },
+ {
+  "id": "classroom",
+  "title": "教室",
+  "ref": null,
+  "variants": [
+   "dusk",
+   "day",
+   "night"
+  ],
+  "prompt": "Interior of a Japanese-style high school classroom, unusually tall ceiling (about 7 m) with very tall windows grouped in wide bands, neat rows of wooden desks and chairs, a long green chalkboard with nothing written on it, teacher's podium, curtains moving slightly. Through the windows, enormous school towers fill the view.",
+  "short": "an empty high-school classroom with a very tall ceiling, rows of wooden desks, a blank green chalkboard and tall windows looking out on enormous school towers"
+ },
+ {
+  "id": "hallway",
+  "title": "教学楼走廊（室内）",
+  "ref": null,
+  "variants": [
+   "dusk",
+   "night"
+  ],
+  "prompt": "A long indoor school hallway with polished floor, lockers and classroom sliding doors along one wall, tall windows along the other, ceiling lights in a perfect line receding to a vanishing point far away, the hallway so long its end is lost in haze."
+ },
+ {
+  "id": "rooftop",
+  "title": "弯弓楼屋顶",
+  "ref": "megaschool/docs/horizon/roof.jpg",
+  "variants": [
+   "dusk",
+   "day",
+   "night"
+  ],
+  "prompt": "The flat rooftop of a giant school building with a parapet and a small stairwell housing, looking out over an endless campus of colossal school buildings of many shapes: a white egg-shaped tower wrapped in a diagonal lattice, twin towers joined at the top like a gate, a ring-shaped building, stepped terraces, all stretching to the horizon."
+ },
+ {
+  "id": "canyon",
+  "title": "教学楼峡谷",
+  "ref": "megaschool/docs/horizon/canyon.jpg",
+  "variants": [
+   "dusk"
+  ],
+  "prompt": "A tree-lined campus avenue at the bottom of a canyon of enormous school buildings: a wave-shaped slab with open corridors, a white diagonal-lattice cocoon tower, twin towers forming a gate, all hundreds of metres tall, the sky a narrow violet strip above."
+ },
+ {
+  "id": "endless_building",
+  "title": "无尽长廊楼",
+  "ref": "megaschool/docs/endless.jpg",
+  "variants": [
+   "dusk"
+  ],
+  "prompt": "A road passes under a giant arched opening through an impossibly long school building, 76 storeys tall, that runs straight from horizon to horizon; colossal piers repeat into the distance until the building fades into the twilight haze."
+ },
+ {
+  "id": "linked_building",
+  "title": "超长连体教学实验楼",
+  "ref": "megaschool/docs/linked.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "A street running beside a kilometres-long chain of identical teaching and laboratory blocks linked at four levels by long glazed skybridges, sitting on a continuous podium with a colonnade at ground level; the repetition continues to the vanishing point."
+ },
+ {
+  "id": "lake",
+  "title": "校园湖",
+  "ref": "megaschool/docs/lake.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "A calm campus lake with a zigzag wooden footbridge leading to a small pavilion, weeping willows and lotus leaves, lanterns reflected in the water; behind the lake a monumental colonnaded auditorium and giant school buildings rise into the sky."
+ },
+ {
+  "id": "twilight_grove",
+  "title": "暮色树林",
+  "ref": "megaschool/docs/grove.jpg",
+  "variants": [
+   "dusk",
+   "night"
+  ],
+  "prompt": "A dark oak and birch grove inside the campus, glowing lichen on the trunks, moss and ferns, a winding path lit by hanging lanterns leading to a clearing ringed by standing stones; giant school towers glimpsed through the canopy."
+ },
+ {
+  "id": "library_reading_room",
+  "title": "图书馆阅览室",
+  "ref": null,
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "A grand domed library reading room: tiers of bookshelves rising many storeys, long reading tables with green lamps, a coffered dome with a glowing oculus, tall arched windows; vast, quiet and solemn."
+ },
+ {
+  "id": "cafeteria",
+  "title": "食堂",
+  "ref": null,
+  "variants": [
+   "day",
+   "dusk"
+  ],
+  "prompt": "A huge school cafeteria hall with a barrel-vaulted ceiling and skylight stripes, long rows of tables and benches, a serving counter, tall glass gable walls at the end showing giant buildings outside."
+ },
+ {
+  "id": "dorm_room",
+  "title": "宿舍房间",
+  "ref": null,
+  "variants": [
+   "night",
+   "dusk",
+   "day"
+  ],
+  "prompt": "A tidy two-person school dormitory room: bunk bed and desks with study lamps, bookshelves, a balcony door with laundry hanging outside, and beyond the balcony a sea of lit windows of other enormous dormitory towers."
+ },
+ {
+  "id": "pool",
+  "title": "室外泳池",
+  "ref": "megaschool/docs/pool.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "A 50-metre outdoor school swimming pool glowing with underwater lights, a diving platform, stands and changing rooms, tennis courts beside it; behind them, school buildings so tall they fill the sky."
+ },
+ {
+  "id": "archipelago",
+  "title": "海上群岛学校",
+  "ref": "megaschool/docs/r_archipelago.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "A school on an island in an open sea: a white and blue bow-shaped academy of about 28 tall storeys, a domed library and dormitories on a grassy island with sandy shores, long bridges on piers crossing the water to other islands, a red-and-white striped lighthouse 480 m tall on a distant island."
+ },
+ {
+  "id": "sea_sphere",
+  "title": "海底玻璃球学校",
+  "ref": "megaschool/docs/r_sphere_in.jpg",
+  "variants": [
+   "night"
+  ],
+  "prompt": "Inside a gigantic glass sphere on the deep sea floor: a lawn with white school buildings, a library and a slender central tower reaching the top of the dome, lamp posts; through the glass ribs of the dome, deep blue ocean, drifting fish and faint light rays from far above."
+ },
+ {
+  "id": "sinkhole_rim",
+  "title": "天坑边缘",
+  "ref": "megaschool/docs/r_sinkhole.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "Standing at the grassy rim of a perfectly round sinkhole almost a kilometre wide and 800 m deep: rings of stepped cliff schools on rock ledges, waterfalls cascading from ledge to ledge, narrow bridges reaching from the rim to a colossal square tower rising from the floor of the pit above the rim."
+ },
+ {
+  "id": "sinkhole_floor",
+  "title": "天坑底",
+  "ref": "megaschool/docs/horizon/sinkhole_floor.jpg",
+  "variants": [
+   "dusk"
+  ],
+  "prompt": "At the bottom of a gigantic sinkhole looking up: the central school tower soars toward a small circle of twilight sky, bridges cross high above like threads, cliff schools line the walls, a lake and a stone library with a dome on the floor."
+ },
+ {
+  "id": "sky_islands",
+  "title": "空岛学校",
+  "ref": "megaschool/docs/r_sky1.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "A floating island school above a sea of clouds: a white marble stepped-pyramid academy with planted terraces, a domed library and a dormitory on the grassy island, waterfalls pouring off its edge into the clouds; higher islands with more schools float in the sky, linked by spiral stairways and sky bridges."
+ },
+ {
+  "id": "end_island",
+  "title": "末地空岛",
+  "ref": "megaschool/docs/r_end.jpg",
+  "variants": [
+   "night"
+  ],
+  "prompt": "The highest floating island at the edge of the world: pale yellow end-stone ground, three Gothic spires of purple purpur and end-stone brick with violet glass windows, a purple domed library, the void below and a starry purple cosmos above."
+ },
+ {
+  "id": "nether_gate",
+  "title": "下界巨门（主世界一侧）",
+  "ref": "megaschool/docs/r_portal.jpg",
+  "variants": [
+   "dusk"
+  ],
+  "prompt": "A monumental obsidian portal frame 70 m tall standing alone in a grassy field outside the school wall, filled with a swirling purple portal surface, crying-obsidian veins and soul-fire braziers, the ground around it scorched to dark red rock."
+ },
+ {
+  "id": "nether_academy",
+  "title": "下界学院",
+  "ref": "megaschool/docs/r_nether_academy.jpg",
+  "variants": [
+   "night"
+  ],
+  "prompt": "A colossal cavern lit by lava: a 280 m stepped pyramid school of red nether brick and blackstone with glowing corridors on every terrace, rivers and falls of lava, basalt pillars to the ceiling, giant crimson and warped fungi, glowstone clusters hanging from the ceiling, red haze."
+ },
+ {
+  "id": "desert_pyramid",
+  "title": "沙漠金字塔学校",
+  "ref": "megaschool/docs/r_desert.jpg",
+  "variants": [
+   "dusk",
+   "day"
+  ],
+  "prompt": "An avenue lined with tall obelisks with gold tips leading across golden dunes to a gigantic pyramid that is a school: smooth sandstone faces with glowing bands of classroom windows every few storeys, a gold capstone, a tall trapezoidal entrance; a temple-like library and sandstone dormitories beside the avenue, an oasis with palms."
+ }
+]

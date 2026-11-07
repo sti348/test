@@ -5,3 +5,6 @@ __pycache__/
 /datapack/
 /.mcp.json
 /saves/
+vn/out/
+vn/locations/*/layout_*.png
+vn/locations/*/compare_*.jpg
