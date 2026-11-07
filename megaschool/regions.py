@@ -498,11 +498,14 @@ def glass_sphere(rng, R, content="dorm"):
     for k in range(4):
         A[fy - k][disc & (A[fy - k] == B("cave_air"))] = B("white_concrete") if k else B("grass_block")
     A[fy][disc & (np.mod(np.hypot(xs, zs).astype(int), 18) < 3)] = B("smooth_quartz")
+    # floor lamps every 9 blocks: no sky light reaches 800 blocks under the sea (found dark in Horizon)
+    A[fy][disc & (np.mod(xs, 9) == 4) & (np.mod(zs, 9) == 4)] = B("sea_lantern")
     if content == "dorm":
         O = int(2 * rad - 24) // 2 * 2
-        D = ic.ring_hall(rng, O=O, thick=22, floors=7, scheme="t_glass", seed=int(rng.integers(1 << 30)))
+        D = ic.ring_hall(rng, O=O, thick=22, floors=7, scheme="t_glass", seed=int(rng.integers(1 << 30)), lit=0.15)
     else:
-        D = ic.library_hall(rng, W=124, D=96, floors=6, dome=True, scheme="t_glass", seed=int(rng.integers(1 << 30)))
+        D = ic.library_hall(rng, W=124, D=96, floors=6, dome=True, scheme="t_glass", seed=int(rng.integers(1 << 30)),
+                            lit=0.2)
     h, dz, dx = D.shape
     from buildings import paste
     paste(A, D, fy + 1, R - dz // 2, R - dx // 2)
@@ -858,12 +861,12 @@ def nether():
     # the giant ziggurat academy, a library, two dormitories, the mcbuild academy as an annex
     L = 360
     place_center(out, "academy", ic.terrace, ic.terrace_size(L, L, 7, 5), ax, NETHER_FLOOR, az, 51, L=L, Dbase=L,
-                 tiers=7, tier_floors=5, step=24, scheme="t_nether", seed=51, square=True)
+                 tiers=7, tier_floors=5, step=24, scheme="t_nether", seed=51, square=True, lit=0.14)
     place_center(out, "library", ic.library_hall, ic.library_size(180, 130, 10), NE_LIBRARY[0], NETHER_FLOOR,
-                 NE_LIBRARY[1], 52, W=180, D=130, floors=10, scheme="t_nether", seed=52)
+                 NE_LIBRARY[1], 52, W=180, D=130, floors=10, scheme="t_nether", seed=52, lit=0.2)
     for k, ((dx_, dz_), axis) in enumerate(NE_DORMS):
         place_center(out, "dorm", ic.dorm_block, ic.dorm_size(240, 32, 18, axis), dx_, NETHER_FLOOR, dz_, 53 + k,
-                     L=240, D=32, floors=18, scheme="t_nether", seed=53 + k, axis=axis)
+                     L=240, D=32, floors=18, scheme="t_nether", seed=53 + k, axis=axis, lit=0.12)
     place_mcb_center(out, "infernal_academy", NE_ANNEX[0], NETHER_FLOOR, NE_ANNEX[1])
 
     def busy(x, z, pad):

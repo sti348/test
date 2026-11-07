@@ -24,6 +24,7 @@ AMBIENT = 0.2                 # vanilla overworld 0.0, nether 0.1
 # the Nether from 0 to 1024 (vanilla: -64..320 and 0..256).
 OW_MIN_Y, OW_HEIGHT = -1024, 3056
 NETHER_MIN_Y, NETHER_HEIGHT = 0, 1024
+NETHER_AMBIENT = 0.35         # vanilla Nether 0.1
 SKY = "#8a7cd8"               # lavender-violet (the game darkens it with the time of day)
 FOG = "#a497d8"
 WATER = "#3b5fb0"
@@ -67,6 +68,9 @@ NETHER_GROUPS = [(15, 93, "1.20.1"), (94, 100, "1.21.11"), (101, 120, "26.1"), (
 def nether(ver):
     d = copy.deepcopy(json.load(open(os.path.join(VANILLA, f"{ver}_dimension_type_the_nether.json"))))
     d["min_y"], d["height"], d["logical_height"] = NETHER_MIN_Y, NETHER_HEIGHT, NETHER_HEIGHT
+    # vanilla 0.1: inspected in Horizon, the Nether school's unlit walls read as black even
+    # 40 blocks away; like the overworld's twilight, a higher floor of ambient light
+    d["ambient_light"] = NETHER_AMBIENT
     return d
 
 

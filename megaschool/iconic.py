@@ -103,9 +103,11 @@ THEMES = {
                              column="end_stone_bricks", floor="end_stone_bricks", glass="magenta_stained_glass",
                              back="obsidian", lit="pearlescent_froglight", roof="purpur_block", trim="end_stone_bricks",
                              plinth="obsidian", light="pearlescent_froglight", door="crying_obsidian")),
-    "t_nether": ("brutal", dict(wall="nether_bricks", accent="red_nether_bricks", band="polished_blackstone_bricks",
+    # red brick and warm orange glass: in Horizon the first version (nether brick, red glass on
+    # black) read as a black wall, the Nether having no sky light
+    "t_nether": ("brutal", dict(wall="red_nether_bricks", accent="nether_bricks", band="polished_blackstone_bricks",
                                 rail="polished_blackstone_bricks", column="polished_blackstone", floor="polished_blackstone",
-                                glass="red_stained_glass", back="black_concrete", lit="shroomlight", roof="blackstone",
+                                glass="orange_stained_glass", back="black_concrete", lit="shroomlight", roof="blackstone",
                                 trim="gilded_blackstone", plinth="polished_blackstone_bricks", light="shroomlight",
                                 door="crimson_planks")),
     "t_desert": ("cream_brick", dict(wall="smooth_sandstone", accent="cut_red_sandstone", band="cut_sandstone",

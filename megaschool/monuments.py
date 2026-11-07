@@ -66,6 +66,16 @@ def triumphal_arch(rng, W=280, D=100, H=260, Wa=80, spring=104, Tw=40, t_spring=
         sl[sh & (sl == 0)] = body
         if x % 10 == 5:
             sl[sh & (rt < Tw / 2 + 1) & (np.arange(H)[:, None] >= t_spring)] = glow
+    # --- low light in the passages: the coffers are 100+ blocks up, so the
+    # walkway under the vault was pitch dark in Horizon's light engine
+    for z in range(3, D - 3, 6):
+        for side in (-1, 1):
+            x = int(cx - Wa / 2) - 1 if side < 0 else int(cx + Wa / 2)      # the wall face next to the opening
+            A[6:9, z, x] = glow                                  # lamp niches along both passage walls
+            A[24:26, z, x] = glow
+    for x in list(range(4, int(cx - Wa / 2) - 2, 6)) + list(range(int(cx + Wa / 2) + 3, W - 4, 6)):
+        for zz in (int(zc - Tw / 2) - 1, int(zc + Tw / 2)):
+            A[6:9, zz, x] = glow
     # --- archivolts: a moulded band around the openings on the fronts and sides
     arv = (~m) & (r >= Wa / 2) & (r < Wa / 2 + 5) & (ys >= spring)
     for z in (0, 1, D - 2, D - 1):
@@ -78,19 +88,37 @@ def triumphal_arch(rng, W=280, D=100, H=260, Wa=80, spring=104, Tw=40, t_spring=
         A[:, :, x][arv_t] = trim
     # --- relief panels on each pier front (both faces) and above the cross vaults
     pier_w = int(cx - Wa / 2)
-    def panel(y0, y1, u0, u1, put):
+
+    def panel(y0, y1, u0, u1, face):
+        """A relief panel: a moulded frame flush with the wall, the relief sunk
+        2 blocks into it so it reads by its shadow (found flat and invisible at
+        dusk when the map was inspected in Horizon)."""
+        def at(y, u, depth):
+            if face == "N":
+                return (y, depth, u)
+            if face == "S":
+                return (y, D - 1 - depth, u)
+            if face == "W":
+                return (y, u, depth)
+            return (y, u, W - 1 - depth)
         for y in range(y0, y1):
             for u in range(u0, u1):
-                edge = y in (y0, y1 - 1) or u in (u0, u1 - 1)
+                if y in (y0, y1 - 1) or u in (u0, u1 - 1):
+                    A[at(y, u, 0)] = trim
+                    continue
+                A[at(y, u, 0)] = 0
+                A[at(y, u, 1)] = 0
                 inner = ((u - u0) // 3 + (y - y0) // 3) % 4 == 0 or ((u - u0) * 7 + (y - y0) * 3) % 11 == 0
-                put(y, u, trim if edge else (relief if inner else panel_bg))
-    for z, sgn in ((0, 0), (D - 1, 0)):
+                A[at(y, u, 2)] = relief if inner else panel_bg
+                if inner and (u + y) % 3 == 0:
+                    A[at(y, u, 1)] = relief            # figures stand out of the sunk ground
+    for face in ("N", "S"):
         for (u0, u1) in ((12, pier_w - 12), (W - pier_w + 12, W - 12)):
-            panel(t_spring + 34, spring + 30, u0, u1, lambda y, u, b, z=z: A.__setitem__((y, z, u), b))
-            panel(48, t_spring + 24, u0, u0 + 14, lambda y, u, b, z=z: A.__setitem__((y, z, u), b))
-            panel(48, t_spring + 24, u1 - 14, u1, lambda y, u, b, z=z: A.__setitem__((y, z, u), b))
-    for x in (0, W - 1):
-        panel(t_spring + Tw // 2 + 12, spring + 30, 14, D - 14, lambda y, u, b, x=x: A.__setitem__((y, u, x), b))
+            panel(t_spring + 34, spring + 30, u0, u1, face)
+            panel(48, t_spring + 24, u0, u0 + 14, face)
+            panel(48, t_spring + 24, u1 - 14, u1, face)
+    for face in ("W", "E"):
+        panel(t_spring + Tw // 2 + 12, spring + 30, 14, D - 14, face)
     # spandrel figures: a winged-victory-like abstract relief over the main arch
     for z in (0, D - 1):
         for side in (-1, 1):

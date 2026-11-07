@@ -25,6 +25,27 @@ FOLDER = "WuyaHighSchool"       # folder name inside the zip (ASCII so every unz
 _W = None        # {"overworld": World, "the_nether": World}
 
 
+def _floor_lamp(rng):
+    import numpy as np
+    from anvil import B
+    return np.full((1, 1, 1), B("ochre_froglight"), np.uint16)
+
+
+def horizon_fixes():
+    """Pieces from megaschool/horizon_fixes.json: floor lamps set into the
+    ground under dark walkable places that the in-game probe reported."""
+    import json
+    from buildings import Piece
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "horizon_fixes.json")
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    for l in json.load(open(path)).get("lamps", []):
+        out.setdefault(l["dim"], []).append(Piece("horizon_lamp", int(l["x"]), int(l["y"]) - 1, int(l["z"]), (1, 1, 1),
+                                                  _floor_lamp, 0))
+    return out
+
+
 def build_worlds():
     """Campus + new regions (overworld) and the Nether school, as world3d Worlds."""
     import regions
@@ -32,6 +53,9 @@ def build_worlds():
     L = campus.build()
     ow_pieces, ow_lands = regions.overworld()
     ne_pieces, ne_lands = regions.nether()
+    fx = horizon_fixes()                     # fixes found by inspecting the map in Horizon (horizon_agent.py)
+    ow_pieces += fx.get("overworld", [])
+    ne_pieces += fx.get("the_nether", [])
     ow = world3d.World(world3d.OVERWORLD, L.pieces + ow_pieces, campus.GROUND_Y - 1,
                        painter=lambda x0, z0, dx, dz: campus.paint_ground(L, x0, z0, dx, dz),
                        landforms=ow_lands, biome=regions.overworld_biome)

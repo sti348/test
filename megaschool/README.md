@@ -239,7 +239,7 @@ WorldEdit：放进 `config/worldedit/schematics/`，`//schem load 无涯中学_�
 
 - 存档的时间固定在 13000：太阳刚落下，星星出来。
 - 存档里的数据包覆盖了两样东西：
-  - **主世界维度类型**：`ambient_light` 从 0 调到 0.2（下界是 0.1），这样没有灯的地方也不会黑。
+  - **主世界维度类型**：`ambient_light` 从 0 调到 0.2，这样没有灯的地方也不会黑；下界的从 0.1 调到 0.35（在 Horizon 里检查时发现下界学院的外墙几乎全黑）。
   - **平原群系**（地图只用这一个群系）：天空和雾改成紫罗兰色，草和树叶改成暮色森林那样的深青绿，水改成深蓝，空气里慢慢飘着发光粒子，像萤火虫。
 - 每个游戏版本的文件格式都不一样（1.21.11 起颜色挪进了「环境属性」，26.x 又加了新字段）。所以每一份覆盖文件都取自那个版本的**原版文件**（来自 misode/mcmeta，存在 `vanilla/` 里），只改上面这几个值。再用数据包的 overlay 功能，按包格式 15～121 分成 6 组维度类型、7 组群系文件。
 - 区块里引用的仍是原版的 `minecraft:plains`。所以关掉数据包，世界只是变回原版的样子，不会损坏。
@@ -337,12 +337,68 @@ WorldEdit：放进 `config/worldedit/schematics/`，`//schem load 无涯中学_�
 - 高度扩到 3056 格后，区块比原版大很多，加载、保存都更慢、更占内存。服务器测试时 1.20.1 一次强制加载约 200 个区块就会内存不足，分批加载才正常。
 - 本存档没有在游戏客户端里实测过。验证方式：在 1.20.1、1.21.1、1.21.11、26.3 四个版本的原版服务器上加载整张地图（含数据包，四个版本都没有注册表错误）：
   - 新高度在四个版本里都生效：天坑底 y −900、y 2000 的方块、下界 y 900 的方块都能读写。
-  - 从 131 个区域文件里各抽一个区块（覆盖两个维度、所有高度），再加上带方块属性的方块，共 191 个方块逐个比对，四个版本都是 **191/191**。
+  - 从每个区域文件里各抽一个区块（覆盖两个维度、所有高度），再加上带方块属性的方块逐个比对：最终版存档（167 个区域文件）在 1.20.1 和 26.3 上都是 **227/227**；这一轮早些时候的版本在四个版本上都是 191/191。
+  - 另外在 Horizon（Rust 版 26.3）里，42 个视点各抽 24 个方块，全部一致（见上文「在 Horizon 里查看与改进」）。
   - 群系：平原、末地空岛上的 `the_end`、下界的绯红森林都读对了。
   - 两扇巨型地狱门两侧的传送门方块都在；从主世界那扇扔进去一个物品，它会出现在下界那扇里。
   - 上一轮的校园设施抽样 170/170，时间固定在 13000。
 
 如果在游戏里遇到问题，请把报错告诉我。
+
+## 在 Horizon 里查看与改进（AI 进游戏检查）
+
+[Horizon](https://github.com/horizon-rust/horizon) 是用 Rust 重写的 Minecraft: Java Edition 26.3，自带给 AI 用的控制接口：`horizon-ctl` 用 JSON 读游戏状态、像玩家一样操作（传送、看方块、读光照、截图），`horizon-ctl mcp` 把同样的命令作为 MCP 工具提供给 Claude。地图生成器保持不变：它照常写出存档，`horizon_agent.py` 负责把存档放进 Horizon，并让 Claude 能进游戏查看、截图、发现问题，再把修正写回生成器：
+
+```bash
+# 一次性准备：编译 Horizon，并用你自己的 Minecraft 26.3 准备它的资源（Horizon 不分发任何 Mojang 文件）
+git clone https://github.com/horizon-rust/horizon ../horizon-rust/horizon
+(cd ../horizon-rust/horizon && cargo build --profile fast -p horizon-prepare -p horizon-client -p horizon-client-lib --bins \
+   && target/fast/horizon-prepare --prepare --minecraft-dir ~/.minecraft --server-jar ~/Downloads/server-26.3.jar)
+
+python3 megaschool/generate.py                 # 生成存档（不变）
+python3 megaschool/horizon_agent.py install    # 放进 Horizon 的 saves/
+python3 megaschool/horizon_agent.py launch     # 启动并打开世界（没有显示器时自动用 Xvfb + 软件 Vulkan）
+python3 megaschool/horizon_agent.py tour       # 走遍全部传送点，每处截一张游戏画面 -> build/horizon/shots/
+python3 megaschool/horizon_agent.py sheet      # 拼成一张总览图，给 Claude 看
+python3 megaschool/horizon_agent.py probe      # 游戏内检查：抽样比对方块；用游戏自己的光照引擎找出没有灯的可走地面
+python3 megaschool/horizon_agent.py improve    # 把暗处变成补灯记录（megaschool/horizon_fixes.json），generate.py 会读它
+python3 megaschool/horizon_agent.py mcp-config # 写出本机的 .mcp.json：Claude Code 直接拿到 Horizon 的截图、传送、读方块等工具
+```
+
+启动时会关掉教程提示和 HUD，渲染距离 24 区块，并打开 Horizon 的远景地形（LOD 96 区块）：几百格外的学习塔、弯弓楼、茧形塔都能看到。远景读的就是存档里的区块。
+
+**这一轮在 Horizon 里实际检查出来并改掉的问题**（截图都来自 Horizon 本身，不是本项目的预览渲染器）：
+
+| 发现（Horizon 里看到的） | 怎么查出来的 | 改法 |
+| --- | --- | --- |
+| **下界根本进不去**：传送后客户端停在主世界，日志里是 `could not open minecraft:the_nether: invalid world generation field: type` | 巡游截图里三个下界视点拍到的都是末地空岛；读 Horizon 日志和源码 | Horizon 只读数据包的基础文件、不读 pack overlay，而我们的基础文件是 1.20.1 格式。`install` 时把面向最新版本的 overlay 摊平到基础目录（发布的存档不变，原版客户端照旧） |
+| 凯旋门的浮雕板和墙面同色、平贴，暮色里看不见 | 截图 | 浮雕板心下沉 2 格，边框留在墙面，人物凸出 1 格，靠阴影读出来 |
+| 凯旋门 100 格长的主拱通道里一片漆黑（拱顶的灯在 100 多格高处） | `probe`：通道里 5226 个可走格的方块光都是 0 | 通道两侧墙面和横拱里加两层灯带；`improve` 在通道地面嵌了 64 盏地灯 → 复查 0 |
+| 下界巨门广场、学院广场没有一盏灯（2401 / 1836 / 2401 个暗格） | `probe`（下界没有天光，只看方块光） | `improve` 自动补地灯 → 复查 0 |
+| 海底三个玻璃球里，深水下天光为 0，草坪大片漆黑（981 ～ 1615 个暗格），楼也很暗 | `probe` + 截图 | 草坪上每 9 格嵌一盏海晶灯，球内楼的亮灯率提到 15 ～ 20%，再由 `improve` 补齐 → 复查 1 ～ 12 |
+| 操场看台雨棚底下、无尽长廊楼底层门洞通道里黑（539 / 111） | `probe` | `improve` 补地灯 → 16 / 0 |
+| 地狱学院外墙在游戏里几乎全黑（下界砖 + 红玻璃贴在黑色室内上） | 截图 | 换成红色下界砖和橙色玻璃，亮灯率提到 12 ～ 20%，下界环境光从 0.1 提到 0.35 |
+| 6 个传送点落在墙里、柱子里、巨门台基里或半空中（外廊点卡在巨柱里、弯弓楼屋顶点浮在凹面前方、宿舍球点在门洞里……） | 截图 | 逐个改坐标；巡游时用旁观模式，空中视点不再掉到地上 |
+
+每次修正后都用同一套命令复查：`probe` 抽样的方块在 Horizon 里全部和生成器一致（42 个点 × 24 块），补灯一共 314 盏，记录在 `horizon_fixes.json`。
+
+| 凯旋门（浮雕下沉、通道灯带） | 学习塔正前方半空（旁观模式） |
+| --- | --- |
+| ![](docs/horizon/gate.jpg) | ![](docs/horizon/tower_air.jpg) |
+| **弯弓楼环抱学习塔** | **弯弓楼第 6 层外廊** |
+| ![](docs/horizon/plaza.jpg) | ![](docs/horizon/bow_corridor.jpg) |
+| **弯弓楼屋顶看茧形塔** | **下界巨门广场的地灯** |
+| ![](docs/horizon/roof.jpg) | ![](docs/horizon/nether.jpg) |
+| **天坑底** | **沙漠方尖碑大道** |
+| ![](docs/horizon/sinkhole_floor.jpg) | ![](docs/horizon/desert.jpg) |
+
+*这一组是 Horizon 自己的游戏画面（暮色 13000，渲染距离 24 区块 + 远景 96 区块，软件渲染）。*
+
+限制：
+- Horizon 需要你自己的 Minecraft: Java Edition 26.3 来准备资源；本仓库不含任何 Mojang 文件，`build/` 里准备好的资源也不提交。
+- 在没有显卡的机器上（这里就是）用软件 Vulkan 渲染，每个视点要等 30 秒左右让远景加载；45 个视点的巡游约半小时。
+- 下界的浓雾很近：地狱学院要走到几十格内才看得清，远景截不到它。
+- 创造模式双击空格起飞在控制接口里没生效，巡游改用旁观模式。
 
 ## 重新生成 / 修改
 
@@ -382,5 +438,6 @@ MCB_SKILL=~/.claude/skills/minecraft-build-design python3 megaschool/mcbuild_bri
 | `datapack.py` | 存档内置的数据包（传送点、昼夜、小人模式、暮色覆盖） |
 | `render.py` / `textures.py` / `preview.py` | 预览用的体素光线追踪器（暮色天空、环境光与近似的方块光；支持半砖、玻璃板、门、活板门等非完整方块） |
 | `servertest.py` / `verify.py` | 用原版服务器加载存档并比对方块 |
+| `horizon_agent.py` / `horizon_fixes.json` | Horizon 桥接：安装存档、启动、巡游截图、游戏内检查、把检查结果变成修正 |
 
 想改学校名字、楼名：分别在 `landmarks.py` 的 `gate()` 和 `campus.py` 的 `NAMES` 里；巨柱、檐口、基座在 `facades.py` 的 `monument()`；暮色时间在 `generate.py` 的 `DUSK`，暮色的颜色和亮度在 `twilight.py` 开头。想要更大的地图：改 `campus.py` 里的 `HALF`（地块会自动铺满）。

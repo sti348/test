@@ -1,0 +1,2202 @@
+{
+ "lamps": [
+  {
+   "dim": "overworld",
+   "x": 649,
+   "y": -44,
+   "z": -36,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 655,
+   "y": -44,
+   "z": -36,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 665,
+   "y": -44,
+   "z": -36,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 675,
+   "y": -44,
+   "z": -36,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 685,
+   "y": -44,
+   "z": -36,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 693,
+   "y": -41,
+   "z": -38,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 649,
+   "y": -38,
+   "z": -41,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 655,
+   "y": -38,
+   "z": -41,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 665,
+   "y": -38,
+   "z": -41,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 675,
+   "y": -38,
+   "z": -41,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 685,
+   "y": -38,
+   "z": -41,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 693,
+   "y": -35,
+   "z": -44,
+   "from": "playground"
+  },
+  {
+   "dim": "overworld",
+   "x": 46,
+   "y": -60,
+   "z": -803,
+   "from": "endless"
+  },
+  {
+   "dim": "overworld",
+   "x": 54,
+   "y": -60,
+   "z": -804,
+   "from": "endless"
+  },
+  {
+   "dim": "overworld",
+   "x": 61,
+   "y": -60,
+   "z": -801,
+   "from": "endless"
+  },
+  {
+   "dim": "overworld",
+   "x": 47,
+   "y": -60,
+   "z": -799,
+   "from": "endless"
+  },
+  {
+   "dim": "overworld",
+   "x": 55,
+   "y": -60,
+   "z": -800,
+   "from": "endless"
+  },
+  {
+   "dim": "overworld",
+   "x": 62,
+   "y": -60,
+   "z": -799,
+   "from": "endless"
+  },
+  {
+   "dim": "overworld",
+   "x": 4148,
+   "y": -761,
+   "z": -133,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4155,
+   "y": -761,
+   "z": -133,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4165,
+   "y": -761,
+   "z": -133,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4175,
+   "y": -761,
+   "z": -133,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4185,
+   "y": -761,
+   "z": -133,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4192,
+   "y": -761,
+   "z": -132,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4147,
+   "y": -755,
+   "z": -124,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4155,
+   "y": -761,
+   "z": -128,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4164,
+   "y": -761,
+   "z": -121,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4175,
+   "y": -761,
+   "z": -129,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4184,
+   "y": -761,
+   "z": -121,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4192,
+   "y": -761,
+   "z": -126,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4148,
+   "y": -761,
+   "z": -120,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4155,
+   "y": -761,
+   "z": -119,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4164,
+   "y": -761,
+   "z": -116,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4175,
+   "y": -761,
+   "z": -119,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4184,
+   "y": -761,
+   "z": -116,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4191,
+   "y": -761,
+   "z": -120,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4148,
+   "y": -761,
+   "z": -110,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4155,
+   "y": -761,
+   "z": -110,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4164,
+   "y": -761,
+   "z": -103,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4174,
+   "y": -761,
+   "z": -110,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4182,
+   "y": -761,
+   "z": -109,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4148,
+   "y": -761,
+   "z": -98,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4152,
+   "y": -761,
+   "z": -100,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4162,
+   "y": -761,
+   "z": -98,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4192,
+   "y": -761,
+   "z": -93,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4188,
+   "y": -761,
+   "z": -91,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4186,
+   "y": -761,
+   "z": -90,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4190,
+   "y": -761,
+   "z": -87,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4177,
+   "y": -761,
+   "z": -85,
+   "from": "sphere"
+  },
+  {
+   "dim": "overworld",
+   "x": 4553,
+   "y": -767,
+   "z": 516,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4554,
+   "y": -756,
+   "z": 529,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4543,
+   "y": -761,
+   "z": 526,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4546,
+   "y": -761,
+   "z": 534,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4538,
+   "y": -767,
+   "z": 537,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4532,
+   "y": -761,
+   "z": 548,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4527,
+   "y": -761,
+   "z": 541,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4509,
+   "y": -761,
+   "z": 514,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4515,
+   "y": -761,
+   "z": 517,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4525,
+   "y": -761,
+   "z": 514,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4534,
+   "y": -761,
+   "z": 518,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4509,
+   "y": -761,
+   "z": 522,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4515,
+   "y": -761,
+   "z": 521,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4525,
+   "y": -761,
+   "z": 520,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4533,
+   "y": -761,
+   "z": 523,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4509,
+   "y": -761,
+   "z": 530,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4514,
+   "y": -761,
+   "z": 538,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4523,
+   "y": -761,
+   "z": 534,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4508,
+   "y": -761,
+   "z": 549,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4511,
+   "y": -761,
+   "z": 542,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4551,
+   "y": -756,
+   "z": 533,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4526,
+   "y": -756,
+   "z": 556,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4513,
+   "y": -761,
+   "z": 554,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4509,
+   "y": -761,
+   "z": 550,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4509,
+   "y": -761,
+   "z": 560,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4514,
+   "y": -759,
+   "z": 560,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4532,
+   "y": -758,
+   "z": 550,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4543,
+   "y": -756,
+   "z": 542,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 3938,
+   "y": -767,
+   "z": -702,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3982,
+   "y": -767,
+   "z": -702,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3948,
+   "y": -761,
+   "z": -709,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3972,
+   "y": -761,
+   "z": -710,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3947,
+   "y": -761,
+   "z": -700,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3973,
+   "y": -761,
+   "z": -699,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3951,
+   "y": -761,
+   "z": -695,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3966,
+   "y": -767,
+   "z": -699,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3938,
+   "y": -761,
+   "z": -727,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3945,
+   "y": -761,
+   "z": -727,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3955,
+   "y": -761,
+   "z": -727,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3965,
+   "y": -761,
+   "z": -727,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3975,
+   "y": -761,
+   "z": -727,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3982,
+   "y": -761,
+   "z": -724,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3937,
+   "y": -761,
+   "z": -715,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3945,
+   "y": -761,
+   "z": -715,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3954,
+   "y": -761,
+   "z": -711,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3965,
+   "y": -761,
+   "z": -719,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3974,
+   "y": -761,
+   "z": -715,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3982,
+   "y": -761,
+   "z": -714,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3952,
+   "y": -761,
+   "z": -707,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3967,
+   "y": -761,
+   "z": -707,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "overworld",
+   "x": 3984,
+   "y": -756,
+   "z": -695,
+   "from": "sphere_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": -197,
+   "y": 64,
+   "z": 20,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -242,
+   "y": 64,
+   "z": 16,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -235,
+   "y": 64,
+   "z": 13,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -225,
+   "y": 64,
+   "z": 13,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -215,
+   "y": 64,
+   "z": 13,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -205,
+   "y": 64,
+   "z": 13,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -197,
+   "y": 64,
+   "z": 13,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -242,
+   "y": 64,
+   "z": 25,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -235,
+   "y": 64,
+   "z": 20,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -225,
+   "y": 64,
+   "z": 20,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -215,
+   "y": 64,
+   "z": 20,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -205,
+   "y": 64,
+   "z": 20,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -242,
+   "y": 64,
+   "z": 35,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -235,
+   "y": 64,
+   "z": 30,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -225,
+   "y": 64,
+   "z": 30,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -215,
+   "y": 64,
+   "z": 30,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -205,
+   "y": 64,
+   "z": 32,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -197,
+   "y": 64,
+   "z": 30,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -242,
+   "y": 64,
+   "z": 45,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -235,
+   "y": 64,
+   "z": 40,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -225,
+   "y": 64,
+   "z": 40,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -215,
+   "y": 64,
+   "z": 40,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -205,
+   "y": 65,
+   "z": 40,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -197,
+   "y": 64,
+   "z": 40,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -242,
+   "y": 64,
+   "z": 55,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -235,
+   "y": 64,
+   "z": 50,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -225,
+   "y": 64,
+   "z": 50,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -215,
+   "y": 64,
+   "z": 50,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -197,
+   "y": 65,
+   "z": 50,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -242,
+   "y": 64,
+   "z": 61,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -235,
+   "y": 64,
+   "z": 60,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -225,
+   "y": 64,
+   "z": 60,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -215,
+   "y": 64,
+   "z": 60,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -197,
+   "y": 66,
+   "z": 60,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -205,
+   "y": 67,
+   "z": 50,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -205,
+   "y": 68,
+   "z": 60,
+   "from": "nether"
+  },
+  {
+   "dim": "the_nether",
+   "x": -302,
+   "y": 64,
+   "z": -12,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -295,
+   "y": 64,
+   "z": -14,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -285,
+   "y": 64,
+   "z": -14,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -275,
+   "y": 64,
+   "z": -14,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -265,
+   "y": 64,
+   "z": -14,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -257,
+   "y": 64,
+   "z": -14,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -302,
+   "y": 64,
+   "z": -5,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -295,
+   "y": 64,
+   "z": -10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -285,
+   "y": 64,
+   "z": -10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -275,
+   "y": 64,
+   "z": -10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -265,
+   "y": 64,
+   "z": -10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -257,
+   "y": 64,
+   "z": -10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -302,
+   "y": 64,
+   "z": 5,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -296,
+   "y": 64,
+   "z": 6,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -265,
+   "y": 64,
+   "z": 4,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -257,
+   "y": 64,
+   "z": 0,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -302,
+   "y": 64,
+   "z": 15,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -295,
+   "y": 65,
+   "z": 10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -265,
+   "y": 64,
+   "z": 10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -257,
+   "y": 64,
+   "z": 10,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -284,
+   "y": 65,
+   "z": 0,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -277,
+   "y": 66,
+   "z": 4,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -302,
+   "y": 64,
+   "z": 25,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -295,
+   "y": 65,
+   "z": 20,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -265,
+   "y": 64,
+   "z": 20,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -257,
+   "y": 64,
+   "z": 20,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -302,
+   "y": 64,
+   "z": 32,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -295,
+   "y": 65,
+   "z": 30,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -265,
+   "y": 64,
+   "z": 30,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -257,
+   "y": 64,
+   "z": 30,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -290,
+   "y": 66,
+   "z": 19,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -271,
+   "y": 66,
+   "z": 13,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -290,
+   "y": 66,
+   "z": 25,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -271,
+   "y": 66,
+   "z": 25,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -290,
+   "y": 66,
+   "z": 32,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -271,
+   "y": 66,
+   "z": 32,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": 38,
+   "y": 64,
+   "z": -173,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 45,
+   "y": 64,
+   "z": -173,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 55,
+   "y": 64,
+   "z": -173,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 65,
+   "y": 64,
+   "z": -173,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 75,
+   "y": 64,
+   "z": -173,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 82,
+   "y": 64,
+   "z": -172,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 38,
+   "y": 64,
+   "z": -170,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 45,
+   "y": 64,
+   "z": -170,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 55,
+   "y": 64,
+   "z": -170,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 65,
+   "y": 64,
+   "z": -170,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 75,
+   "y": 64,
+   "z": -170,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 82,
+   "y": 64,
+   "z": -165,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 38,
+   "y": 64,
+   "z": -160,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 45,
+   "y": 64,
+   "z": -160,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 55,
+   "y": 64,
+   "z": -160,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 65,
+   "y": 64,
+   "z": -160,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 75,
+   "y": 64,
+   "z": -160,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 82,
+   "y": 64,
+   "z": -155,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 38,
+   "y": 64,
+   "z": -150,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 45,
+   "y": 64,
+   "z": -150,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 55,
+   "y": 64,
+   "z": -150,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 65,
+   "y": 64,
+   "z": -150,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 75,
+   "y": 64,
+   "z": -150,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 82,
+   "y": 64,
+   "z": -145,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 38,
+   "y": 64,
+   "z": -140,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 45,
+   "y": 64,
+   "z": -140,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 55,
+   "y": 64,
+   "z": -140,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 65,
+   "y": 64,
+   "z": -140,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 75,
+   "y": 64,
+   "z": -140,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 82,
+   "y": 64,
+   "z": -135,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 38,
+   "y": 64,
+   "z": -130,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 45,
+   "y": 64,
+   "z": -130,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 55,
+   "y": 64,
+   "z": -130,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 65,
+   "y": 64,
+   "z": -130,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 75,
+   "y": 64,
+   "z": -130,
+   "from": "nether_library"
+  },
+  {
+   "dim": "the_nether",
+   "x": 82,
+   "y": 64,
+   "z": -127,
+   "from": "nether_library"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 842,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 841,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 841,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 841,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 5,
+   "y": -60,
+   "z": 841,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 841,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 841,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 849,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 853,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 850,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 850,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 850,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 5,
+   "y": -60,
+   "z": 850,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 850,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 850,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 856,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 862,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 860,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 860,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 860,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 5,
+   "y": -60,
+   "z": 860,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 860,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 860,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 867,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 871,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 870,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 870,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 870,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 5,
+   "y": -60,
+   "z": 870,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 870,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 870,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 878,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 883,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 880,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 880,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 880,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 5,
+   "y": -60,
+   "z": 880,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 880,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 880,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 886,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 892,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 890,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 890,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 890,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 5,
+   "y": -60,
+   "z": 890,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 890,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 890,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 897,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 901,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 900,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 900,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 900,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 5,
+   "y": -60,
+   "z": 900,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 900,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 900,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 908,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -32,
+   "y": -60,
+   "z": 911,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -25,
+   "y": -60,
+   "z": 910,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -15,
+   "y": -60,
+   "z": 910,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": -5,
+   "y": -60,
+   "z": 910,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 4,
+   "y": -60,
+   "z": 913,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 15,
+   "y": -60,
+   "z": 910,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 25,
+   "y": -60,
+   "z": 910,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 31,
+   "y": -60,
+   "z": 913,
+   "from": "gate_passage"
+  },
+  {
+   "dim": "overworld",
+   "x": 4561,
+   "y": -730,
+   "z": 538,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4555,
+   "y": -731,
+   "z": 545,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4545,
+   "y": -731,
+   "z": 555,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4534,
+   "y": -729,
+   "z": 564,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4528,
+   "y": -734,
+   "z": 566,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4551,
+   "y": -729,
+   "z": 550,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4560,
+   "y": -726,
+   "z": 541,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "overworld",
+   "x": 4540,
+   "y": -725,
+   "z": 561,
+   "from": "sphere_dorm"
+  },
+  {
+   "dim": "the_nether",
+   "x": -54,
+   "y": 64,
+   "z": -193,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -45,
+   "y": 64,
+   "z": -193,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -35,
+   "y": 64,
+   "z": -193,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -28,
+   "y": 64,
+   "z": -193,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -54,
+   "y": 64,
+   "z": -190,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -45,
+   "y": 64,
+   "z": -190,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -35,
+   "y": 64,
+   "z": -190,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -27,
+   "y": 64,
+   "z": -185,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -15,
+   "y": 64,
+   "z": -185,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -10,
+   "y": 64,
+   "z": -183,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -54,
+   "y": 64,
+   "z": -180,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -45,
+   "y": 64,
+   "z": -180,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -35,
+   "y": 64,
+   "z": -180,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -25,
+   "y": 64,
+   "z": -180,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -15,
+   "y": 64,
+   "z": -180,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -10,
+   "y": 64,
+   "z": -175,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -54,
+   "y": 64,
+   "z": -170,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -45,
+   "y": 64,
+   "z": -170,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -35,
+   "y": 64,
+   "z": -170,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -25,
+   "y": 64,
+   "z": -170,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -15,
+   "y": 64,
+   "z": -170,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -10,
+   "y": 64,
+   "z": -165,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -25,
+   "y": 64,
+   "z": -150,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -15,
+   "y": 64,
+   "z": -150,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -54,
+   "y": 64,
+   "z": -160,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -45,
+   "y": 64,
+   "z": -160,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -35,
+   "y": 64,
+   "z": -160,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -25,
+   "y": 64,
+   "z": -160,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -15,
+   "y": 64,
+   "z": -160,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -10,
+   "y": 64,
+   "z": -155,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -54,
+   "y": 64,
+   "z": -150,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -45,
+   "y": 64,
+   "z": -150,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -35,
+   "y": 64,
+   "z": -150,
+   "from": "nether_academy"
+  },
+  {
+   "dim": "the_nether",
+   "x": -10,
+   "y": 64,
+   "z": -147,
+   "from": "nether_academy"
+  }
+ ]
+}
