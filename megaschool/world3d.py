@@ -160,11 +160,23 @@ class World:
                 out.append((a, b))
         return out
 
+    def floor_rule(self, m):
+        """Where bedrock closes a region's floor (nothing is written below it), or
+        None for rock all the way down.  Shallow ground: y -64 like the original
+        map; ground a little lower (seas): the section boundary just below it;
+        really deep terrain (sinkhole, trench): None."""
+        if self.dim.key != "overworld":
+            return None
+        gmin = int(m["ground"].min())
+        if gmin >= -64:
+            return -64
+        if gmin >= -200:
+            return ((gmin - 3) // 16) * 16
+        return None
+
     def region_floor(self, rx, rz):
         """The floor rule write_region applies to a region (for samplers)."""
-        m = self.maps(rx * 512, rz * 512, 512, 512)
-        shallow = self.dim.key == "overworld" and int(m["ground"].min()) >= -64
-        return -64 if shallow else None
+        return self.floor_rule(self.maps(rx * 512, rz * 512, 512, 512))
 
     def write_region(self, path, rx, rz, level=9):
         d = self.dim
@@ -177,8 +189,9 @@ class World:
         # Only regions whose terrain really goes deep (sinkhole, sea, trench) get
         # rock all the way down; elsewhere bedrock closes the floor at y -64 like
         # the original map and the empty depth below is simply left out.
-        shallow = d.key == "overworld" and int(m["ground"].min()) >= -64
-        self._floor = -64 if shallow else None
+        floor = self.floor_rule(m)
+        shallow = floor is not None
+        self._floor = floor
         roof_top = (int(m["ceil"].max()) // 16) * 16 + 48 if d.ceiling_block else None
         s_min = d.min_y // 16
         secs = [[None] * n_sec for _ in range(1024)]       # [chunk][section] -> dict

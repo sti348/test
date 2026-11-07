@@ -246,7 +246,7 @@ def sky_color(d, night=False):
 
 
 def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, sun=(0.45, 0.8, 0.35),
-           shadows=True, night=False, tex=None, ss=1, dusk=False, twilight=False, mode=None):
+           shadows=True, night=False, tex=None, ss=1, dusk=False, twilight=False, mode=None, proj="rect"):
     """yaw like Minecraft: 0 = +Z (south), 180 = -Z (north); pitch>0 looks down."""
     tex = tex or textures.atlas()
     T, top, side, bot, emi, cut, shp = tex
@@ -263,6 +263,16 @@ def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, 
     py = (1 - 2 * (ys + 0.5) / H) * th
     d = fwd[None] + px.reshape(-1, 1) * right[None] + py.reshape(-1, 1) * up[None]
     d /= np.linalg.norm(d, axis=1, keepdims=True)
+    if proj == "pano":
+        # vertical panorama: elevation and azimuth both linear in the pixel position
+        # (tall looking-up views without the stretch of a wide rectilinear lens)
+        vf = math.radians(fov)
+        el = (-pr + (1 - 2 * (ys + 0.5) / H) * vf / 2).reshape(-1)
+        az = ((2 * (xs + 0.5) / W - 1) * vf / 2 * W / H).reshape(-1)
+        fh = np.array([-math.sin(yr), 0.0, math.cos(yr)])
+        rh = np.array([-math.cos(yr), 0.0, -math.sin(yr)])
+        d = (np.cos(el)[:, None] * (np.cos(az)[:, None] * fh[None] + np.sin(az)[:, None] * rh[None])
+             + np.sin(el)[:, None] * np.array([0.0, 1.0, 0.0])[None])
     s_ = getattr(G, "scale", 1)
     org = np.array([G.x0, G.y0, G.z0], float)
     cam_g = (np.array(cam, float) - org) / s_ + org             # camera in grid units

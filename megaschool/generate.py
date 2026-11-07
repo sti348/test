@@ -96,7 +96,7 @@ def regions():
     _init()
     out = []
     ow = _W["overworld"]
-    for (rx, rz) in world3d.regions_of(ow, -4096, -4096, 5120, 1536):
+    for (rx, rz) in world3d.regions_of(ow, -6144, -4608, 5120, 1536):
         out.append(("overworld", rx, rz))
     ne = _W["the_nether"]
     for (rx, rz) in world3d.regions_of(ne, -1024, -1024, 512, 1024):
@@ -147,6 +147,26 @@ def main():
                     arc = os.path.join(FOLDER, os.path.relpath(p, out))
                     z.write(p, arc)
         print(f"zip: {a.zip} ({os.path.getsize(a.zip) / 1e6:.0f} MB)")
+        split_zip(a.zip)
+
+
+def split_zip(path, limit_mb=95):
+    """GitHub refuses files over 100 MB: re-pack a bigger zip as a standard split
+    archive (name.z01, name.z02, ..., name.zip), which 7-Zip, WinRAR, Bandizip and
+    `unzip` (after `zip -s 0 name.zip --out whole.zip`) all open."""
+    import glob
+    import subprocess
+    base = path[:-4]
+    for old in glob.glob(base + ".z[0-9][0-9]"):
+        os.remove(old)
+    if os.path.getsize(path) <= limit_mb * 1e6 or not shutil.which("zip"):
+        return
+    whole = base + "_whole.zip"
+    os.replace(path, whole)
+    subprocess.run(["zip", "-q", "-s", f"{limit_mb}m", whole, "--out", path], check=True)
+    os.remove(whole)
+    parts = sorted(glob.glob(base + ".z[0-9][0-9]")) + [path]
+    print("split:", ", ".join(f"{os.path.basename(p)} ({os.path.getsize(p) / 1e6:.0f} MB)" for p in parts))
 
 
 if __name__ == "__main__":

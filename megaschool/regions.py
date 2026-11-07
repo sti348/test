@@ -171,25 +171,40 @@ SKY = [
 END_ISLAND = SKY[-1]
 
 
-def sky_island(rng, R, rock, iseed, tile=None):
+def sky_island(rng, R, rock, iseed, tile=None, depth=None):
     """A floating island: flat-topped plateau, rough rim, an inverted rocky cone
     beneath with strata, hanging roots and moss.  Local y = 0 is the top surface.
     tile = (x0, z0, x1, z1) in local cells builds just that part (big islands
     are placed as several pieces)."""
-    depth = sky_depth(R)
+    depth = depth or sky_depth(R)
     n = 2 * R + 1
     tx0, tz0, tx1, tz1 = tile if tile else (0, 0, n, n)
     A = np.zeros((depth + 4, tz1 - tz0, tx1 - tx0), np.uint16)
-    zs, xs = np.mgrid[tz0:tz1, tx0:tx1].astype(np.float64)
-    wx, wz = xs - R, zs - R
     seed = iseed
-    r = np.hypot(wx, wz) * (1 + 0.15 * fbm(xs + seed * 31, zs, 40, seed))
-    under = depth * (1 - np.clip(r / R, 0, 1)) ** 0.8 * (0.75 + 0.25 * fbm(xs, zs + seed, 25, seed + 3))
+
+    def shape(zs, xs):
+        r = np.hypot(xs - R, zs - R) * (1 + 0.15 * fbm(xs + seed * 31, zs, 40, seed))
+        under = depth * (1 - np.clip(r / R, 0, 1)) ** 0.8 * (0.75 + 0.25 * fbm(xs, zs + seed, 25, seed + 3))
+        return r, under
+    zs, xs = np.mgrid[tz0:tz1, tx0:tx1].astype(np.float64)
+    r, under = shape(zs, xs)
     top_bump = np.round(2 * fbm(xs, zs, 30, seed + 5)).astype(int)
     on = r < R
+    # hollow rock: keep a shell ~8 thick above the underside, and enough of every column to
+    # close the step to its shallowest neighbour (the inside is never seen and was most of
+    # the save's size); the neighbours come from the same formula, so tiles join up
+    zp, xp = np.mgrid[tz0 - 1:tz1 + 1, tx0 - 1:tx1 + 1].astype(np.float64)
+    rp, up = shape(zp, xp)
+    up = np.where(rp < R, up, -1.0)
+    nmin = np.minimum.reduce([up[1 + dz:up.shape[0] - 1 + dz, 1 + dx:up.shape[1] - 1 + dx]
+                              for dz in (-1, 0, 1) for dx in (-1, 0, 1)])
+    keep_from = np.minimum(under - 8, nmin - 1)
     if rock == "end":
         mats = [B("end_stone")] * 3 + [B("end_stone_bricks")]
         surf, sub = B("end_stone"), B("end_stone")
+    elif rock == "dark":                     # the eclipse sea: dark slate rock, mossy top
+        mats = [B("deepslate"), B("tuff"), B("cobbled_deepslate"), B("deepslate"), B("stone")]
+        surf, sub = B("moss_block"), B("dirt")
     elif rock == "sandstone":
         mats = [B("sandstone"), B("smooth_sandstone"), B("terracotta"), B("orange_terracotta")]
         surf, sub = B("grass_block"), B("dirt")
@@ -198,7 +213,7 @@ def sky_island(rng, R, rock, iseed, tile=None):
         surf, sub = B("grass_block"), B("dirt")
     for y in range(depth + 1):
         yy = depth - y                       # array row (top surface at row depth)
-        sel = on & (under >= y)
+        sel = on & (under >= y) & ((y >= keep_from) | (y <= 5))
         A[yy][sel] = mats[(y // 9) % len(mats)]
     for y in range(1, 4):
         sel = on & (under >= y)
@@ -226,22 +241,22 @@ def sky_depth(R):
     return int(R * 1.25) if R < 120 else int(150 + (R - 120) * 0.8)
 
 
-def sky_island_size(R, tile=None):
+def sky_island_size(R, tile=None, depth=None):
     n = 2 * R + 1
     tx0, tz0, tx1, tz1 = tile if tile else (0, 0, n, n)
-    return (sky_depth(R) + 4, tz1 - tz0, tx1 - tx0)
+    return ((depth or sky_depth(R)) + 4, tz1 - tz0, tx1 - tx0)
 
 
-def place_sky_island(out, name, x, top, z, R, rock, iseed, tiles=1):
+def place_sky_island(out, name, x, top, z, R, rock, iseed, tiles=1, depth=None):
     """Place an island centred on (x, z) with its surface at `top`, in tiles x tiles pieces."""
     n = 2 * R + 1
     cuts = np.linspace(0, n, tiles + 1).astype(int)
     for a in range(tiles):
         for b in range(tiles):
             t = (int(cuts[a]), int(cuts[b]), int(cuts[a + 1]), int(cuts[b + 1]))
-            sz = sky_island_size(R, t)
+            sz = sky_island_size(R, t, depth)
             _p(out, name, x - R + t[0], top - sz[0] + 4, z - R + t[1], sz, sky_island, iseed * 100 + a * 10 + b,
-               R=R, rock=rock, iseed=iseed, tile=t)
+               R=R, rock=rock, iseed=iseed, tile=t, depth=depth)
 
 
 def spiral_stair(rng, h, r_in=5, r_out=9, mat="polished_andesite", rail="andesite_wall"):
@@ -827,6 +842,10 @@ def overworld():
             _p(out, "sky_bridge", x_a, bt, ez - 3, (6, 7, max(1, int(x_b - x_a))), deck_bridge, 0, length=max(1, int(x_b - x_a)))
     # --- the desert school
     desert(out, rng)
+    # --- the eclipse sea (rebuilt from the visual-novel key art)
+    import eclipse
+    eclipse.pieces(out, rng)
+    lands.append(eclipse.EclipseSea())
     return out, lands
 
 

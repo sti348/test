@@ -44,6 +44,8 @@ def region_viewpoints():
     v["nether"] = (gx + 60.5, R.NETHER_FLOOR, gz + 0.5, 90, -15, "地狱学校（下界门前）", "the_nether")
     ax, az = R.ACADEMY_NE
     v["nether_academy"] = (ax + 222.5, R.NETHER_FLOOR, az + 70.5, 108, -30, "地狱学院（黑石金字塔）", "the_nether")
+    import eclipse
+    v["eclipse"] = eclipse.viewpoint()
     v["nether_library"] = (R.NE_LIBRARY[0] + 0.5, R.NETHER_FLOOR, R.NE_LIBRARY[1] + 100.5, 180, -15, "地狱图书馆", "the_nether")
     return v
 
@@ -121,6 +123,9 @@ def write(dst):
         x, y, z, yaw, pitch = vp[:5]
         dim = vp[6] if len(vp) > 6 else "overworld"
         funcs[f"tp/{k}"] = f"execute in minecraft:{dim} run tp @s {x} {y} {z} {yaw} {pitch}"
+        if k == "eclipse":                     # the key art is lit by the sun just behind the top island
+            import eclipse
+            funcs[f"tp/{k}"] += f"\ntime set {eclipse.SUN_TIME}"
     funcs["day"] = "time set 1000"
     funcs["dusk"] = "time set 13000"
     funcs["night"] = "time set 18000"
