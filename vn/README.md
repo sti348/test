@@ -14,7 +14,8 @@
 | `styles_keep.json` | 保留备用的画风提示词（City Pop、C2 侧光） |
 | `styles_persona.json`、`docs/style_persona.jpg` | 第四轮：3 位虚构作者的个人画风（具体的配色、线条、阴影、天空、构图习惯），巨物感学校图，1536×864；选中 C（精美，但光太强发白） |
 | `styles_c.json`、`docs/style_c_round.jpg` | 第五轮：C 的三种修正（控曝光 / 侧光 / 加细节与点缀色）；选中 C2，已存进 `styles_keep.json` |
-| `styles_mega.json`、`docs/style_mega.jpg` | 第六轮：巨物压迫感方向的 3 位虚构作者（D 巨碑极简 / E 巴洛克云景 / F 冷色图形），海上空岛 |
+| `styles_mega.json`、`docs/style_mega.jpg` | 第六轮：巨物压迫感方向的 3 位虚构作者（D 巨碑极简 / E 巴洛克云景 / F 冷色图形），海上空岛；D、F 勉强及格，E 排除 |
+| `styles_rich.json`、`docs/style_rich.jpg` | 第七轮：非极简的 3 位虚构作者（G 细密钢笔＋淡彩 / H 层叠透明色片 / I 装饰纹样），躺在海面仰望极高处的空岛，768×1920 竖长条 |
 
 ```bash
 python3 vn/gen.py list                       # 镜头清单

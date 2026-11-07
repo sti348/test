@@ -1,0 +1,20 @@
+[
+ {
+  "id": "g_pen",
+  "name": "作者G：细密钢笔＋淡彩",
+  "name_en": "the signature style of one specific (fictional) illustrator, G",
+  "art": "G's signature look: obsessive fine pen-and-ink linework over the whole picture - every rock stratum, window, railing, cloud edge and wave drawn line by line with delicate cross-hatching, like a manga double-page spread by a patient perfectionist; over the ink, a limited set of clear, light colour washes (cerulean, ochre, rose, sea green); the white of the paper as the brightest light; crisp, bright and clean, no grain, no muddy darks."
+ },
+ {
+  "id": "h_glass",
+  "name": "作者H：层叠透明色片",
+  "name_en": "the signature style of one specific (fictional) illustrator, H",
+  "art": "H's signature look: every form built from overlapping translucent colour layers like sheets of coloured acetate or stained glass, so new colours appear where layers cross; a palette of indigo, turquoise, warm pink and pale gold; thin prismatic colour fringes along strong edges; stylised but richly detailed shapes, faceted clouds, luminous and clear, smooth and noise-free."
+ },
+ {
+  "id": "i_ornament",
+  "name": "作者I：装饰纹样",
+  "name_en": "the signature style of one specific (fictional) illustrator, I",
+  "art": "I's signature look: decorative and ornate, like anime meeting an illuminated manuscript and art nouveau: architecture and clouds carry delicate ornamental patterns and flowing curved contours, waterfalls drawn as elegant ribbon-like lines, fine gold linework on key edges, a soft jewel palette of lapis blue, jade, coral and cream; richly filled yet orderly composition, bright and clean, no grain."
+ }
+]

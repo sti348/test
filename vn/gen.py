@@ -145,10 +145,14 @@ def generate(prompt, ref_path=None):
 
 
 def to_1080p(data):
-    """Centre-crop to 16:9 and resize to 1920x1080."""
+    """A 1920x1080 copy of a 16:9 image (centre-cropped if it is close to 16:9);
+    other shapes (tall or panoramic strips) are only scaled to fit 1920x1080."""
     from PIL import Image
     im = Image.open(io.BytesIO(data)).convert("RGB")
     w, h = im.size
+    if abs(w / h - 16 / 9) > 0.25:
+        k = min(1920 / w, 1080 / h)
+        return im.resize((max(1, int(w * k)), max(1, int(h * k))), Image.LANCZOS)
     if w / h > 16 / 9:
         nw = int(h * 16 / 9)
         im = im.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
@@ -213,7 +217,8 @@ def prompt_style(sc, variant, st):
     """Style-first prompt for comparing art styles: the medium leads and closes, the subject is one line."""
     tod = {"dusk": "at dusk, a soft violet-grey sky with the first stars and some windows lit warm",
            "day": "on a bright, clear afternoon", "night": "at night, lit windows and lamps",
-           "haze": "in the late afternoon under high thin haze, the sun partly hidden behind the floating islands"}[variant]
+           "haze": "in the late afternoon under high thin haze, the sun partly hidden behind the floating islands",
+           "zenith": "around midday, the high sun partly blocked by the islands overhead, crisp clear air"}[variant]
     return "\n\n".join([
         f"A Japanese 2D anime-style background image made entirely in this style - {st['name_en']}: {st['art']}",
         f"Subject: {sc.get('short') or sc['prompt']}, {tod}. The architecture is colossal (tiny benches and lamps "
@@ -266,7 +271,11 @@ def style_sheet(d, sts, cols=3, w=640):
         if os.path.exists(f):
             font = ImageFont.truetype(f, 22)
             break
-    h, lab = w * 9 // 16, 32
+    first = Image.open(items[0][1])
+    lab = 32
+    if first.height > first.width:                    # tall strips: side by side, smaller width
+        cols, w = len(items), 420
+    h = int(w * first.height / first.width)
     S = Image.new("RGB", (cols * w, (len(items) + cols - 1) // cols * (h + lab)), (24, 24, 28))
     dr = ImageDraw.Draw(S)
     for i, (label, p) in enumerate(items):

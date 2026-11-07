@@ -276,5 +276,15 @@
   ],
   "prompt": "From a sandy island beach, several gigantic floating islands at different heights hang far out over the sea.",
   "short": "seen from the sand of a small island beach: several gigantic floating islands hang in the sky far out over the open sea, each at a different height, so far away that they are veiled in haze, yet they still fill most of the sky; colossal school towers, spires and halls crown each island; waterfalls pour from their edges and dissolve into mist long before they reach the sea; the islands cast enormous shadows on the water; ordinary small islands sit on the horizon for comparison; in the foreground only the beach, gentle surf and a tiny wooden pier; overwhelming, oppressive, awe-inspiring scale"
+ },
+ {
+  "id": "sky_sea_up",
+  "title": "海上空岛（躺在海面仰望，竖长条）",
+  "ref": null,
+  "variants": [
+   "zenith"
+  ],
+  "prompt": "Lying on one's back floating in the sea and looking straight up at floating islands extremely high above.",
+  "short": "a tall vertical view from someone floating on their back in the open sea and looking straight up (no person visible): at the bottom of the image the sea surface right at eye level, gentle ripples and spray glinting; above it open sky with a layer of ordinary clouds far below the islands; and at the very top, extremely high above - higher than the clouds, kilometres up - the vast undersides of several gigantic floating islands at different altitudes, crowned with colossal school towers seen from below; long waterfalls fall from their edges and dissolve into mist and drifting rain long before reaching the sea; the islands are so high they are softened by atmosphere, yet so huge they cover much of the sky; dizzying vertical depth, crushing sense of scale"
  }
 ]
