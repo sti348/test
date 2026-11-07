@@ -20,6 +20,7 @@ import datapack
 import level
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+DUSK = 12700                     # this build is the dusk version: the sun is just setting
 WORLD_NAME = "无涯中学"          # name shown in the world list
 FOLDER = "WuyaHighSchool"       # folder name inside the zip (ASCII so every unzip tool is happy)
 
@@ -80,7 +81,7 @@ def main():
             total += n
             print(f"  region {rx:+d},{rz:+d}  {dt:5.1f}s  {n / 1e6:6.1f}M blocks", flush=True)
     print(f"regions done in {time.time() - t0:.0f}s, {total / 1e6:.0f} million blocks above ground")
-    level.write_level_dat(os.path.join(out, "level.dat"), WORLD_NAME, campus.SPAWN, angle=180.0,
+    level.write_level_dat(os.path.join(out, "level.dat"), WORLD_NAME, campus.SPAWN, angle=180.0, day_time=DUSK,
                           datapacks=("vanilla", "file/wuya"))
     dp = os.path.join(out, "datapacks", "wuya")
     shutil.rmtree(dp, ignore_errors=True)

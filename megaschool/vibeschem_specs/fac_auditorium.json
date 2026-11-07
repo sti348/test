@@ -1,0 +1,436 @@
+{
+ "name": "auditorium",
+ "minecraftVersion": "1.20.1",
+ "description": "大礼堂：深色基座、巨柱门廊、壁柱间的狭长高窗和厚重的四坡屋顶",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "ground",
+   "type": "box",
+   "from": [
+    0,
+    -1,
+    0
+   ],
+   "to": [
+    199,
+    -1,
+    219
+   ],
+   "block": "grass_block"
+  },
+  {
+   "id": "forecourt",
+   "type": "box",
+   "from": [
+    20,
+    -1,
+    8
+   ],
+   "to": [
+    180,
+    -1,
+    60
+   ],
+   "block": "pave"
+  },
+  {
+   "id": "podium",
+   "type": "box",
+   "from": [
+    26,
+    0,
+    38
+   ],
+   "to": [
+    174,
+    4,
+    174
+   ],
+   "block": "base"
+  },
+  {
+   "id": "steps",
+   "type": "script",
+   "args": {
+    "xa": 60,
+    "xb": 140,
+    "zf": 38
+   },
+   "code": "for (let k=0;k<5;k++) { const z=args.zf-2*(5-k); box([args.xa,0,z],[args.xb,k,z+1],'base'); box([args.xa,k,z],[args.xb,k,z],'polished_deepslate_stairs[facing=north]'); }"
+  },
+  {
+   "id": "hall",
+   "type": "box",
+   "from": [
+    30,
+    5,
+    60
+   ],
+   "to": [
+    170,
+    51,
+    170
+   ],
+   "block": "wall"
+  },
+  {
+   "id": "pilasters",
+   "type": "group",
+   "repeat": {
+    "count": 15,
+    "offset": [
+     10,
+     0,
+     0
+    ]
+   },
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      30,
+      5,
+      59
+     ],
+     "to": [
+      31,
+      50,
+      59
+     ],
+     "block": "pilaster"
+    },
+    {
+     "type": "box",
+     "from": [
+      30,
+      5,
+      171
+     ],
+     "to": [
+      31,
+      50,
+      171
+     ],
+     "block": "pilaster"
+    }
+   ]
+  },
+  {
+   "id": "side_pilasters",
+   "type": "group",
+   "repeat": {
+    "count": 12,
+    "offset": [
+     0,
+     0,
+     10
+    ]
+   },
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      29,
+      5,
+      60
+     ],
+     "to": [
+      29,
+      50,
+      61
+     ],
+     "block": "pilaster"
+    },
+    {
+     "type": "box",
+     "from": [
+      171,
+      5,
+      60
+     ],
+     "to": [
+      171,
+      50,
+      61
+     ],
+     "block": "pilaster"
+    }
+   ]
+  },
+  {
+   "id": "slit_windows",
+   "type": "script",
+   "args": {
+    "x0": 30,
+    "x1": 170,
+    "z0": 60,
+    "z1": 170,
+    "h": 46
+   },
+   "code": "for (let x=args.x0+5; x<args.x1-3; x+=10) for (const z of [args.z0, args.z1]) { box([x,10,z],[x+1,args.h-4,z],'gray_stained_glass_pane'); box([x,9,z],[x+1,9,z],'frame'); box([x,args.h-3,z],[x+1,args.h-3,z],'frame'); if (chance(0.5)) box([x,11,z+(z==args.z0?1:-1)],[x+1,args.h-5,z+(z==args.z0?1:-1)],'shroomlight'); else box([x,11,z+(z==args.z0?1:-1)],[x+1,args.h-5,z+(z==args.z0?1:-1)],'black_concrete'); }for (let z=args.z0+5; z<args.z1-3; z+=10) for (const x of [args.x0, args.x1]) { box([x,10,z],[x,args.h-4,z+1],'gray_stained_glass_pane'); box([x+(x==args.x0?1:-1),11,z],[x+(x==args.x0?1:-1),args.h-5,z+1],'black_concrete'); }"
+  },
+  {
+   "id": "entablature",
+   "type": "box",
+   "from": [
+    27,
+    51,
+    42
+   ],
+   "to": [
+    173,
+    58,
+    173
+   ],
+   "block": "wall"
+  },
+  {
+   "id": "cornice_shadow",
+   "type": "box",
+   "from": [
+    26,
+    50,
+    41
+   ],
+   "to": [
+    174,
+    50,
+    174
+   ],
+   "block": "polished_deepslate_slab[type=top]"
+  },
+  {
+   "id": "colonnade",
+   "type": "group",
+   "repeat": {
+    "count": 12,
+    "offset": [
+     12,
+     0,
+     0
+    ]
+   },
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      34,
+      5,
+      44
+     ],
+     "to": [
+      37,
+      50,
+      47
+     ],
+     "block": "pilaster"
+    },
+    {
+     "type": "box",
+     "from": [
+      33,
+      5,
+      43
+     ],
+     "to": [
+      38,
+      5,
+      48
+     ],
+     "block": "frame"
+    }
+   ]
+  },
+  {
+   "id": "portal",
+   "type": "box",
+   "from": [
+    80,
+    5,
+    60
+   ],
+   "to": [
+    120,
+    20,
+    60
+   ],
+   "block": "frame"
+  },
+  {
+   "id": "doors",
+   "type": "script",
+   "args": {
+    "xa": 84,
+    "xb": 116,
+    "z": 60
+   },
+   "code": "for (let x=args.xa; x<=args.xb; x+=6) { box([x,5,args.z],[x+2,16,args.z],'black_stained_glass_pane'); set(x,5,args.z-1,'dark_oak_door[facing=north,hinge=left]'); set(x+1,5,args.z-1,'dark_oak_door[facing=north,hinge=right]'); set(x,17,args.z-1,'lantern[hanging=true]'); }"
+  },
+  {
+   "id": "roof",
+   "type": "roof",
+   "shape": "hip",
+   "from": [
+    27,
+    59,
+    42
+   ],
+   "to": [
+    173,
+    59,
+    173
+   ],
+   "block": "roof",
+   "pitch": 0.5,
+   "overhang": 2,
+   "eaves": "deepslate_tile_stairs",
+   "fill": "polished_deepslate"
+  },
+  {
+   "id": "plaza_trees",
+   "type": "script",
+   "args": {
+    "x0": 30,
+    "x1": 170
+   },
+   "code": "for (let x=args.x0-6; x<=args.x1+6; x+=16) { tree({at:[x,0,4], kind:'oak', seed:x}); place('lamp',[x+8,0,4]); }"
+  },
+  {
+   "id": "side_trees",
+   "type": "script",
+   "args": {
+    "x0": 30,
+    "x1": 170,
+    "z0": 60,
+    "z1": 170,
+    "D": 220
+   },
+   "code": "for (let z=args.z0-10; z<args.D-6; z+=13) { tree({at:[args.x0-16,0,z], kind:'big_oak', seed:z}); tree({at:[args.x1+16,0,z], kind:'big_oak', seed:z+7}); place('lamp',[args.x0-9,0,z+6]); place('lamp',[args.x1+9,0,z+6]); }for (let x=args.x0; x<=args.x1; x+=14) tree({at:[x,0,args.D-8], kind:'oak', seed:x});"
+  },
+  {
+   "id": "torches",
+   "type": "script",
+   "args": {
+    "x0": 30,
+    "x1": 170,
+    "z": 39
+   },
+   "code": "for (let x=args.x0; x<=args.x1; x+=12) { set(x,5,args.z,'polished_blackstone_wall'); set(x,6,args.z,'lantern'); }"
+  }
+ ],
+ "palette": {
+  "base": {
+   "mix": {
+    "polished_deepslate": 5,
+    "deepslate_bricks": 2,
+    "cobbled_deepslate": 1
+   },
+   "scale": 2
+  },
+  "wall": {
+   "mix": {
+    "smooth_quartz": 6,
+    "calcite": 3,
+    "polished_diorite": 1
+   },
+   "scale": 3
+  },
+  "pilaster": "quartz_pillar",
+  "frame": "polished_deepslate",
+  "roof": {
+   "mix": {
+    "deepslate_tile_stairs": 5,
+    "deepslate_brick_stairs": 1
+   },
+   "scale": 3
+  },
+  "pave": {
+   "mix": {
+    "polished_andesite": 5,
+    "smooth_stone": 2,
+    "andesite": 1
+   },
+   "scale": 2
+  }
+ },
+ "components": {
+  "lamp": {
+   "operations": [
+    {
+     "id": "foot",
+     "type": "blocks",
+     "block": "polished_andesite",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "post",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      0
+     ],
+     "to": [
+      0,
+      4,
+      0
+     ],
+     "block": "polished_blackstone_wall"
+    },
+    {
+     "id": "head",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "light",
+     "type": "blocks",
+     "block": "lantern[hanging=true]",
+     "at": [
+      [
+       0,
+       4,
+       1
+      ],
+      [
+       0,
+       4,
+       -1
+      ]
+     ]
+    },
+    {
+     "id": "arms",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       1
+      ],
+      [
+       0,
+       5,
+       -1
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

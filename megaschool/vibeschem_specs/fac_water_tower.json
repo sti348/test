@@ -1,0 +1,2453 @@
+{
+ "name": "water_tower",
+ "minecraftVersion": "1.20.1",
+ "description": "巨型水塔：八根塔腿、交叉支撑、260 格高的水箱，顶上有红色警示灯",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "foot",
+   "type": "cylinder",
+   "center": [
+    0,
+    -1,
+    0
+   ],
+   "radius": 36,
+   "height": 1,
+   "block": "polished_andesite"
+  },
+  {
+   "id": "leg_0",
+   "type": "cylinder",
+   "center": [
+    30,
+    0,
+    0
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_0",
+   "type": "cylinder",
+   "center": [
+    30,
+    0,
+    0
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "leg_1",
+   "type": "cylinder",
+   "center": [
+    21,
+    0,
+    21
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_1",
+   "type": "cylinder",
+   "center": [
+    21,
+    0,
+    21
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "leg_2",
+   "type": "cylinder",
+   "center": [
+    0,
+    0,
+    30
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_2",
+   "type": "cylinder",
+   "center": [
+    0,
+    0,
+    30
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "leg_3",
+   "type": "cylinder",
+   "center": [
+    -21,
+    0,
+    21
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_3",
+   "type": "cylinder",
+   "center": [
+    -21,
+    0,
+    21
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "leg_4",
+   "type": "cylinder",
+   "center": [
+    -30,
+    0,
+    0
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_4",
+   "type": "cylinder",
+   "center": [
+    -30,
+    0,
+    0
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "leg_5",
+   "type": "cylinder",
+   "center": [
+    -21,
+    0,
+    -21
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_5",
+   "type": "cylinder",
+   "center": [
+    -21,
+    0,
+    -21
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "leg_6",
+   "type": "cylinder",
+   "center": [
+    0,
+    0,
+    -30
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_6",
+   "type": "cylinder",
+   "center": [
+    0,
+    0,
+    -30
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "leg_7",
+   "type": "cylinder",
+   "center": [
+    21,
+    0,
+    -21
+   ],
+   "radius": 2,
+   "height": 250,
+   "block": "light_gray_concrete"
+  },
+  {
+   "id": "pier_7",
+   "type": "cylinder",
+   "center": [
+    21,
+    0,
+    -21
+   ],
+   "radius": 4,
+   "height": 6,
+   "block": "polished_deepslate"
+  },
+  {
+   "id": "bracing",
+   "type": "group",
+   "operations": [
+    {
+     "type": "line",
+     "from": [
+      30,
+      36,
+      0
+     ],
+     "to": [
+      21,
+      36,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      36,
+      0
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      0,
+      0
+     ],
+     "to": [
+      21,
+      36,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      36,
+      21
+     ],
+     "to": [
+      0,
+      36,
+      30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      36,
+      21
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      0,
+      21
+     ],
+     "to": [
+      0,
+      36,
+      30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      36,
+      30
+     ],
+     "to": [
+      -21,
+      36,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      36,
+      30
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      0,
+      30
+     ],
+     "to": [
+      -21,
+      36,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      36,
+      21
+     ],
+     "to": [
+      -30,
+      36,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      36,
+      21
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      0,
+      21
+     ],
+     "to": [
+      -30,
+      36,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      36,
+      0
+     ],
+     "to": [
+      -21,
+      36,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      36,
+      0
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      0,
+      0
+     ],
+     "to": [
+      -21,
+      36,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      36,
+      -21
+     ],
+     "to": [
+      0,
+      36,
+      -30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      36,
+      -21
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      0,
+      -21
+     ],
+     "to": [
+      0,
+      36,
+      -30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      36,
+      -30
+     ],
+     "to": [
+      21,
+      36,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      36,
+      -30
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      0,
+      -30
+     ],
+     "to": [
+      21,
+      36,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      36,
+      -21
+     ],
+     "to": [
+      30,
+      36,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      36,
+      -21
+     ],
+     "to": [
+      0,
+      36,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      0,
+      -21
+     ],
+     "to": [
+      30,
+      36,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      72,
+      0
+     ],
+     "to": [
+      21,
+      72,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      72,
+      0
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      36,
+      0
+     ],
+     "to": [
+      21,
+      72,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      72,
+      21
+     ],
+     "to": [
+      0,
+      72,
+      30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      72,
+      21
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      36,
+      21
+     ],
+     "to": [
+      0,
+      72,
+      30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      72,
+      30
+     ],
+     "to": [
+      -21,
+      72,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      72,
+      30
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      36,
+      30
+     ],
+     "to": [
+      -21,
+      72,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      72,
+      21
+     ],
+     "to": [
+      -30,
+      72,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      72,
+      21
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      36,
+      21
+     ],
+     "to": [
+      -30,
+      72,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      72,
+      0
+     ],
+     "to": [
+      -21,
+      72,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      72,
+      0
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      36,
+      0
+     ],
+     "to": [
+      -21,
+      72,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      72,
+      -21
+     ],
+     "to": [
+      0,
+      72,
+      -30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      72,
+      -21
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      36,
+      -21
+     ],
+     "to": [
+      0,
+      72,
+      -30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      72,
+      -30
+     ],
+     "to": [
+      21,
+      72,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      72,
+      -30
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      36,
+      -30
+     ],
+     "to": [
+      21,
+      72,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      72,
+      -21
+     ],
+     "to": [
+      30,
+      72,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      72,
+      -21
+     ],
+     "to": [
+      0,
+      72,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      36,
+      -21
+     ],
+     "to": [
+      30,
+      72,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      108,
+      0
+     ],
+     "to": [
+      21,
+      108,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      108,
+      0
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      72,
+      0
+     ],
+     "to": [
+      21,
+      108,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      108,
+      21
+     ],
+     "to": [
+      0,
+      108,
+      30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      108,
+      21
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      72,
+      21
+     ],
+     "to": [
+      0,
+      108,
+      30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      108,
+      30
+     ],
+     "to": [
+      -21,
+      108,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      108,
+      30
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      72,
+      30
+     ],
+     "to": [
+      -21,
+      108,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      108,
+      21
+     ],
+     "to": [
+      -30,
+      108,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      108,
+      21
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      72,
+      21
+     ],
+     "to": [
+      -30,
+      108,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      108,
+      0
+     ],
+     "to": [
+      -21,
+      108,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      108,
+      0
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      72,
+      0
+     ],
+     "to": [
+      -21,
+      108,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      108,
+      -21
+     ],
+     "to": [
+      0,
+      108,
+      -30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      108,
+      -21
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      72,
+      -21
+     ],
+     "to": [
+      0,
+      108,
+      -30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      108,
+      -30
+     ],
+     "to": [
+      21,
+      108,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      108,
+      -30
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      72,
+      -30
+     ],
+     "to": [
+      21,
+      108,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      108,
+      -21
+     ],
+     "to": [
+      30,
+      108,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      108,
+      -21
+     ],
+     "to": [
+      0,
+      108,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      72,
+      -21
+     ],
+     "to": [
+      30,
+      108,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      144,
+      0
+     ],
+     "to": [
+      21,
+      144,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      144,
+      0
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      108,
+      0
+     ],
+     "to": [
+      21,
+      144,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      144,
+      21
+     ],
+     "to": [
+      0,
+      144,
+      30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      144,
+      21
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      108,
+      21
+     ],
+     "to": [
+      0,
+      144,
+      30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      144,
+      30
+     ],
+     "to": [
+      -21,
+      144,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      144,
+      30
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      108,
+      30
+     ],
+     "to": [
+      -21,
+      144,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      144,
+      21
+     ],
+     "to": [
+      -30,
+      144,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      144,
+      21
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      108,
+      21
+     ],
+     "to": [
+      -30,
+      144,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      144,
+      0
+     ],
+     "to": [
+      -21,
+      144,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      144,
+      0
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      108,
+      0
+     ],
+     "to": [
+      -21,
+      144,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      144,
+      -21
+     ],
+     "to": [
+      0,
+      144,
+      -30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      144,
+      -21
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      108,
+      -21
+     ],
+     "to": [
+      0,
+      144,
+      -30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      144,
+      -30
+     ],
+     "to": [
+      21,
+      144,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      144,
+      -30
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      108,
+      -30
+     ],
+     "to": [
+      21,
+      144,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      144,
+      -21
+     ],
+     "to": [
+      30,
+      144,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      144,
+      -21
+     ],
+     "to": [
+      0,
+      144,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      108,
+      -21
+     ],
+     "to": [
+      30,
+      144,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      180,
+      0
+     ],
+     "to": [
+      21,
+      180,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      180,
+      0
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      144,
+      0
+     ],
+     "to": [
+      21,
+      180,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      180,
+      21
+     ],
+     "to": [
+      0,
+      180,
+      30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      180,
+      21
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      144,
+      21
+     ],
+     "to": [
+      0,
+      180,
+      30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      180,
+      30
+     ],
+     "to": [
+      -21,
+      180,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      180,
+      30
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      144,
+      30
+     ],
+     "to": [
+      -21,
+      180,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      180,
+      21
+     ],
+     "to": [
+      -30,
+      180,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      180,
+      21
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      144,
+      21
+     ],
+     "to": [
+      -30,
+      180,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      180,
+      0
+     ],
+     "to": [
+      -21,
+      180,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      180,
+      0
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      144,
+      0
+     ],
+     "to": [
+      -21,
+      180,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      180,
+      -21
+     ],
+     "to": [
+      0,
+      180,
+      -30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      180,
+      -21
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      144,
+      -21
+     ],
+     "to": [
+      0,
+      180,
+      -30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      180,
+      -30
+     ],
+     "to": [
+      21,
+      180,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      180,
+      -30
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      144,
+      -30
+     ],
+     "to": [
+      21,
+      180,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      180,
+      -21
+     ],
+     "to": [
+      30,
+      180,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      180,
+      -21
+     ],
+     "to": [
+      0,
+      180,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      144,
+      -21
+     ],
+     "to": [
+      30,
+      180,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      216,
+      0
+     ],
+     "to": [
+      21,
+      216,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      216,
+      0
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      30,
+      180,
+      0
+     ],
+     "to": [
+      21,
+      216,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      216,
+      21
+     ],
+     "to": [
+      0,
+      216,
+      30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      216,
+      21
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      180,
+      21
+     ],
+     "to": [
+      0,
+      216,
+      30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      216,
+      30
+     ],
+     "to": [
+      -21,
+      216,
+      21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      216,
+      30
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      180,
+      30
+     ],
+     "to": [
+      -21,
+      216,
+      21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      216,
+      21
+     ],
+     "to": [
+      -30,
+      216,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      216,
+      21
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      180,
+      21
+     ],
+     "to": [
+      -30,
+      216,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      216,
+      0
+     ],
+     "to": [
+      -21,
+      216,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      216,
+      0
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -30,
+      180,
+      0
+     ],
+     "to": [
+      -21,
+      216,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      216,
+      -21
+     ],
+     "to": [
+      0,
+      216,
+      -30
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      216,
+      -21
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      -21,
+      180,
+      -21
+     ],
+     "to": [
+      0,
+      216,
+      -30
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      216,
+      -30
+     ],
+     "to": [
+      21,
+      216,
+      -21
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      216,
+      -30
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      0,
+      180,
+      -30
+     ],
+     "to": [
+      21,
+      216,
+      -21
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      216,
+      -21
+     ],
+     "to": [
+      30,
+      216,
+      0
+     ],
+     "block": "light_gray_concrete",
+     "radius": 1
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      216,
+      -21
+     ],
+     "to": [
+      0,
+      216,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "type": "line",
+     "from": [
+      21,
+      180,
+      -21
+     ],
+     "to": [
+      30,
+      216,
+      0
+     ],
+     "block": "iron_bars"
+    }
+   ]
+  },
+  {
+   "id": "shaft",
+   "type": "cylinder",
+   "center": [
+    0,
+    0,
+    0
+   ],
+   "radius": 4,
+   "height": 250,
+   "block": "light_gray_concrete",
+   "hollow": true
+  },
+  {
+   "id": "ladder",
+   "type": "box",
+   "from": [
+    0,
+    0,
+    -5
+   ],
+   "to": [
+    0,
+    249,
+    -5
+   ],
+   "block": "ladder[facing=north]"
+  },
+  {
+   "id": "ring",
+   "type": "cylinder",
+   "center": [
+    0,
+    250,
+    0
+   ],
+   "radius": 36,
+   "height": 1,
+   "block": "smooth_stone_slab[type=top]"
+  },
+  {
+   "id": "ring_rail",
+   "type": "cylinder",
+   "center": [
+    0,
+    251,
+    0
+   ],
+   "radius": 36,
+   "height": 1,
+   "block": "iron_bars",
+   "hollow": true
+  },
+  {
+   "id": "tank_floor",
+   "type": "sphere",
+   "center": [
+    0,
+    251,
+    0
+   ],
+   "radii": [
+    34,
+    14,
+    34
+   ],
+   "half": "bottom",
+   "block": "light_gray_concrete",
+   "hollow": true,
+   "thickness": 2
+  },
+  {
+   "id": "tank",
+   "type": "cylinder",
+   "center": [
+    0,
+    251,
+    0
+   ],
+   "radius": 34,
+   "height": 52,
+   "block": "white_concrete",
+   "hollow": true,
+   "thickness": 2
+  },
+  {
+   "id": "bands",
+   "type": "group",
+   "repeat": {
+    "count": 4,
+    "offset": [
+     0,
+     13,
+     0
+    ]
+   },
+   "operations": [
+    {
+     "type": "cylinder",
+     "center": [
+      0,
+      256,
+      0
+     ],
+     "radius": 35,
+     "height": 1,
+     "block": "gray_concrete",
+     "hollow": true
+    }
+   ]
+  },
+  {
+   "id": "roof",
+   "type": "dome",
+   "center": [
+    0,
+    303,
+    0
+   ],
+   "radius": 34,
+   "height": 14,
+   "block": "light_gray_concrete",
+   "hollow": true
+  },
+  {
+   "id": "beacon",
+   "type": "box",
+   "from": [
+    -1,
+    317,
+    -1
+   ],
+   "to": [
+    1,
+    319,
+    1
+   ],
+   "block": "red_concrete"
+  },
+  {
+   "id": "warning",
+   "type": "blocks",
+   "block": "shroomlight",
+   "at": [
+    [
+     0,
+     320,
+     0
+    ],
+    [
+     34,
+     302,
+     0
+    ],
+    [
+     -34,
+     302,
+     0
+    ],
+    [
+     0,
+     302,
+     34
+    ],
+    [
+     0,
+     302,
+     -34
+    ]
+   ]
+  }
+ ]
+}

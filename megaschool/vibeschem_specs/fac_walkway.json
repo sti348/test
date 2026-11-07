@@ -1,0 +1,138 @@
+{
+ "name": "walkway",
+ "minecraftVersion": "1.20.1",
+ "description": "风雨连廊：每一跨挂一盏灯笼",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "pave",
+   "type": "box",
+   "from": [
+    0,
+    -1,
+    0
+   ],
+   "to": [
+    4,
+    -1,
+    179
+   ],
+   "block": "smooth_stone"
+  },
+  {
+   "id": "posts",
+   "type": "group",
+   "repeat": {
+    "count": 31,
+    "offset": [
+     0,
+     0,
+     6
+    ]
+   },
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      0,
+      3,
+      0
+     ],
+     "block": "white_concrete"
+    },
+    {
+     "type": "box",
+     "from": [
+      4,
+      0,
+      0
+     ],
+     "to": [
+      4,
+      3,
+      0
+     ],
+     "block": "white_concrete"
+    },
+    {
+     "type": "blocks",
+     "block": "lantern[hanging=true]",
+     "at": [
+      [
+       2,
+       3,
+       3
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "roof",
+   "type": "roof",
+   "shape": "flat",
+   "from": [
+    0,
+    4,
+    0
+   ],
+   "to": [
+    4,
+    4,
+    179
+   ],
+   "block": "smooth_stone_slab",
+   "overhang": 1,
+   "eaves": "smooth_quartz_stairs"
+  },
+  {
+   "id": "beam",
+   "type": "box",
+   "from": [
+    0,
+    4,
+    0
+   ],
+   "to": [
+    4,
+    4,
+    179
+   ],
+   "block": "smooth_quartz",
+   "walls": true
+  },
+  {
+   "id": "benches",
+   "type": "group",
+   "repeat": {
+    "count": 7,
+    "offset": [
+     0,
+     0,
+     24
+    ]
+   },
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      1,
+      0,
+      8
+     ],
+     "to": [
+      1,
+      0,
+      10
+     ],
+     "block": "spruce_stairs[facing=west]"
+    }
+   ]
+  }
+ ]
+}

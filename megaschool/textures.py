@@ -32,6 +32,12 @@ SPECIAL = {
     "birch_leaves": (("birch_leaves", np.array([128, 167, 85]) / 255.0),) * 3,
     "bookshelf": ("oak_planks", "bookshelf", "oak_planks"),
     "sandstone": ("sandstone_top", "sandstone", "sandstone_bottom"),
+    "grass": (("short_grass", GRASS),) * 3,
+    "short_grass": (("short_grass", GRASS),) * 3,
+    "fern": (("fern", GRASS),) * 3,
+    "tall_grass": (("tall_grass_bottom", GRASS),) * 3,
+    "large_fern": (("large_fern_bottom", GRASS),) * 3,
+    "lily_pad": (("lily_pad", np.array([32, 128, 48]) / 255.0),) * 3,
 }
 EMISSIVE = {"ochre_froglight", "pearlescent_froglight", "verdant_froglight", "sea_lantern", "glowstone",
             "shroomlight", "lantern", "redstone_lamp[lit=true]", "jack_o_lantern"}
@@ -106,7 +112,7 @@ def shape_for(name):
     t = 3 / 16
     if base.endswith("_slab"):
         return {"bottom": (0, 0, 0, 1, .5, 1), "top": (0, .5, 0, 1, 1, 1)}.get(props.get("type", "bottom"), FULL)
-    if base.endswith("_carpet"):
+    if base.endswith("_carpet") or base == "lily_pad":
         return (0, 0, 0, 1, 1 / 16, 1)
     if base.endswith("_pane") or base == "iron_bars":
         ew = props.get("east") == "true" or props.get("west") == "true"

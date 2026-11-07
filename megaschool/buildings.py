@@ -165,7 +165,7 @@ def rooftop(A, sc, rng, H, inset, dz, dx, sign=None):
 
 # ---------------------------------------------------------------- box
 def box(rng, dx, dz, H, sc, faces, extra=0, parapet=2, roof=True, piers=True, sign=None,
-        furniture=True, base=None):
+        furniture=True, base=None, monument=True):
     """One rectangular block.  faces: side -> (style, kwargs) or None.
     H = facade height; roof slab at H, parapet above, `extra` rows for rooftop stuff."""
     A = np.zeros((H + 1 + parapet + extra, dz, dx), np.uint16)
@@ -178,6 +178,8 @@ def box(rng, dx, dz, H, sc, faces, extra=0, parapet=2, roof=True, piers=True, si
         kw = dict(kw)
         text = kw.pop("text", None)
         F = fc.face(style, H, face_width(side, dx, dz), sc, rng, side, **kw)
+        if monument and style not in ("stair", "blank"):
+            fc.monument(F, side, sc)
         if text:
             for t in text:
                 t = dict(t)

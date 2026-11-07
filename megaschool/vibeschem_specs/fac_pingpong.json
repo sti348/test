@@ -1,0 +1,65 @@
+{
+ "name": "pingpong",
+ "minecraftVersion": "1.20.1",
+ "description": "乒乓球台",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "legs",
+   "type": "blocks",
+   "block": "polished_blackstone_wall",
+   "at": [
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     4
+    ],
+    [
+     2,
+     0,
+     0
+    ],
+    [
+     2,
+     0,
+     4
+    ]
+   ]
+  },
+  {
+   "id": "top",
+   "type": "box",
+   "from": [
+    0,
+    1,
+    0
+   ],
+   "to": [
+    2,
+    1,
+    4
+   ],
+   "block": "warped_slab[type=bottom]"
+  },
+  {
+   "id": "net",
+   "type": "box",
+   "from": [
+    0,
+    1,
+    2
+   ],
+   "to": [
+    2,
+    1,
+    2
+   ],
+   "block": "white_stained_glass_pane"
+  }
+ ]
+}

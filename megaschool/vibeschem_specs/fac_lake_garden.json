@@ -1,0 +1,466 @@
+{
+ "name": "lake_garden",
+ "minecraftVersion": "1.20.1",
+ "description": "校园湖：岛上的亭子、九曲栈桥、拱桥、垂柳、荷叶和环湖步道",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "ground",
+   "type": "box",
+   "from": [
+    0,
+    -1,
+    0
+   ],
+   "to": [
+    199,
+    -1,
+    219
+   ],
+   "block": "grass"
+  },
+  {
+   "id": "lake",
+   "type": "script",
+   "code": "const W=args.W, D=args.D, cx=args.cx, cz=args.cz;for (let x=0;x<W;x++) for (let z=0;z<D;z++) { const dx=(x-cx)/74, dz=(z-cz)/72; const r=Math.hypot(dx,dz) + 0.16*fbm(x/38, z/38, 0.5, 3); if (r<1.0) { set(x,-1,z,'water'); set(x,-2,z,'water'); set(x,-3,z,'lakebed');   if (r<0.98 && r>0.86 && chance(0.06)) set(x,0,z,'lily_pad'); } else if (r<1.07) { set(x,-1,z,'bank'); if (chance(0.25)) set(x,0,z, pick(['tall_grass','short_grass','fern'])); } else if (r>1.13 && r<1.20) { set(x,-1,z,'walk'); }}",
+   "args": {
+    "W": 200,
+    "D": 220,
+    "cx": 100,
+    "cz": 115
+   }
+  },
+  {
+   "id": "island",
+   "type": "script",
+   "code": "const ix=args.ix, iz=args.iz;for (let x=ix-16;x<=ix+16;x++) for (let z=iz-16;z<=iz+16;z++) { const d=Math.hypot(x-ix,z-iz)+1.5*noise(x/5,z/5); if (d<13) { set(x,-3,z,'dirt'); set(x,-2,z,'dirt'); set(x,-1,z, d<11?'grass_block':'bank'); } }",
+   "args": {
+    "ix": 126,
+    "iz": 93
+   }
+  },
+  {
+   "id": "west_island",
+   "type": "script",
+   "code": "const ix=args.ix, iz=args.iz;for (let x=ix-16;x<=ix+16;x++) for (let z=iz-16;z<=iz+16;z++) { const d=Math.hypot(x-ix,z-iz)+1.5*noise(x/5,z/5); if (d<13) { set(x,-3,z,'dirt'); set(x,-2,z,'dirt'); set(x,-1,z, d<11?'grass_block':'bank'); } }",
+   "args": {
+    "ix": 64,
+    "iz": 131
+   }
+  },
+  {
+   "id": "west_island_tree",
+   "type": "tree",
+   "at": [
+    64,
+    0,
+    131
+   ],
+   "kind": "willow",
+   "seed": 9
+  },
+  {
+   "id": "pavilion",
+   "type": "place",
+   "component": "pavilion",
+   "at": [
+    122,
+    0,
+    89
+   ]
+  },
+  {
+   "id": "boardwalk",
+   "type": "script",
+   "args": {
+    "x0": 137,
+    "z0": 93
+   },
+   "code": "let x=args.x0, z=args.z0; const legs=[[1,0,10],[0,1,6],[1,0,10],[0,-1,6],[1,0,10],[0,1,4],[1,0,8]];for (const [dx,dz,n] of legs) for (let i=0;i<n;i++) { x+=dx; z+=dz; for (let a=-1;a<=1;a++) set(x+(dz?a:0),0,z+(dx?a:0),'spruce_slab[type=bottom]'); if (i%3==0) { set(x+(dz?2:0),0,z+(dx?2:0),'spruce_fence'); set(x-(dz?2:0),0,z-(dx?2:0),'spruce_fence'); } }"
+  },
+  {
+   "id": "bridge",
+   "type": "script",
+   "args": {
+    "x0": 20,
+    "z": 131,
+    "len": 34
+   },
+   "code": "const L=args.len; for (let i=0;i<=L;i++) { const t=i/L; const y=Math.round(5*Math.sin(Math.PI*t)) - 1; const x=args.x0+i; for (let w=-2; w<=2; w++) { set(x,y,args.z+w,'stone'); if (y>0) set(x,y-1,args.z+w,'stone'); } set(x,y+1,args.z-3,'stone_brick_wall'); set(x,y+1,args.z+3,'stone_brick_wall'); set(x,y,args.z-3,'stone'); set(x,y,args.z+3,'stone'); if (i%13==0) { set(x,y+2,args.z-3,'lantern'); set(x,y+2,args.z+3,'lantern'); } }"
+  },
+  {
+   "id": "willows",
+   "type": "script",
+   "args": {
+    "cx": 100,
+    "cz": 115
+   },
+   "code": "for (let k=0;k<22;k++) { const a=k/22*2*Math.PI + 0.13*Math.sin(k*7); const r=1.12 + 0.05*Math.sin(k*3); const x=Math.round(args.cx+74*r*Math.cos(a)), z=Math.round(args.cz+72*r*Math.sin(a)); tree({at:[x,0,z], kind: k%4==1 ? 'cherry' : 'willow', seed: k}); }"
+  },
+  {
+   "id": "oaks",
+   "type": "group",
+   "operations": [
+    {
+     "type": "tree",
+     "at": [
+      12,
+      0,
+      14
+     ],
+     "kind": "big_oak",
+     "seed": 1
+    },
+    {
+     "type": "tree",
+     "at": [
+      186,
+      0,
+      16
+     ],
+     "kind": "big_oak",
+     "seed": 2
+    },
+    {
+     "type": "tree",
+     "at": [
+      14,
+      0,
+      206
+     ],
+     "kind": "big_oak",
+     "seed": 3
+    },
+    {
+     "type": "tree",
+     "at": [
+      186,
+      0,
+      204
+     ],
+     "kind": "big_oak",
+     "seed": 4
+    }
+   ]
+  },
+  {
+   "id": "lamps",
+   "type": "script",
+   "args": {
+    "cx": 100,
+    "cz": 115
+   },
+   "code": "for (let k=0;k<30;k++) { const a=k/30*2*Math.PI; const x=Math.round(args.cx+74*1.24*Math.cos(a)), z=Math.round(args.cz+72*1.24*Math.sin(a)); place('lamp',[x,0,z]); if (k%3==1) place('bench',[x+1,0,z+2]); }"
+  },
+  {
+   "id": "entry_path",
+   "type": "box",
+   "from": [
+    98,
+    -1,
+    190
+   ],
+   "to": [
+    102,
+    -1,
+    219
+   ],
+   "block": "walk"
+  }
+ ],
+ "palette": {
+  "grass": "grass_block",
+  "walk": {
+   "mix": {
+    "polished_andesite": 5,
+    "andesite": 2,
+    "stone_bricks": 1
+   },
+   "scale": 2
+  },
+  "bank": {
+   "mix": {
+    "sand": 3,
+    "gravel": 2,
+    "mud": 1,
+    "moss_block": 1
+   },
+   "scale": 2
+  },
+  "lakebed": {
+   "mix": {
+    "clay": 3,
+    "sand": 2,
+    "gravel": 1
+   },
+   "scale": 3
+  },
+  "column": "stripped_mangrove_log",
+  "deck": "smooth_stone",
+  "roof": {
+   "mix": {
+    "deepslate_tile_stairs": 5,
+    "cobbled_deepslate_stairs": 1
+   },
+   "scale": 2
+  },
+  "stone": {
+   "mix": {
+    "stone_bricks": 4,
+    "mossy_stone_bricks": 1,
+    "cracked_stone_bricks": 1
+   },
+   "scale": 2
+  }
+ },
+ "components": {
+  "pavilion": {
+   "operations": [
+    {
+     "id": "platform",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      8,
+      0,
+      8
+     ],
+     "block": "smooth_stone"
+    },
+    {
+     "id": "edge",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      8,
+      0,
+      8
+     ],
+     "block": "stone",
+     "walls": true
+    },
+    {
+     "id": "columns",
+     "type": "group",
+     "symmetry": {
+      "x": 4,
+      "z": 4
+     },
+     "operations": [
+      {
+       "type": "box",
+       "from": [
+        1,
+        1,
+        1
+       ],
+       "to": [
+        1,
+        4,
+        1
+       ],
+       "block": "column[axis=y]"
+      }
+     ]
+    },
+    {
+     "id": "beam",
+     "type": "box",
+     "from": [
+      1,
+      5,
+      1
+     ],
+     "to": [
+      7,
+      5,
+      7
+     ],
+     "block": "column[axis=x]",
+     "walls": true
+    },
+    {
+     "id": "roof",
+     "type": "roof",
+     "shape": "hip",
+     "from": [
+      1,
+      6,
+      1
+     ],
+     "to": [
+      7,
+      6,
+      7
+     ],
+     "block": "roof",
+     "profile": [
+      0.5,
+      0.5,
+      1,
+      1,
+      1.5
+     ],
+     "overhang": 2,
+     "eaves": "dark_oak_stairs",
+     "ridge": "gold_block"
+    },
+    {
+     "id": "lantern",
+     "type": "blocks",
+     "block": "lantern[hanging=true]",
+     "at": [
+      [
+       4,
+       4,
+       4
+      ]
+     ]
+    },
+    {
+     "id": "seats",
+     "type": "box",
+     "from": [
+      2,
+      1,
+      2
+     ],
+     "to": [
+      6,
+      1,
+      2
+     ],
+     "block": "spruce_slab[type=bottom]"
+    }
+   ]
+  },
+  "lamp": {
+   "operations": [
+    {
+     "id": "foot",
+     "type": "blocks",
+     "block": "polished_andesite",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "post",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      0
+     ],
+     "to": [
+      0,
+      4,
+      0
+     ],
+     "block": "polished_blackstone_wall"
+    },
+    {
+     "id": "head",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "light",
+     "type": "blocks",
+     "block": "lantern[hanging=true]",
+     "at": [
+      [
+       0,
+       4,
+       1
+      ],
+      [
+       0,
+       4,
+       -1
+      ]
+     ]
+    },
+    {
+     "id": "arms",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       1
+      ],
+      [
+       0,
+       5,
+       -1
+      ]
+     ]
+    }
+   ]
+  },
+  "bench": {
+   "operations": [
+    {
+     "id": "seat",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      2,
+      0,
+      0
+     ],
+     "block": "spruce_stairs[facing=north]"
+    },
+    {
+     "id": "arm_w",
+     "type": "blocks",
+     "block": "spruce_trapdoor[open=true,facing=east]",
+     "at": [
+      [
+       -1,
+       0,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "arm_e",
+     "type": "blocks",
+     "block": "spruce_trapdoor[open=true,facing=west]",
+     "at": [
+      [
+       3,
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

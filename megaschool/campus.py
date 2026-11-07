@@ -10,7 +10,6 @@ import numpy as np
 
 from anvil import B
 import buildings as bd
-import font
 import landmarks as lm
 from buildings import GROUND_Y, Piece
 
@@ -92,8 +91,10 @@ def vs_place(L, prop, x, z, y=GROUND_Y):
     import vibeschem
     if not vibeschem.has_cache():
         return False
-    A, (ox, oy, oz) = vibeschem.load()["prop/" + prop]
-    L.add(Piece(prop.split("_")[0], int(x) + ox, int(y) + oy, int(z) + oz, A.shape, _vs_prop, 0, kw={"prop": prop}))
+    key = prop if "/" in prop else "prop/" + prop
+    A, (ox, oy, oz) = vibeschem.load()[key]
+    name = key.split("/")[1].split("_")[0] if key.startswith("prop/") else key.split("/")[1]
+    L.add(Piece(name, int(x) + ox, int(y) + oy, int(z) + oz, A.shape, _vs_prop, 0, kw={"prop": key}))
     return True
 
 
@@ -150,9 +151,6 @@ SCHEME_POOL = ["white_red", "white_red", "cream_brick", "blue_white", "gray_mode
 NAMES = ["明德楼", "致远楼", "博学楼", "求是楼", "笃行楼", "格物楼", "至善楼", "思源楼", "弘毅楼", "敏行楼",
          "启智楼", "尚志楼", "知行楼", "厚德楼", "崇文楼", "立人楼", "励志楼", "进德楼", "修远楼", "文渊楼",
          "日新楼", "躬行楼", "明理楼", "浩然楼"]
-MOTTOS = ["天道酬勤", "厚德载物", "自强不息", "勤奋求实", "学无止境", "惜时如金", "志存高远", "博学笃志",
-          "静以修身", "知行合一", "业精于勤", "严谨求实"]
-SIGNS = ["高考加油", "勤奋", "拼搏", "求实", "创新", "团结", "奋斗", "厚德", "博学", "梦想"]
 
 
 class Namer:
@@ -182,8 +180,7 @@ def lot_slabs(L, rng, x0, z0, x1, z1, namer, n=3):
         zz = int(z0 + 8 + k * pitch + (pitch - (Dp + 6)) / 2)
         f = max(14, min(MAX_FLOORS, base + int(rng.integers(-8, 9)) - (n - 1 - k) * 0 ))
         H = bd.floors_h(f)
-        motto = (MOTTOS[rng.integers(len(MOTTOS))], 16, 30) if rng.random() < 0.45 else None
-        sign = (SIGNS[rng.integers(len(SIGNS))], 22, B("red_concrete"), corr) if rng.random() < 0.4 else None
+        motto = sign = None          # no slogans: the architecture alone has to loom
         kw = dict(L=Ls, Dp=Dp, H=H, scheme=sch, corridor_side=corr, name=namer.name(), motto=motto, sign=sign,
                   accent_every=int(rng.choice([0, 0, 8, 10])), lit=0.02)
         place(L, "slab", bd.slab, bd.slab_size(Ls, Dp, H), x0 + 8, zz, int(rng.integers(1 << 30)), **kw)
@@ -232,7 +229,7 @@ def lot_towers(L, rng, x0, z0, x1, z1, namer):
         cz = int(z0 + (z1 - z0) * fz)
         f = floors_for(cx, cz, rng, 1.05)
         H = bd.floors_h(min(MAX_FLOORS, f + int(rng.integers(0, 10))))
-        sign = (SIGNS[rng.integers(len(SIGNS))], 14, B("red_concrete"), "S") if rng.random() < 0.3 else None
+        sign = None
         kw = dict(W=W, H=H, scheme=sch, tiers=int(rng.integers(2, 4)), style=str(style), sign=sign)
         place(L, "tower", bd.tower, (H + 43, W, W), cx - W // 2, cz - W // 2, int(rng.integers(1 << 30)), **kw)
 
@@ -401,7 +398,7 @@ def south_zone(L, rng, namer):
     place(L, "wall", wall_seg, (5, 2, EAST_X - WEST_X), WEST_X, NORTH_Z - 2, 0, n=EAST_X - WEST_X, axis="x")
     g = _sz(lm.gate, {})
     place(L, "gate", lm.gate, g, -g[2] // 2, GATE_Z - 15, 11)
-    if not vs_place(L, "guard_house", 150, GATE_Z - 14):
+    if not vs_place(L, "guard_house", 150, GATE_Z + 5):
         place(L, "guard", lm.guard_house, (6, 8, 12), 150, GATE_Z - 14, 0)
     place(L, "sliding_gate", sliding_gate, (2, 1, 160), -100, GATE_Z + 2, 0, n=160)
     # ---- central avenue + flag plaza
@@ -424,12 +421,19 @@ def south_zone(L, rng, namer):
     for z in range(fz + 75, GATE_Z - 30, 20):
         vs_place(L, "bench", -34, z)
         vs_place(L, "bench", 32, z)
+    # covered walkways (风雨廊) both sides of the avenue, the fountain, a bus stop
+    vs_place(L, "fac/walkway", -72, 680)
+    vs_place(L, "fac/walkway", 66, 680)
+    vs_place(L, "fac/fountain", -14, GATE_Z + 60)
+    vs_place(L, "fac/bus_stop", 30, STREET_Z + 29)
+    vs_place(L, "fac/bus_lot", -700, GATE_Z + 25)
+    vs_place(L, "fac/car_park", 400, GATE_Z + 25)
     # ---- main building + portico + stair
     place(L, "main", lm.main_building, (380, 296, 1088), -544, 600 - 296, 5)
     pt = _sz(lm.portico, {})
     place(L, "portico", lm.portico, pt, -pt[2] // 2, 600, 6)
-    st = _sz(lm.stairs, dict(width=360, steps=10))
-    place(L, "stairs", lm.stairs, st, -180, 620, 0, width=360, steps=10)
+    st = _sz(lm.stairs, dict(width=296, steps=10))
+    place(L, "stairs", lm.stairs, st, -148, 620, 0, width=296, steps=10)
     L.rect(-560, 530, 560, 640, PAVE)
     L.rect(-200, 600, 200, 672, PLAZA)
     # ---- teaching-building rows on both sides of the avenue (the "canyon")
@@ -439,6 +443,9 @@ def south_zone(L, rng, namer):
     while xa + 120 < EAST_X:
         xb = min(xa + 200, EAST_X - 6)
         for side, (a, b) in enumerate(((xa, xb), (-xb, -xa))):
+            fac = {(0, 1): "lake_garden", (0, 0): "sports_park", (1, 1): "auditorium", (1, 0): "greenhouse"}.get((k, side))
+            if fac and vs_place(L, "fac/" + fac, a, za):
+                continue
             lot_ground(L, a, za, b, zb)
             if side == 1 and k == 3:
                 courts(L, a, za, b, zb)
@@ -539,7 +546,6 @@ def goal(rng, flip=False):
 
 # ---------------------------------------------------------------- whole campus
 ENDLESS_ROW = -4
-CHARS = "学而时习之不亦说乎有朋自远方来不亦乐乎人不知而不愠不亦君子乎"
 
 
 def endless_segment(rng, dx, H, arch, first, last, char):
@@ -563,32 +569,6 @@ def endless_segment(rng, dx, H, arch, first, last, char):
         A[:ah, 1:D - 1, a0] = sc.wall
         A[:ah, 1:D - 1, a1 - 1] = sc.wall
         A[ah - 1, 1:D - 1, a0:a1] = sc.wall
-    return A
-
-
-def countdown_board(rng, W=260, Hb=150, leg_h=110):
-    """Free-standing exam countdown board: 距离高考 还有 1 天."""
-    A = np.zeros((leg_h + Hb + 6, 12, W), np.uint16)
-    for x in (20, W // 2 - 4, W - 28):
-        A[:leg_h + 10, 6:12, x:x + 8] = B("gray_concrete")
-    A[leg_h:leg_h + Hb, 2:6, :] = B("red_concrete")
-    A[leg_h:leg_h + Hb, 1, :] = B("red_concrete")
-    A[leg_h:leg_h + 3, 0:6, :] = B("gold_block")
-    A[leg_h + Hb - 3:leg_h + Hb, 0:6, :] = B("gold_block")
-    A[leg_h:leg_h + Hb, 0:6, 0:3] = B("gold_block")
-    A[leg_h:leg_h + Hb, 0:6, W - 3:W] = B("gold_block")
-    for txt, px, yt, col in (("距离高考", 46, 12, B("white_concrete")), ("还有", 46, 80, B("white_concrete"))):
-        bm = font.text(txt, px, 8, bold=1)[::-1]
-        h, w = bm.shape
-        y0 = leg_h + Hb - yt - h
-        x0 = 20 if txt == "还有" else (W - w) // 2
-        sl = A[y0:y0 + h, 0, x0:x0 + w]
-        sl[bm] = col
-    bm = font.text("1天", 60, 10, bold=2)[::-1]
-    h, w = bm.shape
-    sl = A[leg_h + 8:leg_h + 8 + h, 0, W - w - 20:W - 20]
-    sl[bm] = B("yellow_concrete")
-    A = A[:, ::-1, :].copy()      # text side faces +z (south)
     return A
 
 
@@ -633,7 +613,7 @@ def build(seed=20260901):
 
     special = {(0, 1): "library", (-2, 1): "gym", (-2, 0): "canteen", (0, -1): "garden_globe",
                (-5, -2): "garden", (5, -6): "garden", (-7, -8): "garden", (3, -9): "garden", (8, 0): "garden",
-               (-8, 1): "garden", (0, -6): "gym", (6, -2): "canteen", (0, -8): "countdown", (-4, -6): "observatory",
+               (-8, 1): "garden", (0, -6): "gym", (6, -2): "canteen", (0, -8): "water_tower", (-4, -6): "observatory",
                (7, -8): "observatory", (0, -7): "garden"}
     pg = {(i, r) for i in (2, 3, 4) for r in (0, 1)}
     playground(L, rng, 2 * PITCH - LOT // 2, 0 * PITCH + ZOFF - LOT // 2, 4 * PITCH + LOT // 2, 1 * PITCH + ZOFF + LOT // 2)
@@ -649,7 +629,7 @@ def build(seed=20260901):
         ra = i * PITCH + LOT // 2 - x0
         if not last and ra + ROAD <= x1 - x0:
             arch = (ra, ra + ROAD)
-        ch = CHARS[k % len(CHARS)] if True else None
+        ch = None
         place(L, "endless", endless_segment, (Hend + 3 + 30, 40, x1 - x0), x0, ez - 20, 1000 + k,
               dx=x1 - x0, H=Hend, arch=arch, first=first, last=last, char=ch)
         # left-of-arch road gap on the west of the segment is also covered (segments abut)
@@ -690,9 +670,9 @@ def build(seed=20260901):
                 lot_canteen(L, rng, x0, z0, x1, z1, namer)
             elif kind.startswith("garden"):
                 lot_garden(L, rng, x0, z0, x1, z1, namer, globe=kind == "garden_globe")
-            elif kind == "countdown":
+            elif kind == "water_tower":
                 L.rect(x0 + 5, z0 + 5, x1 - 5, z1 - 5, PLAZA)
-                place(L, "countdown", countdown_board, (266, 12, 260), cx - 130, cz - 6, 0)
+                vs_place(L, "fac/water_tower", cx, cz)
             elif kind == "observatory":
                 place(L, "observatory", observatory, (164, 123, 123), cx - 61, cz - 61, 0)
             else:

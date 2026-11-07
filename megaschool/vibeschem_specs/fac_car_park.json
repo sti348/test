@@ -1,0 +1,558 @@
+{
+ "name": "car_park",
+ "minecraftVersion": "1.20.1",
+ "description": "停车场：一排排小汽车",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "asphalt",
+   "type": "box",
+   "from": [
+    0,
+    -1,
+    0
+   ],
+   "to": [
+    299,
+    -1,
+    79
+   ],
+   "block": "gray_concrete"
+  },
+  {
+   "id": "kerb",
+   "type": "box",
+   "from": [
+    0,
+    -1,
+    0
+   ],
+   "to": [
+    299,
+    -1,
+    79
+   ],
+   "block": "smooth_stone",
+   "walls": true
+  },
+  {
+   "id": "bays",
+   "type": "script",
+   "args": {
+    "W": 300,
+    "D": 80
+   },
+   "code": "for (let x=4; x<args.W-4; x+=3) { box([x,-1,3],[x,-1,9],'white_concrete'); box([x,-1,args.D-10],[x,-1,args.D-4],'white_concrete'); box([x,-1,args.D/2-8],[x,-1,args.D/2+7],'white_concrete'); }"
+  },
+  {
+   "id": "cars",
+   "type": "script",
+   "args": {
+    "W": 300,
+    "D": 80,
+    "colors": [
+     "white",
+     "black",
+     "gray",
+     "light_gray",
+     "red",
+     "blue"
+    ]
+   },
+   "code": "for (let x=5; x<args.W-5; x+=3) for (const z of [4, args.D-9, args.D/2-7, args.D/2+2]) if (chance(0.62)) place('car_'+pick(args.colors),[x,0,z]);"
+  },
+  {
+   "id": "lamps",
+   "type": "script",
+   "args": {
+    "W": 300,
+    "D": 80
+   },
+   "code": "for (let x=12; x<args.W; x+=24) { place('lamp',[x,0,14]); place('lamp',[x,0,args.D-15]); }"
+  },
+  {
+   "id": "trees",
+   "type": "script",
+   "args": {
+    "W": 300,
+    "D": 80
+   },
+   "code": "for (let x=6; x<args.W; x+=12) tree({at:[x,0,args.D/2], kind:'oak', seed:x});"
+  }
+ ],
+ "components": {
+  "lamp": {
+   "operations": [
+    {
+     "id": "foot",
+     "type": "blocks",
+     "block": "polished_andesite",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "post",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      0
+     ],
+     "to": [
+      0,
+      4,
+      0
+     ],
+     "block": "polished_blackstone_wall"
+    },
+    {
+     "id": "head",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "light",
+     "type": "blocks",
+     "block": "lantern[hanging=true]",
+     "at": [
+      [
+       0,
+       4,
+       1
+      ],
+      [
+       0,
+       4,
+       -1
+      ]
+     ]
+    },
+    {
+     "id": "arms",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       1
+      ],
+      [
+       0,
+       5,
+       -1
+      ]
+     ]
+    }
+   ]
+  },
+  "car_white": {
+   "operations": [
+    {
+     "id": "body",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      1,
+      0,
+      4
+     ],
+     "block": "white_concrete"
+    },
+    {
+     "id": "cabin",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      1
+     ],
+     "to": [
+      1,
+      1,
+      3
+     ],
+     "block": "gray_stained_glass_pane"
+    },
+    {
+     "id": "top",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      1
+     ],
+     "to": [
+      1,
+      2,
+      3
+     ],
+     "block": "smooth_quartz_slab[type=bottom]"
+    },
+    {
+     "id": "lights",
+     "type": "blocks",
+     "block": "ochre_froglight",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  "car_black": {
+   "operations": [
+    {
+     "id": "body",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      1,
+      0,
+      4
+     ],
+     "block": "black_concrete"
+    },
+    {
+     "id": "cabin",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      1
+     ],
+     "to": [
+      1,
+      1,
+      3
+     ],
+     "block": "gray_stained_glass_pane"
+    },
+    {
+     "id": "top",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      1
+     ],
+     "to": [
+      1,
+      2,
+      3
+     ],
+     "block": "smooth_stone_slab[type=bottom]"
+    },
+    {
+     "id": "lights",
+     "type": "blocks",
+     "block": "ochre_froglight",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  "car_gray": {
+   "operations": [
+    {
+     "id": "body",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      1,
+      0,
+      4
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "id": "cabin",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      1
+     ],
+     "to": [
+      1,
+      1,
+      3
+     ],
+     "block": "gray_stained_glass_pane"
+    },
+    {
+     "id": "top",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      1
+     ],
+     "to": [
+      1,
+      2,
+      3
+     ],
+     "block": "smooth_stone_slab[type=bottom]"
+    },
+    {
+     "id": "lights",
+     "type": "blocks",
+     "block": "ochre_froglight",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  "car_light_gray": {
+   "operations": [
+    {
+     "id": "body",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      1,
+      0,
+      4
+     ],
+     "block": "light_gray_concrete"
+    },
+    {
+     "id": "cabin",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      1
+     ],
+     "to": [
+      1,
+      1,
+      3
+     ],
+     "block": "gray_stained_glass_pane"
+    },
+    {
+     "id": "top",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      1
+     ],
+     "to": [
+      1,
+      2,
+      3
+     ],
+     "block": "smooth_quartz_slab[type=bottom]"
+    },
+    {
+     "id": "lights",
+     "type": "blocks",
+     "block": "ochre_froglight",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  "car_red": {
+   "operations": [
+    {
+     "id": "body",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      1,
+      0,
+      4
+     ],
+     "block": "red_concrete"
+    },
+    {
+     "id": "cabin",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      1
+     ],
+     "to": [
+      1,
+      1,
+      3
+     ],
+     "block": "gray_stained_glass_pane"
+    },
+    {
+     "id": "top",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      1
+     ],
+     "to": [
+      1,
+      2,
+      3
+     ],
+     "block": "smooth_stone_slab[type=bottom]"
+    },
+    {
+     "id": "lights",
+     "type": "blocks",
+     "block": "ochre_froglight",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  },
+  "car_blue": {
+   "operations": [
+    {
+     "id": "body",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      1,
+      0,
+      4
+     ],
+     "block": "blue_concrete"
+    },
+    {
+     "id": "cabin",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      1
+     ],
+     "to": [
+      1,
+      1,
+      3
+     ],
+     "block": "gray_stained_glass_pane"
+    },
+    {
+     "id": "top",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      1
+     ],
+     "to": [
+      1,
+      2,
+      3
+     ],
+     "block": "smooth_stone_slab[type=bottom]"
+    },
+    {
+     "id": "lights",
+     "type": "blocks",
+     "block": "ochre_froglight",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       1,
+       0,
+       0
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

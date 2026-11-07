@@ -21,7 +21,8 @@ def viewpoints():
     cy = campus.GROUND_Y + 4 * floor + 1
     tc = [q for q in L.pieces if q.name == "stand"][0]
     lib = [q for q in L.pieces if q.name == "library"][0]
-    cd = [q for q in L.pieces if q.name == "countdown"][0]
+    wt = [q for q in L.pieces if q.name == "water_tower"][0]
+    fac = {q.name: q for q in L.pieces if q.name in ("lake_garden", "sports_park", "auditorium", "greenhouse", "bus_lot")}
     ez = campus.ENDLESS_ROW * campus.PITCH + campus.ZOFF
     sx, sy, sz = campus.SPAWN
     return {
@@ -36,7 +37,12 @@ def viewpoints():
         "playground": (tc.x + 165.5, -38, tc.z + 14.5, 0, 5, "操场看台"),
         "library": (0.5, -60, lib.z1 + 32.5, 180, -30, "图书馆柱廊"),
         "endless": (40.5, -60, ez + 120.5, 230, -16, "无尽长廊楼"),
-        "countdown": (cd.x + 130.5, -60, cd.z1 + 230.5, 180, -26, "高考倒计时牌"),
+        "watertower": (wt.x + 36.5, -60, wt.z1 + 150.5, 180, -32, "巨型水塔"),
+        "lake": (fac["lake_garden"].x + 196.5, -59, fac["lake_garden"].z + 40.5, 125, -6, "校园湖（湖心亭、拱桥）"),
+        "pool": (fac["sports_park"].x + 42.5, -50, fac["sports_park"].z + 90.5, 180, 14, "游泳池跳台"),
+        "auditorium": (fac["auditorium"].x + 100.5, -60, fac["auditorium"].z + 6.5, 0, -18, "大礼堂"),
+        "greenhouse": (fac["greenhouse"].x + 99.5, -60, fac["greenhouse"].z + 160.5, 180, -8, "植物园温室"),
+        "buses": (fac["bus_lot"].x + 150.5, -58, fac["bus_lot"].z + 40.5, 90, 4, "校车停车场"),
         "sky": (300.5, 230, 1160.5, 192, 22, "高空俯瞰"),
     }
 
@@ -54,7 +60,7 @@ def write(dst):
     funcs = {}
     funcs["welcome"] = "\n".join([
         'tellraw @s ["",{"text":"—— 无涯中学 ——","color":"gold","bold":true}]',
-        'tellraw @s {"text":"学海无涯，校园也无涯。建议渲染距离 16~32 区块。","color":"gray"}',
+        'tellraw @s {"text":"黄昏版：太阳刚落，教室和路灯都亮了。建议渲染距离 16~32 区块。","color":"gray"}',
         'tellraw @s {"text":"/function wuya:help  查看传送点与玩法","color":"yellow"}',
         "tag @s add wuya_seen",
     ])
@@ -70,7 +76,7 @@ def write(dst):
     for k, (x, y, z, yaw, pitch, _) in VIEWPOINTS.items():
         funcs[f"tp/{k}"] = f"tp @s {x} {y} {z} {yaw} {pitch}"
     funcs["day"] = "time set 1000"
-    funcs["dusk"] = "time set 12600"
+    funcs["dusk"] = "time set 12700"
     funcs["night"] = "time set 18000"
     funcs["tick"] = "execute as @a[tag=!wuya_seen] at @s run function wuya:welcome"
     # attribute was renamed in 1.21.2; only the variant that parses in the running

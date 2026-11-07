@@ -140,10 +140,7 @@ def main_building(rng, W=1088, D=296, H_front=281, H_wing=221, front_d=64, tower
         part = bd.box(rng, wing_w, D - front_d + 8, hw, sc, f, extra=30)
         bd.paste(A, part, 0, 0, wx)
     # front block
-    win = ("windows", dict(accent_every=10, ac=0.1, text=[
-        dict(s="书山有路勤为径", y_top=44, u_center=W // 4 - 8, px=40, fg=B("red_concrete"), bg=B("white_concrete"), bold=1),
-        dict(s="学海无涯苦作舟", y_top=44, u_center=3 * W // 4 + 8, px=40, fg=B("red_concrete"), bg=B("white_concrete"), bold=1),
-    ]))
+    win = ("windows", dict(accent_every=10, ac=0.1))
     def podium(F, side):
         if side != "S":
             return

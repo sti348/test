@@ -241,6 +241,7 @@ def vibeschem_face(style, H, W, sc, rng, side, lit=0.02, accent_every=0, ac=0.15
                    laundry=0.25, spandrel=None, fins=0, **_ignored):
     """Facade tiled from the VibeSchem-compiled module for this style/scheme/side."""
     import vibeschem
+    lit = lit * LIT_SCALE
     M = vibeschem.module(style, sc.name, side)
     fh, bay, D = M.shape
     uoff = bay // 2 if style in ("corridor", "windows") else 0
@@ -292,3 +293,54 @@ def face(style, H, W, sc, rng, side, **kw):
         if vibeschem.has_cache():
             return vibeschem_face(style, H, W, sc, rng, side, **kw)
     return STYLES[style](H, W, sc, rng, **kw)
+
+
+# ---------------------------------------------------------------- monumental treatment
+# Dusk version: more classrooms lit (evening study) than the daytime build.
+LIT_SCALE = 2.5
+PIER = {"white_red": "light_gray_concrete", "cream_brick": "bricks", "blue_white": "light_gray_concrete",
+        "gray_modern": "gray_concrete", "red_brick": "smooth_quartz", "brutal": "stone_bricks",
+        "ochre": "white_concrete", "tile_gray": "light_gray_terracotta"}
+SHADOW = {"S": "north", "N": "south", "W": "east", "E": "west"}   # stair back against the wall
+
+
+def monument(F, side, sc, pier_every=40, pier_w=4, crown=12, plinth=8):
+    """Colossal piers rising the full height, a heavy attic crown with a dark
+    shadow line under it, and a dark stone base with recessed portals."""
+    H, W, D = F.shape
+    if H < 60 or W < 24 or D < 3:
+        return F
+    pm = B(PIER.get(sc.name, "light_gray_concrete"))
+    base = B("polished_deepslate")
+    lintel = sc.trim
+    shadow = B(f"polished_deepslate_stairs[facing={SHADOW[side]},half=top]")
+    u = np.arange(W)
+    offs = (W % pier_every) // 2
+    cols = ((u - offs) % pier_every) < pier_w
+    for d in range(D):
+        sl = F[:, cols, d]
+        if d < 2:
+            sl[:] = pm
+        else:
+            sl[sl == 0] = pm
+    top = H - crown
+    F[top:, :, 0:2] = sc.trim
+    for d in range(2, D):
+        sl = F[top:, :, d]
+        sl[sl == 0] = sc.trim
+    F[top, :, 0] = shadow
+    F[top + crown // 2, :, 0] = shadow
+    F[:plinth, :, 0:2] = base
+    for d in range(2, D):
+        sl = F[:plinth, :, d]
+        sl[sl == 0] = base
+    # portals: one tall recessed doorway in every bay between piers
+    starts = np.nonzero(cols & ~np.roll(cols, -1))[0]
+    for s in starts:
+        c = s + pier_every // 2
+        if c + 3 >= W:
+            continue
+        F[1:7, c - 1:c + 2, 0:2] = 0
+        F[1:7, c - 1:c + 2, 2] = sc.back
+        F[7, c - 2:c + 3, 0] = lintel
+    return F

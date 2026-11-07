@@ -1,0 +1,293 @@
+{
+ "name": "greenhouse",
+ "minecraftVersion": "1.20.1",
+ "description": "植物园：三座玻璃筒拱温室（里面有棕榈和花）、绿篱花园和水池",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "ground",
+   "type": "box",
+   "from": [
+    0,
+    -1,
+    0
+   ],
+   "to": [
+    199,
+    -1,
+    219
+   ],
+   "block": "grass_block"
+  },
+  {
+   "id": "walks",
+   "type": "group",
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      0,
+      -1,
+      20
+     ],
+     "to": [
+      199,
+      -1,
+      23
+     ],
+     "block": "walk"
+    },
+    {
+     "type": "box",
+     "from": [
+      97,
+      -1,
+      0
+     ],
+     "to": [
+      102,
+      -1,
+      219
+     ],
+     "block": "walk"
+    }
+   ]
+  },
+  {
+   "id": "vault_0",
+   "type": "script",
+   "code": "const x0=args.x0, z0=args.z0, w=args.w, l=args.l, h=args.h; const c=(w-1)/2;box([x0,-1,z0],[x0+w-1,0,z0+l-1],'plinth'); box([x0+1,-1,z0+1],[x0+w-2,-1,z0+l-2],'grass_block');for (let z=z0; z<z0+l; z++) for (let x=x0; x<x0+w; x++) { const t=(x-x0-c)/c; const y=Math.round(h*Math.sqrt(Math.max(0,1-t*t))); const yn=Math.round(h*Math.sqrt(Math.max(0,1-Math.pow((Math.abs(x-x0-c)+1)/c,2)))); for (let yy=Math.min(y,yn+1); yy<=y; yy++) set(x, yy+1, z, ((z-z0)%6==0) ? 'rib' : 'glass'); }for (const z of [z0, z0+l-1]) for (let x=x0; x<x0+w; x++) { const t=(x-x0-c)/c; const y=Math.round(h*Math.sqrt(Math.max(0,1-t*t))); for (let yy=1; yy<=y; yy++) set(x, yy, z, (Math.abs(x-x0-c)<2 && yy<5) ? 'air' : ((x-x0)%5==0 ? 'rib' : 'glass')); }for (let k=0;k<6;k++) tree({at:[x0+4+randInt(0,w-9),0,z0+6+k*Math.floor((l-12)/6)], kind: pick(['palm','jungle','cherry','oak']), seed:k+x0});scatter({from:[x0+1,-1,z0+1],to:[x0+w-2,1,z0+l-2], block:'flowers', density:0.12, on:['grass_block']});for (let z=z0+5; z<z0+l-3; z+=10) set(x0+Math.round(c), h-1, z, 'lantern[hanging=true]');",
+   "args": {
+    "x0": 16,
+    "z0": 32,
+    "w": 31,
+    "l": 96,
+    "h": 15
+   }
+  },
+  {
+   "id": "vault_1",
+   "type": "script",
+   "code": "const x0=args.x0, z0=args.z0, w=args.w, l=args.l, h=args.h; const c=(w-1)/2;box([x0,-1,z0],[x0+w-1,0,z0+l-1],'plinth'); box([x0+1,-1,z0+1],[x0+w-2,-1,z0+l-2],'grass_block');for (let z=z0; z<z0+l; z++) for (let x=x0; x<x0+w; x++) { const t=(x-x0-c)/c; const y=Math.round(h*Math.sqrt(Math.max(0,1-t*t))); const yn=Math.round(h*Math.sqrt(Math.max(0,1-Math.pow((Math.abs(x-x0-c)+1)/c,2)))); for (let yy=Math.min(y,yn+1); yy<=y; yy++) set(x, yy+1, z, ((z-z0)%6==0) ? 'rib' : 'glass'); }for (const z of [z0, z0+l-1]) for (let x=x0; x<x0+w; x++) { const t=(x-x0-c)/c; const y=Math.round(h*Math.sqrt(Math.max(0,1-t*t))); for (let yy=1; yy<=y; yy++) set(x, yy, z, (Math.abs(x-x0-c)<2 && yy<5) ? 'air' : ((x-x0)%5==0 ? 'rib' : 'glass')); }for (let k=0;k<6;k++) tree({at:[x0+4+randInt(0,w-9),0,z0+6+k*Math.floor((l-12)/6)], kind: pick(['palm','jungle','cherry','oak']), seed:k+x0});scatter({from:[x0+1,-1,z0+1],to:[x0+w-2,1,z0+l-2], block:'flowers', density:0.12, on:['grass_block']});for (let z=z0+5; z<z0+l-3; z+=10) set(x0+Math.round(c), h-1, z, 'lantern[hanging=true]');",
+   "args": {
+    "x0": 84,
+    "z0": 32,
+    "w": 33,
+    "l": 120,
+    "h": 19
+   }
+  },
+  {
+   "id": "vault_2",
+   "type": "script",
+   "code": "const x0=args.x0, z0=args.z0, w=args.w, l=args.l, h=args.h; const c=(w-1)/2;box([x0,-1,z0],[x0+w-1,0,z0+l-1],'plinth'); box([x0+1,-1,z0+1],[x0+w-2,-1,z0+l-2],'grass_block');for (let z=z0; z<z0+l; z++) for (let x=x0; x<x0+w; x++) { const t=(x-x0-c)/c; const y=Math.round(h*Math.sqrt(Math.max(0,1-t*t))); const yn=Math.round(h*Math.sqrt(Math.max(0,1-Math.pow((Math.abs(x-x0-c)+1)/c,2)))); for (let yy=Math.min(y,yn+1); yy<=y; yy++) set(x, yy+1, z, ((z-z0)%6==0) ? 'rib' : 'glass'); }for (const z of [z0, z0+l-1]) for (let x=x0; x<x0+w; x++) { const t=(x-x0-c)/c; const y=Math.round(h*Math.sqrt(Math.max(0,1-t*t))); for (let yy=1; yy<=y; yy++) set(x, yy, z, (Math.abs(x-x0-c)<2 && yy<5) ? 'air' : ((x-x0)%5==0 ? 'rib' : 'glass')); }for (let k=0;k<6;k++) tree({at:[x0+4+randInt(0,w-9),0,z0+6+k*Math.floor((l-12)/6)], kind: pick(['palm','jungle','cherry','oak']), seed:k+x0});scatter({from:[x0+1,-1,z0+1],to:[x0+w-2,1,z0+l-2], block:'flowers', density:0.12, on:['grass_block']});for (let z=z0+5; z<z0+l-3; z+=10) set(x0+Math.round(c), h-1, z, 'lantern[hanging=true]');",
+   "args": {
+    "x0": 153,
+    "z0": 32,
+    "w": 31,
+    "l": 96,
+    "h": 15
+   }
+  },
+  {
+   "id": "hedges",
+   "type": "script",
+   "args": {
+    "W": 200
+   },
+   "code": "for (let x=8; x<args.W-8; x+=1) { if (x>94 && x<106) continue; set(x,0,160,'hedge'); set(x,0,206,'hedge'); }for (let z=160; z<=206; z++) { set(8,0,z,'hedge'); set(args.W-9,0,z,'hedge'); }"
+  },
+  {
+   "id": "pond",
+   "type": "cylinder",
+   "center": [
+    52,
+    -2,
+    183
+   ],
+   "radius": 12,
+   "height": 2,
+   "block": "water"
+  },
+  {
+   "id": "pond_rim",
+   "type": "cylinder",
+   "center": [
+    52,
+    -1,
+    183
+   ],
+   "radius": 13,
+   "height": 1,
+   "block": "smooth_stone",
+   "hollow": true
+  },
+  {
+   "id": "beds",
+   "type": "scatter",
+   "from": [
+    110,
+    -1,
+    166
+   ],
+   "to": [
+    188,
+    1,
+    200
+   ],
+   "block": "flowers",
+   "density": 0.35,
+   "on": [
+    "grass_block"
+   ]
+  },
+  {
+   "id": "garden_lamps",
+   "type": "group",
+   "repeat": {
+    "count": 8,
+    "offset": [
+     0,
+     0,
+     26
+    ]
+   },
+   "operations": [
+    {
+     "type": "place",
+     "component": "lamp",
+     "at": [
+      95,
+      0,
+      8
+     ]
+    },
+    {
+     "type": "place",
+     "component": "lamp",
+     "at": [
+      104,
+      0,
+      8
+     ]
+    }
+   ]
+  }
+ ],
+ "palette": {
+  "plinth": {
+   "mix": {
+    "bricks": 5,
+    "mud_bricks": 1
+   },
+   "scale": 2
+  },
+  "rib": "white_concrete",
+  "hedge": {
+   "mix": {
+    "azalea_leaves": 4,
+    "flowering_azalea_leaves": 1
+   },
+   "scale": 2
+  },
+  "walk": {
+   "mix": {
+    "gravel": 3,
+    "coarse_dirt": 1,
+    "packed_mud": 1
+   },
+   "scale": 2
+  },
+  "flowers": {
+   "mix": {
+    "poppy": 2,
+    "dandelion": 2,
+    "cornflower": 1,
+    "allium": 1,
+    "azure_bluet": 1,
+    "oxeye_daisy": 1,
+    "fern": 2,
+    "short_grass": 2
+   }
+  }
+ },
+ "components": {
+  "lamp": {
+   "operations": [
+    {
+     "id": "foot",
+     "type": "blocks",
+     "block": "polished_andesite",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "post",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      0
+     ],
+     "to": [
+      0,
+      4,
+      0
+     ],
+     "block": "polished_blackstone_wall"
+    },
+    {
+     "id": "head",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "light",
+     "type": "blocks",
+     "block": "lantern[hanging=true]",
+     "at": [
+      [
+       0,
+       4,
+       1
+      ],
+      [
+       0,
+       4,
+       -1
+      ]
+     ]
+    },
+    {
+     "id": "arms",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       1
+      ],
+      [
+       0,
+       5,
+       -1
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

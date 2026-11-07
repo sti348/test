@@ -1,0 +1,1110 @@
+{
+ "name": "sports_park",
+ "minecraftVersion": "1.20.1",
+ "description": "室外游泳池（50 米、水下灯、跳台、看台、更衣室）、四片网球场、乒乓球场和健身器材",
+ "seed": 1,
+ "operations": [
+  {
+   "id": "ground",
+   "type": "box",
+   "from": [
+    0,
+    -1,
+    0
+   ],
+   "to": [
+    199,
+    -1,
+    219
+   ],
+   "block": "grass_block"
+  },
+  {
+   "id": "pool_deck",
+   "type": "box",
+   "from": [
+    16,
+    -1,
+    26
+   ],
+   "to": [
+    69,
+    -1,
+    112
+   ],
+   "block": "deck"
+  },
+  {
+   "id": "pool_shell",
+   "type": "box",
+   "from": [
+    29,
+    -3,
+    39
+   ],
+   "to": [
+    55,
+    -2,
+    90
+   ],
+   "block": "tile"
+  },
+  {
+   "id": "pool_water",
+   "type": "box",
+   "from": [
+    30,
+    -2,
+    40
+   ],
+   "to": [
+    54,
+    -1,
+    89
+   ],
+   "block": "water"
+  },
+  {
+   "id": "lanes",
+   "type": "script",
+   "code": "box([32,-3,42],[32,-3,87],'lane');box([35,-3,42],[35,-3,87],'lane');box([38,-3,42],[38,-3,87],'lane');box([41,-3,42],[41,-3,87],'lane');box([44,-3,42],[44,-3,87],'lane');box([47,-3,42],[47,-3,87],'lane');box([50,-3,42],[50,-3,87],'lane');box([53,-3,42],[53,-3,87],'lane');"
+  },
+  {
+   "id": "coping",
+   "type": "box",
+   "from": [
+    29,
+    -1,
+    39
+   ],
+   "to": [
+    55,
+    -1,
+    90
+   ],
+   "block": "smooth_quartz",
+   "walls": true
+  },
+  {
+   "id": "pool_water_top",
+   "type": "box",
+   "from": [
+    30,
+    -1,
+    40
+   ],
+   "to": [
+    54,
+    -1,
+    89
+   ],
+   "block": "water"
+  },
+  {
+   "id": "underwater_lights",
+   "type": "script",
+   "args": {
+    "x0": 30,
+    "z0": 40,
+    "w": 25,
+    "l": 50
+   },
+   "code": "for (let z=args.z0+4; z<args.z0+args.l-2; z+=6) { set(args.x0-1,-2,z,'sea_lantern'); set(args.x0+args.w,-2,z,'sea_lantern'); }"
+  },
+  {
+   "id": "blocks",
+   "type": "script",
+   "args": {
+    "x0": 30,
+    "z0": 40
+   },
+   "code": "for (let i=0;i<8;i++) set(args.x0+2+3*i, 0, args.z0-1, 'smooth_quartz_stairs[facing=north]');"
+  },
+  {
+   "id": "dive_posts",
+   "type": "group",
+   "symmetry": {
+    "x": 42
+   },
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      38,
+      0,
+      94
+     ],
+     "to": [
+      38,
+      9,
+      94
+     ],
+     "block": "white_concrete"
+    }
+   ]
+  },
+  {
+   "id": "dive_3",
+   "type": "box",
+   "from": [
+    38,
+    3,
+    88
+   ],
+   "to": [
+    46,
+    3,
+    94
+   ],
+   "block": "smooth_quartz_slab[type=top]"
+  },
+  {
+   "id": "dive_10",
+   "type": "box",
+   "from": [
+    38,
+    9,
+    86
+   ],
+   "to": [
+    46,
+    9,
+    94
+   ],
+   "block": "smooth_quartz_slab[type=top]"
+  },
+  {
+   "id": "dive_rail",
+   "type": "box",
+   "from": [
+    38,
+    10,
+    86
+   ],
+   "to": [
+    46,
+    10,
+    94
+   ],
+   "block": "iron_bars",
+   "walls": true
+  },
+  {
+   "id": "dive_stairs",
+   "type": "script",
+   "args": {
+    "x": 47,
+    "z": 94
+   },
+   "code": "for (let y=0;y<9;y++) { set(args.x+1, y, args.z-y+8, 'quartz_stairs[facing=north]'); }"
+  },
+  {
+   "id": "bleachers",
+   "type": "script",
+   "args": {
+    "x0": 17,
+    "z0": 40,
+    "l": 50
+   },
+   "code": "for (let r=0;r<6;r++) for (let z=args.z0; z<args.z0+args.l; z++) { for (let y=0;y<r;y++) set(args.x0+5-r, y, z, 'light_gray_concrete'); set(args.x0+5-r, r, z, ((z>>2)&1) ? 'blue_concrete' : 'white_concrete'); }"
+  },
+  {
+   "id": "pool_fence",
+   "type": "box",
+   "from": [
+    15,
+    0,
+    25
+   ],
+   "to": [
+    70,
+    1,
+    113
+   ],
+   "block": "iron_bars",
+   "walls": true
+  },
+  {
+   "id": "pool_gate",
+   "type": "box",
+   "from": [
+    40,
+    0,
+    113
+   ],
+   "to": [
+    44,
+    1,
+    113
+   ],
+   "block": "air"
+  },
+  {
+   "id": "pool_lights",
+   "type": "group",
+   "operations": [
+    {
+     "type": "place",
+     "component": "floodlight",
+     "at": [
+      16,
+      0,
+      26
+     ]
+    },
+    {
+     "type": "place",
+     "component": "floodlight",
+     "at": [
+      69,
+      0,
+      26
+     ]
+    },
+    {
+     "type": "place",
+     "component": "floodlight",
+     "at": [
+      16,
+      0,
+      112
+     ]
+    },
+    {
+     "type": "place",
+     "component": "floodlight",
+     "at": [
+      69,
+      0,
+      112
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lifeguard",
+   "type": "group",
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      58,
+      0,
+      64
+     ],
+     "to": [
+      58,
+      2,
+      64
+     ],
+     "block": "white_concrete"
+    },
+    {
+     "type": "blocks",
+     "block": "red_concrete",
+     "at": [
+      [
+       58,
+       3,
+       64
+      ]
+     ]
+    },
+    {
+     "type": "blocks",
+     "block": "white_wool",
+     "at": [
+      [
+       58,
+       4,
+       64
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "courts",
+   "type": "group",
+   "repeat": {
+    "count": 4,
+    "offset": [
+     0,
+     0,
+     48
+    ]
+   },
+   "operations": [
+    {
+     "type": "place",
+     "component": "tennis",
+     "at": [
+      118,
+      0,
+      8
+     ]
+    }
+   ]
+  },
+  {
+   "id": "trees",
+   "type": "script",
+   "args": {
+    "W": 200,
+    "D": 220
+   },
+   "code": "for (let z=6; z<args.D-6; z+=14) { tree({at:[4,0,z], kind:'birch', seed:z}); tree({at:[args.W-4,0,z], kind:'birch', seed:z+1}); }"
+  },
+  {
+   "id": "path",
+   "type": "box",
+   "from": [
+    100,
+    -1,
+    0
+   ],
+   "to": [
+    105,
+    -1,
+    219
+   ],
+   "block": "deck"
+  },
+  {
+   "id": "pingpong_court",
+   "type": "box",
+   "from": [
+    10,
+    -1,
+    140
+   ],
+   "to": [
+    92,
+    -1,
+    208
+   ],
+   "block": "deck"
+  },
+  {
+   "id": "pingpong_tables",
+   "type": "group",
+   "repeat": {
+    "count": 4,
+    "offset": [
+     0,
+     0,
+     16
+    ]
+   },
+   "operations": [
+    {
+     "type": "place",
+     "component": "pingpong",
+     "at": [
+      16,
+      0,
+      146
+     ],
+     "repeat": {
+      "count": 6,
+      "offset": [
+       12,
+       0,
+       0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "fitness",
+   "type": "group",
+   "repeat": {
+    "count": 5,
+    "offset": [
+     14,
+     0,
+     0
+    ]
+   },
+   "operations": [
+    {
+     "type": "place",
+     "component": "fitness",
+     "at": [
+      18,
+      0,
+      128
+     ]
+    }
+   ]
+  },
+  {
+   "id": "court_lamps",
+   "type": "group",
+   "operations": [
+    {
+     "type": "place",
+     "component": "floodlight",
+     "at": [
+      10,
+      0,
+      140
+     ]
+    },
+    {
+     "type": "place",
+     "component": "floodlight",
+     "at": [
+      92,
+      0,
+      208
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pool_house",
+   "type": "group",
+   "operations": [
+    {
+     "type": "box",
+     "from": [
+      36,
+      0,
+      112
+     ],
+     "to": [
+      70,
+      5,
+      122
+     ],
+     "block": "white_concrete"
+    },
+    {
+     "type": "box",
+     "from": [
+      37,
+      1,
+      112
+     ],
+     "to": [
+      69,
+      3,
+      112
+     ],
+     "block": "glass_pane"
+    },
+    {
+     "type": "box",
+     "from": [
+      37,
+      4,
+      113
+     ],
+     "to": [
+      69,
+      4,
+      121
+     ],
+     "block": "ochre_froglight"
+    },
+    {
+     "type": "box",
+     "from": [
+      37,
+      1,
+      113
+     ],
+     "to": [
+      69,
+      3,
+      121
+     ],
+     "block": "air"
+    },
+    {
+     "type": "roof",
+     "shape": "flat",
+     "from": [
+      36,
+      6,
+      112
+     ],
+     "to": [
+      70,
+      6,
+      122
+     ],
+     "block": "smooth_stone_slab",
+     "overhang": 2,
+     "eaves": "smooth_quartz_stairs"
+    }
+   ]
+  },
+  {
+   "id": "path_lamps",
+   "type": "group",
+   "repeat": {
+    "count": 9,
+    "offset": [
+     0,
+     0,
+     24
+    ]
+   },
+   "operations": [
+    {
+     "type": "place",
+     "component": "lamp",
+     "at": [
+      102,
+      0,
+      10
+     ]
+    }
+   ]
+  }
+ ],
+ "palette": {
+  "deck": {
+   "mix": {
+    "smooth_stone": 5,
+    "polished_diorite": 1
+   },
+   "scale": 3
+  },
+  "tile": "light_blue_concrete",
+  "lane": "blue_concrete",
+  "court": "blue_terracotta",
+  "runoff": "green_terracotta",
+  "line": "white_concrete"
+ },
+ "components": {
+  "tennis": {
+   "operations": [
+    {
+     "id": "runoff",
+     "type": "box",
+     "from": [
+      0,
+      -1,
+      0
+     ],
+     "to": [
+      71,
+      -1,
+      39
+     ],
+     "block": "runoff"
+    },
+    {
+     "id": "court",
+     "type": "box",
+     "from": [
+      11,
+      -1,
+      7
+     ],
+     "to": [
+      60,
+      -1,
+      32
+     ],
+     "block": "court"
+    },
+    {
+     "id": "lines",
+     "type": "box",
+     "from": [
+      11,
+      -1,
+      7
+     ],
+     "to": [
+      60,
+      -1,
+      32
+     ],
+     "block": "line",
+     "walls": true
+    },
+    {
+     "id": "singles",
+     "type": "box",
+     "from": [
+      11,
+      -1,
+      10
+     ],
+     "to": [
+      60,
+      -1,
+      29
+     ],
+     "block": "line",
+     "walls": true
+    },
+    {
+     "id": "service",
+     "type": "box",
+     "from": [
+      22,
+      -1,
+      10
+     ],
+     "to": [
+      49,
+      -1,
+      29
+     ],
+     "block": "line",
+     "walls": true
+    },
+    {
+     "id": "center",
+     "type": "box",
+     "from": [
+      22,
+      -1,
+      19
+     ],
+     "to": [
+      49,
+      -1,
+      20
+     ],
+     "block": "line"
+    },
+    {
+     "id": "net",
+     "type": "box",
+     "from": [
+      35,
+      0,
+      6
+     ],
+     "to": [
+      36,
+      0,
+      33
+     ],
+     "block": "white_stained_glass_pane"
+    },
+    {
+     "id": "net_posts",
+     "type": "blocks",
+     "block": "polished_blackstone_wall",
+     "at": [
+      [
+       35,
+       0,
+       5
+      ],
+      [
+       35,
+       0,
+       34
+      ]
+     ]
+    },
+    {
+     "id": "fence",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      71,
+      3,
+      39
+     ],
+     "block": "iron_bars",
+     "walls": true
+    },
+    {
+     "id": "gate",
+     "type": "box",
+     "from": [
+      34,
+      0,
+      39
+     ],
+     "to": [
+      37,
+      2,
+      39
+     ],
+     "block": "air"
+    },
+    {
+     "id": "lights",
+     "type": "group",
+     "operations": [
+      {
+       "type": "place",
+       "component": "floodlight",
+       "at": [
+        1,
+        0,
+        1
+       ]
+      },
+      {
+       "type": "place",
+       "component": "floodlight",
+       "at": [
+        70,
+        0,
+        38
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "floodlight": {
+   "operations": [
+    {
+     "id": "mast",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      0,
+      13,
+      0
+     ],
+     "block": "gray_concrete"
+    },
+    {
+     "id": "arm",
+     "type": "box",
+     "from": [
+      -1,
+      14,
+      0
+     ],
+     "to": [
+      1,
+      14,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "id": "lamps",
+     "type": "box",
+     "from": [
+      -1,
+      15,
+      0
+     ],
+     "to": [
+      1,
+      15,
+      0
+     ],
+     "block": "sea_lantern"
+    },
+    {
+     "id": "hood",
+     "type": "box",
+     "from": [
+      -1,
+      16,
+      0
+     ],
+     "to": [
+      1,
+      16,
+      0
+     ],
+     "block": "smooth_stone_slab"
+    }
+   ]
+  },
+  "lamp": {
+   "operations": [
+    {
+     "id": "foot",
+     "type": "blocks",
+     "block": "polished_andesite",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "post",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      0
+     ],
+     "to": [
+      0,
+      4,
+      0
+     ],
+     "block": "polished_blackstone_wall"
+    },
+    {
+     "id": "head",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "light",
+     "type": "blocks",
+     "block": "lantern[hanging=true]",
+     "at": [
+      [
+       0,
+       4,
+       1
+      ],
+      [
+       0,
+       4,
+       -1
+      ]
+     ]
+    },
+    {
+     "id": "arms",
+     "type": "blocks",
+     "block": "dark_oak_fence",
+     "at": [
+      [
+       0,
+       5,
+       1
+      ],
+      [
+       0,
+       5,
+       -1
+      ]
+     ]
+    }
+   ]
+  },
+  "pingpong": {
+   "operations": [
+    {
+     "id": "legs",
+     "type": "blocks",
+     "block": "polished_blackstone_wall",
+     "at": [
+      [
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       4
+      ],
+      [
+       2,
+       0,
+       0
+      ],
+      [
+       2,
+       0,
+       4
+      ]
+     ]
+    },
+    {
+     "id": "top",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      0
+     ],
+     "to": [
+      2,
+      1,
+      4
+     ],
+     "block": "warped_slab[type=bottom]"
+    },
+    {
+     "id": "net",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      2
+     ],
+     "to": [
+      2,
+      1,
+      2
+     ],
+     "block": "white_stained_glass_pane"
+    }
+   ]
+  },
+  "fitness": {
+   "operations": [
+    {
+     "id": "bar_posts",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      0,
+      2,
+      0
+     ],
+     "block": "blue_concrete"
+    },
+    {
+     "id": "bar_posts2",
+     "type": "box",
+     "from": [
+      4,
+      0,
+      0
+     ],
+     "to": [
+      4,
+      2,
+      0
+     ],
+     "block": "blue_concrete"
+    },
+    {
+     "id": "bar",
+     "type": "box",
+     "from": [
+      1,
+      2,
+      0
+     ],
+     "to": [
+      3,
+      2,
+      0
+     ],
+     "block": "iron_bars"
+    },
+    {
+     "id": "pb",
+     "type": "group",
+     "operations": [
+      {
+       "type": "box",
+       "from": [
+        0,
+        0,
+        4
+       ],
+       "to": [
+        0,
+        1,
+        4
+       ],
+       "block": "yellow_concrete"
+      },
+      {
+       "type": "box",
+       "from": [
+        0,
+        0,
+        8
+       ],
+       "to": [
+        0,
+        1,
+        8
+       ],
+       "block": "yellow_concrete"
+      },
+      {
+       "type": "box",
+       "from": [
+        2,
+        0,
+        4
+       ],
+       "to": [
+        2,
+        1,
+        4
+       ],
+       "block": "yellow_concrete"
+      },
+      {
+       "type": "box",
+       "from": [
+        2,
+        0,
+        8
+       ],
+       "to": [
+        2,
+        1,
+        8
+       ],
+       "block": "yellow_concrete"
+      },
+      {
+       "type": "box",
+       "from": [
+        0,
+        1,
+        5
+       ],
+       "to": [
+        0,
+        1,
+        7
+       ],
+       "block": "iron_bars"
+      },
+      {
+       "type": "box",
+       "from": [
+        2,
+        1,
+        5
+       ],
+       "to": [
+        2,
+        1,
+        7
+       ],
+       "block": "iron_bars"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

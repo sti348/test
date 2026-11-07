@@ -327,9 +327,9 @@ def _text_layers(oid, text, px, top_left, block, vertical=False, gap=None, bold=
             "legend": {"#": block}, "layers": [rows]}
 
 
-def teaching_spec(floors=50, scheme="white_red", name="明德楼", motto="天道酬勤", sign="高考加油"):
+def teaching_spec(floors=50, scheme="white_red", name="明德楼"):
     """教学楼: 16 corridor bays on the south, windows on the north, stair towers
-    with the building's name, motto banner and a rooftop sign."""
+    with the building's name, colossal piers, a heavy crown and a dark base."""
     from schemes import SCHEMES
     sc = SCHEMES[scheme]
     H = FH * floors
@@ -359,24 +359,26 @@ def teaching_spec(floors=50, scheme="white_red", name="明德楼", motto="天道
              "code": "for (let y = 3; y < args.h; y += 4) { for (const x of [args.x, args.x + 1]) { set(x, y, args.z1, 'pane'); set(x, y + 1, args.z1, 'pane'); set(x, y, -3, 'pane'); set(x, y + 1, -3, 'pane'); } }"},
         ]
         ops.append(_text_layers(f"tower_{k}_name", name, 11, [x0 + 1, H - 4, Dp + 3], "gold_block", vertical=True, gap=3, bold=0))
-    # motto banner on the corridor side
-    import font
-    bm = font.text(motto, 16, 3, bold=1)
-    bh, bw = bm.shape
-    bx = body0 + (L - bw) // 2
-    top = H - 20
-    ops.append({"id": "banner", "type": "box", "from": [bx - 4, top - bh - 4, Dp - 2], "to": [bx + bw + 3, top + 3, Dp - 1], "block": "accent"})
-    ops.append(_text_layers("motto", motto, 16, [bx, top, Dp - 1], "white_concrete", gap=3))
-    # rooftop sign with a scaffold behind it
-    sm = font.text(sign, 22, 4, bold=1)
-    sh, sw = sm.shape
-    sx = body0 + (L - sw) // 2
-    ops.append({"id": "sign_frame", "type": "group", "repeat": {"count": sw // 4 + 1, "offset": [4, 0, 0]}, "operations": [
-        {"type": "box", "from": [sx, H + 1, Dp - 3], "to": [sx, H + 4 + sh, Dp - 3], "block": "iron_bars"}]})
-    ops.append(_text_layers("roof_sign", sign, 22, [sx, H + 3 + sh, Dp - 4], "red_concrete", gap=4))
+    # monumental treatment instead of slogans: colossal piers, a heavy attic
+    # crown with a dark shadow line, a dark stone base with recessed portals
+    for x in range(body0 + 18, body0 + L - 4, 40):
+        ops.append({"id": f"pier_s_{x}", "type": "box", "from": [x, 0, Dp - 2], "to": [x + 3, H - 1, Dp], "block": "pier"})
+        ops.append({"id": f"pier_n_{x}", "type": "box", "from": [x, 0, -1], "to": [x + 3, H - 1, 1], "block": "pier"})
+    ops += [
+        {"id": "crown_s", "type": "box", "from": [body0, H - 12, Dp - 3], "to": [body0 + L - 1, H - 1, Dp], "block": "trim"},
+        {"id": "crown_n", "type": "box", "from": [body0, H - 12, -1], "to": [body0 + L - 1, H - 1, 2], "block": "trim"},
+        {"id": "crown_shadow_s", "type": "box", "from": [body0, H - 13, Dp], "to": [body0 + L - 1, H - 13, Dp], "block": "polished_deepslate_stairs[facing=north,half=top]"},
+        {"id": "crown_shadow_n", "type": "box", "from": [body0, H - 13, -1], "to": [body0 + L - 1, H - 13, -1], "block": "polished_deepslate_stairs[facing=south,half=top]"},
+        {"id": "base_s", "type": "box", "from": [body0, 0, Dp - 3], "to": [body0 + L - 1, 7, Dp], "block": "polished_deepslate"},
+        {"id": "base_n", "type": "box", "from": [body0, 0, -1], "to": [body0 + L - 1, 7, 2], "block": "polished_deepslate"},
+        {"id": "portals", "type": "script", "args": {"x0": body0 + 38, "x1": body0 + L - 4, "z": Dp},
+         "code": "for (let x=args.x0; x<args.x1; x+=40) { box([x-1,1,args.z-3],[x+1,6,args.z],'air'); box([x-1,1,args.z-4],[x+1,6,args.z-4],'back'); box([x-2,7,args.z],[x+2,7,args.z],'trim'); }"},
+    ]
     pal = scheme_palette(sc)
+    import facades
+    pal["pier"] = facades.PIER.get(scheme, "light_gray_concrete")
     return {"name": f"教学楼-{name}", "minecraftVersion": VERSION,
-            "description": f"无涯中学的一栋外廊式教学楼：{floors} 层，{L // corr.bay} 间教室/层，楼梯间竖写楼名。",
+            "description": f"无涯中学的一栋外廊式教学楼：{floors} 层，{L // corr.bay} 间教室/层，巨柱、厚重檐口和深色基座。",
             "palette": pal, "components": {"corridor": {"operations": corr.ops}, "windows": {"operations": win.ops}},
             "operations": ops, "anchor": [body0 + L // 2, 0, Dp + 6]}
 
@@ -465,7 +467,7 @@ def module(style, scheme, side):
 
 
 def prop(name):
-    return load()["prop/" + name][0]
+    return load()[name if "/" in name else "prop/" + name][0]
 
 
 def has_cache():
@@ -491,6 +493,9 @@ def all_specs():
             {"id": "rot", "type": "group", "rotate": rot, "operations": h["operations"]}]}, ("prop",))
     for i, s in enumerate(shop_variants()):
         specs[f"prop/shop_{i}"] = (s, ("prop",))
+    import facilities
+    for k, mk in facilities.FACILITIES.items():
+        specs["fac/" + k] = (mk(), ("prop",))
     return specs
 
 
@@ -509,6 +514,8 @@ def sync(names=None):
             origin = [0, 0, 0]
         out[key] = _pack(V, pal, origin)
         if key.endswith("/S") or info[0] == "prop":
+            if key.startswith("fac/"):
+                open(os.path.join(SPECS, key.replace("/", "_") + ".png"), "wb").write(render("iso", 1000))
             with open(os.path.join(SPECS, key.replace("/", "_") + ".json"), "w") as f:
                 json.dump(spec, f, indent=1, ensure_ascii=False)
         print(f"  {key:40s} {summary.splitlines()[0][:90]}", flush=True)
