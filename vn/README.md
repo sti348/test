@@ -1,6 +1,6 @@
 # School World · 视觉小说 CG / 背景
 
-用图像模型（`gpt-image-2.6-flare`，OpenAI Images API，quality high，3840×2160 原生 16:9）画视觉小说背景；地图生成器（`megaschool/`）只当作地点设定参考。
+用图像模型（`gpt-image-2.6-flare`，OpenAI Images API，quality high，原生 16:9；试画风用 1536×864、每轮少量）画视觉小说背景；地图生成器（`megaschool/`）只当作地点设定参考。
 
 | 文件 | 内容 |
 | --- | --- |
@@ -10,7 +10,9 @@
 | `gen.py` | 调用 API 生成、裁成 1920×1080、保存提示词；`styles` 命令做画风对照 |
 | `stage.py` + `locations/<地点>/scene.py` | 简模：照着一张主图用方块复刻场景（含画外部分），从新机位渲染构图图，让不同角度的图在结构上连续（暂停中，先定画风） |
 | `docs/style_round1.jpg`、`docs/style_round2.jpg` | 两轮画风对照（通用媒介） |
-| `styles_anime.json`、`docs/style_anime_*.jpg` | 第三轮：12 种小众日系二次元画风 × 广场、教室（3840×2160 原生） |
+| `styles_anime.json`、`docs/style_anime_*.jpg` | 第三轮：12 种小众日系二次元画风 × 广场、教室（3840×2160 原生；结论：只有 City Pop 及格，其余暗淡、噪点多） |
+| `styles_keep.json` | 保留备用的画风提示词（City Pop） |
+| `styles_persona.json`、`docs/style_persona.jpg` | 第四轮：3 位虚构作者的个人画风（具体的配色、线条、阴影、天空、构图习惯），巨物感学校图，1536×864 |
 
 ```bash
 python3 vn/gen.py list                       # 镜头清单

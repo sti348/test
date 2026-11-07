@@ -15,7 +15,7 @@ The API is OpenAI-Images compatible (POST /images/generations, and
   IMAGE_API_BASE   default https://api.openai.com/v1
   IMAGE_MODEL      default gpt-image-2.6-flare (the key also lists gpt-image-2.6-sunburst)
   IMAGE_API_KEY    the key (in a Claude cloud session the network proxy adds it; leave unset)
-  IMAGE_SIZE       default 3840x2160 (native 16:9; a 1920x1080 copy is saved too)
+  IMAGE_SIZE       default 1536x864 (native 16:9, cheap for style tests; raise it for final art)
   IMAGE_QUALITY    default high
 
 Output: vn/out/<id>/<variant>.png (as generated), <variant>_1080p.png (16:9,
@@ -39,7 +39,7 @@ OUT = os.path.join(HERE, "out")
 
 BASE = os.environ.get("IMAGE_API_BASE", "https://api.openai.com/v1").rstrip("/")
 MODEL = os.environ.get("IMAGE_MODEL", "gpt-image-2.6-flare")
-SIZE = os.environ.get("IMAGE_SIZE", "3840x2160")       # native 16:9; the API allows any multiple of 16 up to 3840
+SIZE = os.environ.get("IMAGE_SIZE", "1536x864")        # native 16:9 (multiples of 16, longest edge <= 3840); kept small to save API cost
 QUALITY = os.environ.get("IMAGE_QUALITY", "high")
 
 # The art direction of style.md, in the words the model gets: an art style (swappable, see
@@ -212,7 +212,7 @@ def sheet(cols=4, w=480):
 def prompt_style(sc, variant, st):
     """Style-first prompt for comparing art styles: the medium leads and closes, the subject is one line."""
     tod = {"dusk": "at dusk, a soft violet-grey sky with the first stars and some windows lit warm",
-           "day": "on a clear day", "night": "at night, lit windows and lamps"}[variant]
+           "day": "on a bright, clear afternoon", "night": "at night, lit windows and lamps"}[variant]
     return "\n\n".join([
         f"A Japanese 2D anime-style background image made entirely in this style - {st['name_en']}: {st['art']}",
         f"Subject: {sc.get('short') or sc['prompt']}, {tod}. The architecture is colossal (tiny benches and lamps "

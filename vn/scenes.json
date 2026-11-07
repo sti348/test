@@ -256,5 +256,15 @@
    "day"
   ],
   "prompt": "An avenue lined with tall obelisks with gold tips leading across golden dunes to a gigantic pyramid that is a school: smooth sandstone faces with glowing bands of classroom windows every few storeys, a gold capstone, a tall trapezoidal entrance; a temple-like library and sandstone dormitories beside the avenue, an oasis with palms."
+ },
+ {
+  "id": "megalophobia",
+  "title": "巨物恐惧：望不到顶的教学楼",
+  "ref": null,
+  "variants": [
+   "day"
+  ],
+  "prompt": "Looking up from a small courtyard at the foot of colossal school buildings that rise beyond the top of the frame.",
+  "short": "standing in a small school courtyard and looking up at colossal school buildings that tower beyond the top of the frame, their walls receding into the sky, bridges and open corridors crossing far overhead between them; in the foreground a single bench, a bicycle and a lamp post look tiny; overwhelming, awe-inspiring scale"
  }
 ]

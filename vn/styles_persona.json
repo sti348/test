@@ -1,0 +1,20 @@
+[
+ {
+  "id": "p_mint_coral",
+  "name": "作者A：薄荷珊瑚、红褐细线",
+  "name_en": "the personal signature style of one specific (fictional) illustrator, call her A",
+  "art": "A's signature look: bright high-key colour on a white-leaning base, a palette built almost only from mint green, coral red, butter yellow and pale sky blue; every outline is a thin, slightly uneven reddish-brown line, even on buildings and clouds; shadows are flat lavender shapes with crisp hard edges, never gradients; huge towering cumulus clouds outlined like stacked cushions; little white sparkle dots and tiny V-shaped birds scattered in the sky; a gentle fisheye bulge that makes tall buildings curve inward at the top; spotless, clean, no texture or grain at all."
+ },
+ {
+  "id": "p_jewel_rim",
+  "name": "作者B：宝石色、彩色描线、青色轮廓光",
+  "name_en": "the personal signature style of one specific (fictional) illustrator, call him B",
+  "art": "B's signature look: saturated jewel tones (ultramarine, emerald, magenta, gold) used in large flat cel areas with exactly two tones per surface; line art is coloured, each material outlined in a darker shade of its own colour instead of black; a strong cyan rim light traces the edges of every building against the sky; clouds drawn as flat layered rounded bands like paper cut-outs; an extreme low camera with a deep vanishing point; crisp vector-sharp edges, glossy clarity, absolutely no noise or grain."
+ },
+ {
+  "id": "p_white_halo",
+  "name": "作者C：大留白、逆光光晕、圆角造型",
+  "name_en": "the personal signature style of one specific (fictional) illustrator, call them C",
+  "art": "C's signature look: airy and luminous, at least a third of the picture is near-white sky or haze; a characteristic sky that fades from clear cyan at the top through a narrow band of peach to white at the horizon; strong backlight so buildings glow at their edges with a soft halo while their faces stay pale blue-grey; every form slightly stylised with softly rounded corners, including the architecture; crisp clean silhouettes, fine thin lines only where forms overlap, pastel colours, smooth and noise-free."
+ }
+]
