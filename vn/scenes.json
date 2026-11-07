@@ -266,5 +266,15 @@
   ],
   "prompt": "Looking up from a small courtyard at the foot of colossal school buildings that rise beyond the top of the frame.",
   "short": "standing in a small school courtyard and looking up at colossal school buildings that tower beyond the top of the frame, their walls receding into the sky, bridges and open corridors crossing far overhead between them; in the foreground a single bench, a bicycle and a lamp post look tiny; overwhelming, awe-inspiring scale"
+ },
+ {
+  "id": "sky_sea",
+  "title": "海上空岛（沙滩远望）",
+  "ref": null,
+  "variants": [
+   "haze"
+  ],
+  "prompt": "From a sandy island beach, several gigantic floating islands at different heights hang far out over the sea.",
+  "short": "seen from the sand of a small island beach: several gigantic floating islands hang in the sky far out over the open sea, each at a different height, so far away that they are veiled in haze, yet they still fill most of the sky; colossal school towers, spires and halls crown each island; waterfalls pour from their edges and dissolve into mist long before they reach the sea; the islands cast enormous shadows on the water; ordinary small islands sit on the horizon for comparison; in the foreground only the beach, gentle surf and a tiny wooden pier; overwhelming, oppressive, awe-inspiring scale"
  }
 ]

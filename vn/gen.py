@@ -212,7 +212,8 @@ def sheet(cols=4, w=480):
 def prompt_style(sc, variant, st):
     """Style-first prompt for comparing art styles: the medium leads and closes, the subject is one line."""
     tod = {"dusk": "at dusk, a soft violet-grey sky with the first stars and some windows lit warm",
-           "day": "on a bright, clear afternoon", "night": "at night, lit windows and lamps"}[variant]
+           "day": "on a bright, clear afternoon", "night": "at night, lit windows and lamps",
+           "haze": "in the late afternoon under high thin haze, the sun partly hidden behind the floating islands"}[variant]
     return "\n\n".join([
         f"A Japanese 2D anime-style background image made entirely in this style - {st['name_en']}: {st['art']}",
         f"Subject: {sc.get('short') or sc['prompt']}, {tod}. The architecture is colossal (tiny benches and lamps "

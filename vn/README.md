@@ -11,9 +11,10 @@
 | `stage.py` + `locations/<地点>/scene.py` | 简模：照着一张主图用方块复刻场景（含画外部分），从新机位渲染构图图，让不同角度的图在结构上连续（暂停中，先定画风） |
 | `docs/style_round1.jpg`、`docs/style_round2.jpg` | 两轮画风对照（通用媒介） |
 | `styles_anime.json`、`docs/style_anime_*.jpg` | 第三轮：12 种小众日系二次元画风 × 广场、教室（3840×2160 原生；结论：只有 City Pop 及格，其余暗淡、噪点多） |
-| `styles_keep.json` | 保留备用的画风提示词（City Pop） |
+| `styles_keep.json` | 保留备用的画风提示词（City Pop、C2 侧光） |
 | `styles_persona.json`、`docs/style_persona.jpg` | 第四轮：3 位虚构作者的个人画风（具体的配色、线条、阴影、天空、构图习惯），巨物感学校图，1536×864；选中 C（精美，但光太强发白） |
-| `styles_c.json`、`docs/style_c_round.jpg` | 第五轮：C 的三种修正（控曝光 / 侧光 / 加细节与点缀色） |
+| `styles_c.json`、`docs/style_c_round.jpg` | 第五轮：C 的三种修正（控曝光 / 侧光 / 加细节与点缀色）；选中 C2，已存进 `styles_keep.json` |
+| `styles_mega.json`、`docs/style_mega.jpg` | 第六轮：巨物压迫感方向的 3 位虚构作者（D 巨碑极简 / E 巴洛克云景 / F 冷色图形），海上空岛 |
 
 ```bash
 python3 vn/gen.py list                       # 镜头清单

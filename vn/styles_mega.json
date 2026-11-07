@@ -1,0 +1,20 @@
+[
+ {
+  "id": "d_monolith",
+  "name": "作者D：巨碑极简（冷钢蓝、骨白、巨影）",
+  "name_en": "the signature style of one specific (fictional) illustrator, D",
+  "art": "D's signature look: monumental minimalism. Colossal silhouettes occupy the upper two-thirds of the frame while the horizon sits very low; a restrained palette of cold steel blue, slate and bone white with one small warm accent; the scene is built from five clearly separated value planes from near to far, each a little paler; the colossal objects cast vast shadows across the sea that swallow whole islands; long thin horizontal cloud streaks; tiny human-scale details make everything else feel enormous; crisp clean edges, smooth gradients, no grain, no noise, quiet and unsettling rather than dark."
+ },
+ {
+  "id": "e_baroque",
+  "name": "作者E：巴洛克云景（琥珀金、深青、垂落瀑布）",
+  "name_en": "the signature style of one specific (fictional) illustrator, E",
+  "art": "E's signature look: baroque grandeur. Towering sunlit cumulonimbus clouds that are themselves dwarfed by what they surround; a palette of amber gold and deep teal with ivory highlights; colossal forms with richly detailed undersides - hanging roots, rock strata and waterfalls kilometres long that turn into mist before they reach the sea; strong chiaroscuro but every shadow stays readable and luminous; golden rim light on every edge facing the sun; polished, painterly yet precise, completely clean and noise-free."
+ },
+ {
+  "id": "f_cold_graphic",
+  "name": "作者F：冷色图形（青灰、珊瑚、极端尺度反差）",
+  "name_en": "the signature style of one specific (fictional) illustrator, F",
+  "art": "F's signature look: cool graphic clarity. Cyan-grey and coral palette; only the nearest objects get fine, even linework, everything farther away is drawn as flat value silhouettes that grow paler with distance; extreme scale contrast between a tiny foreground and impossibly large distant forms; a sky made of one broad horizontal band of coral glow between bands of cool grey-blue; small seabirds as single strokes; clean, sharp, flat-shaded, no texture, no grain."
+ }
+]
