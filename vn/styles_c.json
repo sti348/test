@@ -1,0 +1,20 @@
+[
+ {
+  "id": "c1_exposure",
+  "name": "C1：控曝光（逆光收敛、中间调清楚）",
+  "name_en": "the signature style of one specific (fictional) illustrator, C",
+  "art": "C's signature look: refined and airy; crisp clean silhouettes; fine thin lines only where forms overlap; every form slightly stylised with softly rounded corners, including the architecture; a pastel palette; smooth, noise-free, polished finish; a characteristic sky fading from clear cyan at the top through a narrow band of peach toward the horizon. Exposure is balanced: the near-white part of the sky is only a small area near the light source; building faces sit in clear mid-tones with every window, ledge and corridor readable; the backlight halo is a thin, delicate rim, not a wash; shadows are deeper blue-grey; overall contrast is healthy and nothing is washed out or hazy in the foreground and middle ground."
+ },
+ {
+  "id": "c2_sidelight",
+  "name": "C2：改侧光（午后侧光、明暗分明）",
+  "name_en": "the signature style of one specific (fictional) illustrator, C",
+  "art": "C's signature look: refined and airy; crisp clean silhouettes; fine thin lines only where forms overlap; every form slightly stylised with softly rounded corners, including the architecture; a pastel palette; smooth, noise-free, polished finish; a characteristic sky fading from clear cyan at the top through a narrow band of peach toward the horizon. Lighting: warm afternoon sunlight from the side instead of from behind; sunlit faces of the buildings are pale and warm, shaded faces are cool blue-grey with readable detail, and the boundary between them is clean and crisp; a soft glow only along the edges that catch the sun; the sky stays a clear cyan, never blown out to white."
+ },
+ {
+  "id": "c3_detail",
+  "name": "C3：加细节与点缀色",
+  "name_en": "the signature style of one specific (fictional) illustrator, C",
+  "art": "C's signature look: refined and airy; crisp clean silhouettes; fine thin lines only where forms overlap; every form slightly stylised with softly rounded corners, including the architecture; a pastel palette; smooth, noise-free, polished finish; a characteristic sky fading from clear cyan at the top through a narrow band of peach toward the horizon. Exposure balanced as in a well-exposed photograph: no blown-out areas, clear mid-tones. More refinement: delicate architectural detail (mullions, cornices, railings of the open corridors, glazed bridges), a few restrained accent colours (teal-tinted glass, warm lit windows, fresh green trees), atmospheric haze only in the far distance while the near and middle ground stay sharp and vivid."
+ }
+]
