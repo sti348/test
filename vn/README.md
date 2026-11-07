@@ -17,7 +17,8 @@
 | `styles_mega.json`、`docs/style_mega.jpg` | 第六轮：巨物压迫感方向的 3 位虚构作者（D 巨碑极简 / E 巴洛克云景 / F 冷色图形），海上空岛；D、F 勉强及格，E 排除 |
 | `styles_rich.json`、`docs/style_rich.jpg` | 第七轮：非极简的 3 位虚构作者（G 细密钢笔＋淡彩 / H 层叠透明色片 / I 装饰纹样），躺在海面仰望极高处的空岛，768×1920 竖长条；结论：三种雷同、没有压迫感 |
 | `styles_press.json`、`docs/style_press.jpg` | 第八轮：压迫感方向、渲染方式各不相同的 3 位虚构作者（J 剧画浓墨 / K 日食冷光 / L 酸性色彩），天空颜色和光线交给画风决定；J、L 像风格展示图不适合剧情游戏，K 保留 |
-| `styles_edge.json`、`docs/style_edge.jpg` | 第九轮：适合剧情背景的克制个人画风（M 金茶与青影 / N 藏青细线 / O 阴天漫射光），空岛边缘鱼眼，1152×1152 |
+| `styles_edge.json`、`docs/style_edge.jpg` | 第九轮：适合剧情背景的克制个人画风（M 金茶与青影 / N 藏青细线 / O 阴天漫射光），空岛边缘鱼眼，1152×1152；M、N 排除，O 稍好但脏且独特性低 |
+| `styles_blend.json`、`docs/style_blend.jpg` | 第十轮：二三次元融合（近景接近写实、远景接近二次元，过渡不明显），表面干净；P1 柔光 / P2 晴朗上午 / P3 中度融合对照 |
 
 ```bash
 python3 vn/gen.py list                       # 镜头清单

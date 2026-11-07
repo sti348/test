@@ -1,0 +1,20 @@
+[
+ {
+  "id": "p1_soft",
+  "name": "P1：轻度二三次元融合·柔光",
+  "name_en": "a subtle photoreal-to-anime depth blend",
+  "art": "A subtle blend of photorealism and 2D anime across depth: the nearest objects (paving, railing, grass, the rock lip) have rich, almost photographic material detail and lighting; the middle ground gradually simplifies; the far distance (other islands, clouds, the sea far below) is painted in a clean 2D anime background manner with simplified shapes and gentle cel-like shading. The transition is smooth and barely noticeable - no visible boundary, the whole picture still reads as one coherent image. Surfaces are clean and well kept: no stains, rust, dirt, grime or decay; the railing is freshly painted, the walls are clean. Light: soft, bright diffuse light under thin high cloud, gentle shadows, a calm palette of soft blue-grey, sage and warm white with a few coral accents."
+ },
+ {
+  "id": "p2_morning",
+  "name": "P2：轻度二三次元融合·晴朗上午",
+  "name_en": "a subtle photoreal-to-anime depth blend",
+  "art": "A subtle blend of photorealism and 2D anime across depth: the nearest objects (paving, railing, grass, the rock lip) have rich, almost photographic material detail and lighting; the middle ground gradually simplifies; the far distance (other islands, clouds, the sea far below) is painted in a clean 2D anime background manner with simplified shapes and gentle cel-like shading. The transition is smooth and barely noticeable - no visible boundary, the whole picture still reads as one coherent image. Surfaces are clean and well kept: no stains, rust, dirt, grime or decay; the railing is freshly painted, the walls are clean. Light: clear late-morning sunlight, crisp but not harsh shadows, a fresh natural palette, clear blue sky."
+ },
+ {
+  "id": "p3_stronger",
+  "name": "P3：中度二三次元融合（对照）",
+  "name_en": "a stronger photoreal-to-anime depth blend",
+  "art": "A clearly noticeable (but still smooth) blend of photorealism and 2D anime across depth: the nearest objects (paving, railing, grass, the rock lip) have rich, fully photographic material detail and lighting; the middle ground gradually simplifies; the far distance (other islands, clouds, the sea far below) is painted in a clean 2D anime background manner with simplified shapes and gentle cel-like shading. The transition is smooth and barely noticeable - no visible boundary, the whole picture still reads as one coherent image. Surfaces are clean and well kept: no stains, rust, dirt, grime or decay; the railing is freshly painted, the walls are clean. Light: soft, bright diffuse light under thin high cloud, a calm palette of soft blue-grey, sage and warm white."
+ }
+]
