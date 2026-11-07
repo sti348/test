@@ -23,6 +23,7 @@ def viewpoints():
     lib = [q for q in L.pieces if q.name == "library"][0]
     wt = [q for q in L.pieces if q.name == "water_tower"][0]
     fac = {q.name: q for q in L.pieces if q.name in ("lake_garden", "sports_park", "auditorium", "greenhouse", "bus_lot")}
+    grove = sorted((q for q in L.pieces if q.name == "twilight_grove"), key=lambda q: abs(q.x) + abs(q.z))[0]
     ez = campus.ENDLESS_ROW * campus.PITCH + campus.ZOFF
     sx, sy, sz = campus.SPAWN
     return {
@@ -43,6 +44,7 @@ def viewpoints():
         "auditorium": (fac["auditorium"].x + 100.5, -60, fac["auditorium"].z + 6.5, 0, -18, "大礼堂"),
         "greenhouse": (fac["greenhouse"].x + 99.5, -60, fac["greenhouse"].z + 160.5, 180, -8, "植物园温室"),
         "buses": (fac["bus_lot"].x + 150.5, -58, fac["bus_lot"].z + 40.5, 90, 4, "校车停车场"),
+        "grove": (grove.x + 2.5, -60, grove.z + 96.5, 328, -5, "暮色树林"),
         "sky": (300.5, 230, 1160.5, 192, 22, "高空俯瞰"),
     }
 
@@ -60,7 +62,7 @@ def write(dst):
     funcs = {}
     funcs["welcome"] = "\n".join([
         'tellraw @s ["",{"text":"—— 无涯中学 ——","color":"gold","bold":true}]',
-        'tellraw @s {"text":"黄昏版：太阳刚落，教室和路灯都亮了。建议渲染距离 16~32 区块。","color":"gray"}',
+        'tellraw @s {"text":"暮色版：像暮色森林一样的永恒暮色，教室和路灯都亮着。建议渲染距离 16~32 区块。","color":"gray"}',
         'tellraw @s {"text":"/function wuya:help  查看传送点与玩法","color":"yellow"}',
         "tag @s add wuya_seen",
     ])
@@ -76,7 +78,7 @@ def write(dst):
     for k, (x, y, z, yaw, pitch, _) in VIEWPOINTS.items():
         funcs[f"tp/{k}"] = f"tp @s {x} {y} {z} {yaw} {pitch}"
     funcs["day"] = "time set 1000"
-    funcs["dusk"] = "time set 12700"
+    funcs["dusk"] = "time set 13000"
     funcs["night"] = "time set 18000"
     funcs["tick"] = "execute as @a[tag=!wuya_seen] at @s run function wuya:welcome"
     # attribute was renamed in 1.21.2; only the variant that parses in the running
@@ -105,10 +107,12 @@ def write(dst):
         for ov, fs in overlay_funcs.items():
             for name, body in fs.items():
                 _w(os.path.join(dst, ov, "data", NS, folder, name + ".mcfunction"), body + "\n")
+    import twilight
+    tw_entries = twilight.write(dst)
     meta = {"pack": {"pack_format": 15, "supported_formats": [15, 1000], "min_format": 15, "max_format": 1000,
                      "description": "无涯中学 · 传送点与小人模式"},
             "overlays": {"entries": [
                 {"formats": [41, 56], "min_format": 41, "max_format": 56, "directory": "ov_generic_scale"},
                 {"formats": [57, 1000], "min_format": 57, "max_format": 1000, "directory": "ov_scale"},
-            ]}}
+            ] + tw_entries}}
     _w(os.path.join(dst, "pack.mcmeta"), json.dumps(meta, ensure_ascii=False, indent=1))

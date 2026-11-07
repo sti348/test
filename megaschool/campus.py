@@ -98,6 +98,22 @@ def vs_place(L, prop, x, z, y=GROUND_Y):
     return True
 
 
+def mcb_place(L, name, x, z, y=GROUND_Y):
+    """Place a facility designed and verified with minecraft-build-design (mcbuild);
+    its local (0, 0, 0) lands at (x, y, z)."""
+    import mcbuild_bridge
+    if not mcbuild_bridge.has_cache():
+        return False
+    A, (ox, oy, oz) = mcbuild_bridge.load()[name]
+    L.add(Piece(name, int(x) + ox, int(y) + oy, int(z) + oz, A.shape, _mcb_piece, 0, kw={"name": name}))
+    return True
+
+
+def _mcb_piece(rng, name):
+    import mcbuild_bridge
+    return mcbuild_bridge.load()[name][0].copy()
+
+
 VS_TREES = {"oak": ["tree_oak_%d" % i for i in range(6)] + ["tree_big_oak_%d" % i for i in range(3)],
             "birch": ["tree_birch_%d" % i for i in range(3)],
             "cherry": ["tree_cherry_%d" % i for i in range(3)],
@@ -422,12 +438,12 @@ def south_zone(L, rng, namer):
         vs_place(L, "bench", -34, z)
         vs_place(L, "bench", 32, z)
     # covered walkways (风雨廊) both sides of the avenue, the fountain, a bus stop
-    vs_place(L, "fac/walkway", -72, 680)
-    vs_place(L, "fac/walkway", 66, 680)
-    vs_place(L, "fac/fountain", -14, GATE_Z + 60)
-    vs_place(L, "fac/bus_stop", 30, STREET_Z + 29)
-    vs_place(L, "fac/bus_lot", -700, GATE_Z + 25)
-    vs_place(L, "fac/car_park", 400, GATE_Z + 25)
+    mcb_place(L, "walkway", -72, 680)
+    mcb_place(L, "walkway", 66, 680)
+    mcb_place(L, "fountain", -14, GATE_Z + 60)
+    mcb_place(L, "bus_stop", 30, STREET_Z + 29)
+    mcb_place(L, "bus_lot", -700, GATE_Z + 25)
+    mcb_place(L, "car_park", 400, GATE_Z + 25)
     # ---- main building + portico + stair
     place(L, "main", lm.main_building, (380, 296, 1088), -544, 600 - 296, 5)
     pt = _sz(lm.portico, {})
@@ -444,7 +460,7 @@ def south_zone(L, rng, namer):
         xb = min(xa + 200, EAST_X - 6)
         for side, (a, b) in enumerate(((xa, xb), (-xb, -xa))):
             fac = {(0, 1): "lake_garden", (0, 0): "sports_park", (1, 1): "auditorium", (1, 0): "greenhouse"}.get((k, side))
-            if fac and vs_place(L, "fac/" + fac, a, za):
+            if fac and mcb_place(L, fac, a, za):
                 continue
             lot_ground(L, a, za, b, zb)
             if side == 1 and k == 3:
@@ -668,11 +684,13 @@ def build(seed=20260901):
                 lot_gym(L, rng, x0, z0, x1, z1, namer)
             elif kind == "canteen":
                 lot_canteen(L, rng, x0, z0, x1, z1, namer)
+            elif kind == "garden" and x1 - x0 >= 192 and z1 - z0 >= 192 and mcb_place(L, "twilight_grove", x0, z0):
+                continue                     # 暮色树林 (mcbuild); it brings its own edge planting
             elif kind.startswith("garden"):
                 lot_garden(L, rng, x0, z0, x1, z1, namer, globe=kind == "garden_globe")
             elif kind == "water_tower":
                 L.rect(x0 + 5, z0 + 5, x1 - 5, z1 - 5, PLAZA)
-                vs_place(L, "fac/water_tower", cx, cz)
+                mcb_place(L, "water_tower", cx, cz)
             elif kind == "observatory":
                 place(L, "observatory", observatory, (164, 123, 123), cx - 61, cz - 61, 0)
             else:

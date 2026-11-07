@@ -147,6 +147,28 @@ def sky_dusk(d):
     return np.clip(col + glow * np.array([1.0, 0.85, 0.5]) * 1.2, 0, 1.4)
 
 
+def sky_twilight(d):
+    """Twilight-Forest-like sky: violet dome, lavender afterglow low in the west, stars."""
+    up = np.clip(d[:, 1], -0.1, 1)[:, None]
+    west = np.clip(d @ DUSK_SUN, -1, 1)[:, None]
+    hor = np.array([0.66, 0.58, 0.86])
+    glow = np.array([0.92, 0.66, 0.80])
+    mid = np.array([0.40, 0.34, 0.72])
+    zen = np.array([0.15, 0.13, 0.36])
+    w = np.clip((west + 0.3) / 1.3, 0, 1) ** 3
+    h = hor * (1 - w) + glow * w
+    k1 = np.clip(up / 0.25, 0, 1)
+    k2 = np.clip((up - 0.25) / 0.6, 0, 1)
+    col = h * (1 - k1) + mid * k1
+    col = col * (1 - k2) + zen * k2
+    # stars: hash the direction on a fine grid
+    g = np.floor(d * 700).astype(np.int64)
+    hsh = (g[:, 0] * 73856093) ^ (g[:, 1] * 19349663) ^ (g[:, 2] * 83492791)
+    star = ((hsh % 997) == 0) & (d[:, 1] > 0.12)
+    col = np.where(star[:, None], np.array([0.95, 0.93, 1.0]), col)
+    return col
+
+
 def glow_field(V, emi, cell=4, radius=3):
     """Cheap stand-in for block light: emissive blocks counted per 4^3 cell and
     box-blurred.  Returns (field, cell)."""
@@ -179,7 +201,7 @@ def sky_color(d, night=False):
 
 
 def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, sun=(0.45, 0.8, 0.35),
-           shadows=True, night=False, tex=None, ss=1, dusk=False):
+           shadows=True, night=False, tex=None, ss=1, dusk=False, twilight=False):
     """yaw like Minecraft: 0 = +Z (south), 180 = -Z (north); pitch>0 looks down."""
     tex = tex or textures.atlas()
     T, top, side, bot, emi, cut, shp = tex
@@ -199,7 +221,7 @@ def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, 
     o = np.broadcast_to(np.array(cam, float), d.shape).copy()
     b, t, ax, step = _march(G, o, d, maxdist, tex)
     hit = b != 0
-    col = sky_dusk(d) if dusk else sky_color(d, night)
+    col = sky_twilight(d) if twilight else (sky_dusk(d) if dusk else sky_color(d, night))
     hi = np.nonzero(hit)[0]
     p = o[hi] + d[hi] * t[hi, None]
     tid = _face_tex(b[hi], ax[hi], step[hi], top, side, bot)
@@ -210,6 +232,38 @@ def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, 
     nrm = np.zeros((len(hi), 3))
     nrm[np.arange(len(hi)), a] = -sgn
     shade = np.where(a == 1, np.where(sgn < 0, 1.0, 0.5), np.where(a == 0, 0.6, 0.8))
+    if twilight:
+        amb = np.array([0.72, 0.68, 0.92])
+        light3 = amb[None] * shade[:, None]
+        # soft sky occlusion: one ray toward the bright western sky
+        so_dir = np.array([-0.62, 0.70, 0.35])
+        so_dir = so_dir / np.linalg.norm(so_dir)
+        so = p + nrm * 1e-3 + so_dir * 1e-3
+        sb, _, _, _ = _march(G, so, np.broadcast_to(so_dir, so.shape).copy(), 700, tex)
+        occl = np.where(sb == 0, 1.0, 0.72)
+        lam = np.clip(nrm @ DUSK_SUN, 0, 1)
+        light3 = light3 * occl[:, None] + np.array([0.30, 0.16, 0.22])[None] * lam[:, None]
+        if not hasattr(G, "glow"):
+            G.glow = glow_field(G.V, emi)
+        F, cell = G.glow
+        q = ((p + nrm * 0.6) - np.array([G.x0, G.y0, G.z0])) / cell
+        qi = np.clip(q.astype(np.int64), 0, np.array(F.shape)[[2, 0, 1]] - 1)
+        gl = F[qi[:, 1], qi[:, 2], qi[:, 0]]
+        light3 = light3 + np.array([1.0, 0.74, 0.45])[None] * np.clip(gl * 0.7, 0, 1.2)[:, None]
+        e = emi[b[hi]]
+        light3 = np.where(e[:, None], np.array([1.3, 1.15, 0.95])[None], light3)
+        c = c * light3
+        dist = t[hi]
+        f = 1 - np.exp(-haze * dist)
+        hd = np.c_[d[hi, 0], np.full(len(hi), 0.04), d[hi, 2]]
+        fogc = sky_twilight(hd / np.linalg.norm(hd, axis=1, keepdims=True)) * 0.95
+        f = np.where(e, f * 0.4, f)
+        c = c * (1 - f[:, None]) + fogc * f[:, None]
+        col[hi] = c
+        img = (np.clip(col, 0, 1) * 255).astype(np.uint8).reshape(H, W, 3)
+        if ss > 1:
+            img = img.reshape(h, ss, w, ss, 3).mean(axis=(1, 3)).astype(np.uint8)
+        return img
     if dusk:
         sd = DUSK_SUN
         lam = np.clip(nrm @ sd, 0, 1)

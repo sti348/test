@@ -20,7 +20,7 @@ import datapack
 import level
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DUSK = 12700                     # this build is the dusk version: the sun is just setting
+DUSK = 13000                     # twilight: the sun has just gone, first stars (with the twilight data pack)
 WORLD_NAME = "无涯中学"          # name shown in the world list
 FOLDER = "WuyaHighSchool"       # folder name inside the zip (ASCII so every unzip tool is happy)
 

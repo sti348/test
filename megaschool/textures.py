@@ -13,9 +13,9 @@ import anvil
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEX = os.path.join(ROOT, "build", "tex", "assets", "minecraft", "textures", "block")
 
-GRASS = np.array([145, 189, 89]) / 255.0      # plains grass colour
-FOLIAGE = np.array([119, 171, 47]) / 255.0    # plains foliage colour
-WATER = np.array([63, 118, 228]) / 255.0
+GRASS = np.array([0x5a, 0x8f, 0x5e]) / 255.0  # twilight grass (twilight.py GRASS)
+FOLIAGE = np.array([0x4f, 0x8a, 0x55]) / 255.0  # twilight foliage
+WATER = np.array([0x3b, 0x5f, 0xb0]) / 255.0
 
 SPECIAL = {
     "grass_block": (("grass_block_top", GRASS), "grass_block_side", "dirt"),
@@ -38,6 +38,7 @@ SPECIAL = {
     "tall_grass": (("tall_grass_bottom", GRASS),) * 3,
     "large_fern": (("large_fern_bottom", GRASS),) * 3,
     "lily_pad": (("lily_pad", np.array([32, 128, 48]) / 255.0),) * 3,
+    "azalea": ("azalea_top", "azalea_side", "azalea_top"),
 }
 EMISSIVE = {"ochre_froglight", "pearlescent_froglight", "verdant_froglight", "sea_lantern", "glowstone",
             "shroomlight", "lantern", "redstone_lamp[lit=true]", "jack_o_lantern"}
@@ -83,7 +84,9 @@ def faces_for(base):
         if t is not None:
             return (t, t, t)
     if base.endswith("_carpet"):
-        return faces_for(base[:-7] + "_wool")
+        for cand in (base[:-7] + "_wool", base[:-7] + "_block"):
+            if _load(cand) is not None:
+                return faces_for(cand)
     if base.endswith("_pane"):
         return faces_for(base[:-5])
     for suf in _STRIP:

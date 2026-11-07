@@ -493,9 +493,6 @@ def all_specs():
             {"id": "rot", "type": "group", "rotate": rot, "operations": h["operations"]}]}, ("prop",))
     for i, s in enumerate(shop_variants()):
         specs[f"prop/shop_{i}"] = (s, ("prop",))
-    import facilities
-    for k, mk in facilities.FACILITIES.items():
-        specs["fac/" + k] = (mk(), ("prop",))
     return specs
 
 
@@ -514,8 +511,6 @@ def sync(names=None):
             origin = [0, 0, 0]
         out[key] = _pack(V, pal, origin)
         if key.endswith("/S") or info[0] == "prop":
-            if key.startswith("fac/"):
-                open(os.path.join(SPECS, key.replace("/", "_") + ".png"), "wb").write(render("iso", 1000))
             with open(os.path.join(SPECS, key.replace("/", "_") + ".json"), "w") as f:
                 json.dump(spec, f, indent=1, ensure_ascii=False)
         print(f"  {key:40s} {summary.splitlines()[0][:90]}", flush=True)
