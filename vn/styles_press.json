@@ -1,0 +1,20 @@
+[
+ {
+  "id": "j_gekiga",
+  "name": "作者J：剧画浓墨",
+  "name_en": "the signature style of one specific (fictional) manga artist, J",
+  "art": "J's signature look: gekiga-style heavy blacks. Huge areas of solid, glossy black ink; inside the black, detail is carved out with razor-sharp white lines (windows, rock strata, cracks, railings), dense and intricate; fine radiating hatching lines converging toward the zenith like speed lines; the sky is one single flat colour, a dull cadmium orange, with clouds drawn as crisp black-outlined shapes filled with the same orange; no other colours; print-clean, razor sharp, no grain, no grey mush."
+ },
+ {
+  "id": "k_eclipse",
+  "name": "作者K：日食冷光",
+  "name_en": "the signature style of one specific (fictional) anime background artist, K",
+  "art": "K's signature look: precise, highly detailed anime background painting lit by an eclipse: the sun hidden exactly behind the largest form overhead, leaving a blinding thin ring of white light and long crepuscular rays fanning across the sky; everything else lies in cool shadow - teal, ink blue and slate - lit softly from below by light reflected off the sea, so the shadowed surfaces stay clear and readable; tiny warm lit windows scattered across the dark undersides like constellations; smooth, clean, noise-free."
+ },
+ {
+  "id": "l_acid",
+  "name": "作者L：酸性色彩",
+  "name_en": "the signature style of one specific (fictional) illustrator, L",
+  "art": "L's signature look: an unsettling, unnatural palette - an acid chartreuse-yellow sky, deep magenta and ultramarine shadows, cream highlights; hard two-tone cel shading on every surface; brush-pen outlines that swell and taper; an almost claustrophobic density of structures, every surface packed with towers, stairs, arches and windows; flat clean colour areas, crisp edges, no gradients except in the sky, no grain."
+ }
+]

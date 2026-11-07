@@ -218,7 +218,8 @@ def prompt_style(sc, variant, st):
     tod = {"dusk": "at dusk, a soft violet-grey sky with the first stars and some windows lit warm",
            "day": "on a bright, clear afternoon", "night": "at night, lit windows and lamps",
            "haze": "in the late afternoon under high thin haze, the sun partly hidden behind the floating islands",
-           "zenith": "around midday, the high sun partly blocked by the islands overhead, crisp clear air"}[variant]
+           "zenith": "around midday, the high sun partly blocked by the islands overhead, crisp clear air",
+           "style": "with the sky colour, light and time of day exactly as the style above defines them"}[variant]
     return "\n\n".join([
         f"A Japanese 2D anime-style background image made entirely in this style - {st['name_en']}: {st['art']}",
         f"Subject: {sc.get('short') or sc['prompt']}, {tod}. The architecture is colossal (tiny benches and lamps "
