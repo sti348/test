@@ -19,6 +19,7 @@
 | `styles_press.json`、`docs/style_press.jpg` | 第八轮：压迫感方向、渲染方式各不相同的 3 位虚构作者（J 剧画浓墨 / K 日食冷光 / L 酸性色彩），天空颜色和光线交给画风决定；J、L 像风格展示图不适合剧情游戏，K 保留 |
 | `styles_edge.json`、`docs/style_edge.jpg` | 第九轮：适合剧情背景的克制个人画风（M 金茶与青影 / N 藏青细线 / O 阴天漫射光），空岛边缘鱼眼，1152×1152；M、N 排除，O 稍好但脏且独特性低 |
 | `styles_blend.json`、`docs/style_blend.jpg` | 第十轮：二三次元融合（近景接近写实、远景接近二次元，过渡不明显），表面干净；P1 柔光 / P2 晴朗上午 / P3 中度融合对照 |
+| `styles_blend_rev.json`、`docs/style_blend_rev.jpg` | 第十一轮：反向融合（近处二次元、远处接近写实），同场景同光线对照：Q1 / Q2 / Q3 |
 
 ```bash
 python3 vn/gen.py list                       # 镜头清单

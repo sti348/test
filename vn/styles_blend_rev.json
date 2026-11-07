@@ -1,0 +1,20 @@
+[
+ {
+  "id": "q1_soft",
+  "name": "Q1：近二次元远三次元·轻度·柔光",
+  "name_en": "a subtle anime-to-photoreal depth blend",
+  "art": "A subtle blend of 2D anime and photorealism across depth, the reverse of the usual: the nearest objects (paving, railing, grass, the rock lip, the nearby school building) are drawn in a clean 2D anime background manner with crisp lines, simplified shapes and gentle cel-like shading; the middle ground gradually gains realism; the far distance (other floating islands, clouds, the sea far below, atmospheric haze) looks almost photographic, with real cloud structure, real sea texture and true aerial perspective. The transition is smooth and barely noticeable - no visible boundary, the whole picture still reads as one coherent image. Surfaces are clean and well kept: no stains, rust, dirt, grime or decay. Light: soft, bright diffuse light under thin high cloud, gentle shadows, a calm palette of soft blue-grey, sage and warm white with a few coral accents."
+ },
+ {
+  "id": "q2_morning",
+  "name": "Q2：近二次元远三次元·轻度·晴朗上午",
+  "name_en": "a subtle anime-to-photoreal depth blend",
+  "art": "A subtle blend of 2D anime and photorealism across depth, the reverse of the usual: the nearest objects (paving, railing, grass, the rock lip, the nearby school building) are drawn in a clean 2D anime background manner with crisp lines, simplified shapes and gentle cel-like shading; the middle ground gradually gains realism; the far distance (other floating islands, clouds, the sea far below, atmospheric haze) looks almost photographic, with real cloud structure, real sea texture and true aerial perspective. The transition is smooth and barely noticeable - no visible boundary, the whole picture still reads as one coherent image. Surfaces are clean and well kept: no stains, rust, dirt, grime or decay. Light: clear late-morning sunlight, crisp but not harsh shadows, a fresh natural palette, clear blue sky."
+ },
+ {
+  "id": "q3_stronger",
+  "name": "Q3：近二次元远三次元·中度（对照）",
+  "name_en": "a stronger anime-to-photoreal depth blend",
+  "art": "A clearly noticeable (but still smooth) blend of 2D anime and photorealism across depth, the reverse of the usual: the nearest objects (paving, railing, grass, the rock lip, the nearby school building) are drawn in a clean 2D anime background manner with crisp lines, simplified shapes and gentle cel-like shading; the middle ground gradually gains realism; the far distance (other floating islands, clouds, the sea far below, atmospheric haze) looks fully photographic, with real cloud structure, real sea texture and true aerial perspective. The transition is smooth and barely noticeable - no visible boundary, the whole picture still reads as one coherent image. Surfaces are clean and well kept: no stains, rust, dirt, grime or decay. Light: soft, bright diffuse light under thin high cloud, a calm palette of soft blue-grey, sage and warm white."
+ }
+]
