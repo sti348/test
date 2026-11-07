@@ -225,6 +225,8 @@ def prompt_style(sc, variant, st):
         f"Subject: {sc.get('short') or sc['prompt']}, {tod}. The architecture is colossal (tiny benches and lamps "
         "show the scale), with very tall storeys and windows gathered into wide bands or tall strips between "
         "large solid walls, never a dense grid of small windows. No people. No text or lettering anywhere.",
+        "This is a background for a story-driven visual novel, not a style showcase or concept art: a balanced, "
+        "readable composition that can sit behind character sprites, with the style kept restrained and consistent.",
         f"Important: every part of the image must be rendered strictly in the style described above "
         f"({st['name_en']}), with its characteristic marks, palette and simplifications. Do not drift toward a "
         "generic polished digital painting, and avoid the usual AI-art look (glossy surfaces, neon gradients, "

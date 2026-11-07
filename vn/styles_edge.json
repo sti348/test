@@ -1,0 +1,20 @@
+[
+ {
+  "id": "m_gold_teal",
+  "name": "作者M：金茶与青影",
+  "name_en": "the signature style of one specific (fictional) anime background artist, M",
+  "art": "M's signature look: low golden late-afternoon sun raking across every surface, sunlit faces in warm ochre and honey, shadows in clear teal and blue-green; gentle visible brushwork only in foliage and clouds, while the architecture is crisp and precise; soft but healthy contrast, clean colours, no grain."
+ },
+ {
+  "id": "n_navy_line",
+  "name": "作者N：藏青细线",
+  "name_en": "the signature style of one specific (fictional) illustrator, N",
+  "art": "N's signature look: every contour drawn in a thin, even dark-navy line (never black); clean cel shading with exactly three tones per surface; soft cloud shadows drifting across the ground and walls; highlights with a slight lemon-yellow tint; a fresh cool palette of sky blue, white, grass green and navy; tidy and precise, no texture."
+ },
+ {
+  "id": "o_overcast",
+  "name": "作者O：阴天漫射光",
+  "name_en": "the signature style of one specific (fictional) anime background artist, O",
+  "art": "O's signature look: soft overcast light with no hard shadows, a luminous pale-grey sky; a palette of slate, sage green and warm concrete with small coral accents; rich, believable material detail rendered cleanly - water stains on concrete, moss in cracks, painted metal railings, wet stone; calm, slightly melancholic and heavy, but bright enough that everything is readable; smooth and noise-free."
+ }
+]

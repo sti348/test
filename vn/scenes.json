@@ -286,5 +286,15 @@
   ],
   "prompt": "Lying on one's back floating in the sea and looking straight up at floating islands extremely high above.",
   "short": "an extreme wide-angle view looking straight up at the zenith from someone floating on their back in the open sea (no person visible); the sea appears only as a thin curved rim of ripples along the very bottom edge; kilometres overhead, far above several layers of ordinary clouds, the undersides of several gigantic floating islands at different altitudes, so vast that they spill past the edges of the frame and cover most of the sky, blocking the sun and casting the viewer into their shadow; colossal school towers and halls cling to their rims, seen from below, their windows as small as pinpricks because of the distance; thin waterfalls fall from the edges and dissolve into mist far above the sea; crushing weight hanging overhead, dizzying height, oppressive sense of scale"
+ },
+ {
+  "id": "island_edge",
+  "title": "空岛边缘（鱼眼）",
+  "ref": null,
+  "variants": [
+   "style"
+  ],
+  "prompt": "Standing at the very edge of a floating school island, full-frame fisheye view.",
+  "short": "a full-frame fisheye view (strongly curved horizon and verticals) from the very edge of a gigantic floating island that carries a school; in the foreground the end of a paved schoolyard, a low railing and the grassy lip of the island where the rock drops away; behind and to the sides colossal school towers bend over the viewer because of the fisheye; beyond the edge, kilometres below, the open sea under layers of clouds, and other floating islands with schools hanging at different heights, some above and some far below; vertigo and a strong sense of height and enormous scale"
  }
 ]

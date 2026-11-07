@@ -10,5 +10,11 @@
   "name": "C2：改侧光（午后侧光、明暗分明）",
   "name_en": "the signature style of one specific (fictional) illustrator, C",
   "art": "C's signature look: refined and airy; crisp clean silhouettes; fine thin lines only where forms overlap; every form slightly stylised with softly rounded corners, including the architecture; a pastel palette; smooth, noise-free, polished finish; a characteristic sky fading from clear cyan at the top through a narrow band of peach toward the horizon. Lighting: warm afternoon sunlight from the side instead of from behind; sunlit faces of the buildings are pale and warm, shaded faces are cool blue-grey with readable detail, and the boundary between them is clean and crisp; a soft glow only along the edges that catch the sun; the sky stays a clear cyan, never blown out to white."
+ },
+ {
+  "id": "k_eclipse",
+  "name": "作者K：日食冷光",
+  "name_en": "the signature style of one specific (fictional) anime background artist, K",
+  "art": "K's signature look: precise, highly detailed anime background painting lit by an eclipse: the sun hidden exactly behind the largest form overhead, leaving a blinding thin ring of white light and long crepuscular rays fanning across the sky; everything else lies in cool shadow - teal, ink blue and slate - lit softly from below by light reflected off the sea, so the shadowed surfaces stay clear and readable; tiny warm lit windows scattered across the dark undersides like constellations; smooth, clean, noise-free."
  }
 ]
