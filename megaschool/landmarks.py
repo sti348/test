@@ -149,7 +149,7 @@ def main_building(rng, W=1088, D=296, H_front=281, H_wing=221, front_d=64, tower
             return
         c = F.shape[1] // 2
         F[1:72, c - 210:c + 210, :] = 0
-        cw = fc.curtain(72, 420, sc, rng)
+        cw = fc.face("curtain", 72, 420, sc, rng, "S")
         F[0:72, c - 210:c + 210, :cw.shape[2]] = cw
     f = {"S": win, "N": ("windows", dict(accent_every=10)), "E": ("corridor", dict(accent_every=10)),
          "W": ("corridor", dict(accent_every=10))}

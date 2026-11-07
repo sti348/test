@@ -15,7 +15,7 @@ import servertest
 import anvil
 
 
-def samples(n, seed=1):
+def samples(n, seed=1, extra_partial=60):
     L = campus.build()
     idx = campus.Index(L.pieces)
     rng = np.random.default_rng(seed)
@@ -32,7 +32,14 @@ def samples(n, seed=1):
             continue
         for k in rng.choice(len(nz), min(per, len(nz)), replace=False):
             y, z, x = nz[k]
-            out.append((cx + x, y - 64, cz + z, anvil.name_of(int(V[y, z, x])).split("[")[0]))
+            out.append((cx + x, y - 64, cz + z, anvil.name_of(int(V[y, z, x]))))
+    # plus voxels with block states (panes, doors, stairs, slabs, lanterns...) near the gate
+    V = campus.compose(L, idx, 100, 640, 256, 256)
+    lut = np.array(["[" in anvil.name_of(i) for i in range(len(anvil.all_names()))])
+    nz = np.argwhere(lut[V])
+    for k in rng.choice(len(nz), min(extra_partial, len(nz)), replace=False):
+        y, z, x = nz[k]
+        out.append((100 + x, y - 64, 640 + z, anvil.name_of(int(V[y, z, x]))))
     return out
 
 

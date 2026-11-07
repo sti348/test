@@ -1,0 +1,232 @@
+{
+ "name": "balcony-ochre-S",
+ "minecraftVersion": "1.20.1",
+ "description": "VibeSchem facade module 'balcony' (ochre), 3x3 tiled, facing S",
+ "palette": {
+  "wall": "yellow_terracotta",
+  "accent": "white_concrete",
+  "band": "white_concrete",
+  "rail": "white_concrete",
+  "column": "white_concrete",
+  "floor": "smooth_stone",
+  "back": "brown_terracotta",
+  "trim": "white_concrete",
+  "pane": "glass_pane",
+  "frame": "gray_concrete",
+  "cap": "smooth_quartz_slab[type=bottom]",
+  "sill": "smooth_quartz_slab[type=top]",
+  "door": "dark_oak_door"
+ },
+ "components": {
+  "bay": {
+   "operations": [
+    {
+     "id": "back_wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      5,
+      3,
+      0
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "op1",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      1
+     ],
+     "to": [
+      5,
+      3,
+      1
+     ],
+     "block": "back"
+    },
+    {
+     "id": "room_wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      2
+     ],
+     "to": [
+      5,
+      3,
+      2
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "balcony_door",
+     "type": "box",
+     "from": [
+      2,
+      1,
+      2
+     ],
+     "to": [
+      2,
+      1,
+      2
+     ],
+     "block": "door[facing=south]"
+    },
+    {
+     "id": "window",
+     "type": "box",
+     "from": [
+      3,
+      2,
+      2
+     ],
+     "to": [
+      4,
+      3,
+      2
+     ],
+     "block": "pane"
+    },
+    {
+     "id": "transom",
+     "type": "box",
+     "from": [
+      2,
+      3,
+      2
+     ],
+     "to": [
+      2,
+      3,
+      2
+     ],
+     "block": "pane"
+    },
+    {
+     "id": "balcony_floor",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      3
+     ],
+     "to": [
+      5,
+      0,
+      3
+     ],
+     "block": "floor"
+    },
+    {
+     "id": "slab_edge",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      4
+     ],
+     "to": [
+      5,
+      0,
+      4
+     ],
+     "block": "band"
+    },
+    {
+     "id": "parapet",
+     "type": "box",
+     "from": [
+      1,
+      1,
+      4
+     ],
+     "to": [
+      5,
+      1,
+      4
+     ],
+     "block": "rail"
+    },
+    {
+     "id": "handrail",
+     "type": "box",
+     "from": [
+      1,
+      2,
+      4
+     ],
+     "to": [
+      5,
+      2,
+      4
+     ],
+     "block": "cap"
+    },
+    {
+     "id": "divider",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      3
+     ],
+     "to": [
+      0,
+      3,
+      4
+     ],
+     "block": "wall"
+    }
+   ]
+  }
+ },
+ "operations": [
+  {
+   "id": "tiles",
+   "type": "group",
+   "rotate": 0,
+   "operations": [
+    {
+     "id": "rows",
+     "type": "group",
+     "repeat": {
+      "count": 3,
+      "offset": [
+       0,
+       4,
+       0
+      ]
+     },
+     "operations": [
+      {
+       "id": "row",
+       "type": "place",
+       "component": "bay",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "repeat": {
+        "count": 3,
+        "offset": [
+         6,
+         0,
+         0
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

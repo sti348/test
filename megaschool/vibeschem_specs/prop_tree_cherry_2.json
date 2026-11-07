@@ -1,0 +1,17 @@
+{
+ "name": "tree-cherry-2",
+ "minecraftVersion": "1.20.1",
+ "seed": 2,
+ "operations": [
+  {
+   "id": "tree",
+   "type": "tree",
+   "at": [
+    0,
+    0,
+    0
+   ],
+   "kind": "cherry"
+  }
+ ]
+}

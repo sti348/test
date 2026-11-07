@@ -59,6 +59,9 @@ def _resolve(spec):
     return t
 
 
+_STRIP = ("_slab", "_stairs", "_wall", "_fence", "_carpet", "_pane", "_trapdoor", "_door")
+
+
 @functools.lru_cache(None)
 def faces_for(base):
     if base in SPECIAL:
@@ -69,20 +72,73 @@ def faces_for(base):
         ts = [_load(c) for c in cand]
         if all(t is not None for t in ts):
             return tuple(ts)
-    if base.endswith("_slab") or base.endswith("_stairs"):
-        return faces_for(base.rsplit("_", 1)[0].replace("brick", "bricks"))
-    if base.endswith("_wall"):
-        return faces_for(base[:-5] + "s")
-    if base.endswith("_bars"):
-        return faces_for(base)
+    if base.endswith("_door"):
+        t = _load(base + "_bottom")
+        if t is not None:
+            return (t, t, t)
+    if base.endswith("_carpet"):
+        return faces_for(base[:-7] + "_wool")
+    if base.endswith("_pane"):
+        return faces_for(base[:-5])
+    for suf in _STRIP:
+        if base.endswith(suf):
+            root = base[: -len(suf)]
+            for cand in (root, root + "s", root + "_planks", root + "_block"):
+                if cand in SPECIAL or _load(cand) is not None or _load(cand + "_top") is not None:
+                    return faces_for(cand)
     m = np.zeros((16, 16, 4), np.float32)
     m[..., :3] = (1.0, 0.0, 1.0)
     m[..., 3] = 1
     return (m, m, m)
 
 
+FULL = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+
+
+def shape_for(name):
+    """Collision-ish box (x0,y0,z0,x1,y1,z1) inside the cell for partial blocks."""
+    base = name.split("[")[0].split(":")[-1]
+    props = {}
+    if "[" in name:
+        for kv in name[name.index("[") + 1:-1].split(","):
+            k, v = kv.split("=")
+            props[k] = v
+    t = 3 / 16
+    if base.endswith("_slab"):
+        return {"bottom": (0, 0, 0, 1, .5, 1), "top": (0, .5, 0, 1, 1, 1)}.get(props.get("type", "bottom"), FULL)
+    if base.endswith("_carpet"):
+        return (0, 0, 0, 1, 1 / 16, 1)
+    if base.endswith("_pane") or base == "iron_bars":
+        ew = props.get("east") == "true" or props.get("west") == "true"
+        ns = props.get("north") == "true" or props.get("south") == "true"
+        if ew and not ns:
+            return (0, 0, 7 / 16, 1, 1, 9 / 16)
+        if ns and not ew:
+            return (7 / 16, 0, 0, 9 / 16, 1, 1)
+        if ew and ns:
+            return (0, 0, 7 / 16, 1, 1, 9 / 16)
+        return (7 / 16, 0, 7 / 16, 9 / 16, 1, 9 / 16)
+    if base.endswith("_door"):
+        f = props.get("facing", "north")
+        return {"south": (0, 0, 0, 1, 1, t), "north": (0, 0, 1 - t, 1, 1, 1),
+                "east": (0, 0, 0, t, 1, 1), "west": (1 - t, 0, 0, 1, 1, 1)}[f]
+    if base.endswith("_trapdoor"):
+        if props.get("open") == "true":
+            f = props.get("facing", "north")
+            return {"south": (0, 0, 0, 1, 1, t), "north": (0, 0, 1 - t, 1, 1, 1),
+                    "east": (0, 0, 0, t, 1, 1), "west": (1 - t, 0, 0, 1, 1, 1)}[f]
+        return (0, 1 - t, 0, 1, 1, 1) if props.get("half") == "top" else (0, 0, 0, 1, t, 1)
+    if base.endswith("_wall"):
+        return (.25, 0, .25, .75, 1, .75)
+    if base.endswith("_fence"):
+        return (6 / 16, 0, 6 / 16, 10 / 16, 1, 10 / 16)
+    if base in ("lantern", "soul_lantern"):
+        return (5 / 16, .05, 5 / 16, 11 / 16, .6, 11 / 16)
+    return FULL
+
+
 def atlas():
-    """Returns (T[n_tex,16,16,4], top[n_blocks], side[], bottom[], emissive[], cutout[])."""
+    """Returns (T[n_tex,16,16,4], top[n_blocks], side[], bottom[], emissive[], cutout[], shapes[n,6])."""
     names = anvil.all_names()
     texs = []
     top, side, bot, emi, cut = [], [], [], [], []
@@ -101,4 +157,5 @@ def atlas():
         top.append(ids[0]); side.append(ids[1]); bot.append(ids[2])
         emi.append(base in EMISSIVE or n.split(":")[1] in EMISSIVE)
         cut.append(bool(min(t[..., 3].min() for t in ft) < 0.5))
-    return (np.stack(texs), np.array(top), np.array(side), np.array(bot), np.array(emi), np.array(cut))
+    shapes = np.array([shape_for(n) for n in names], np.float64)
+    return (np.stack(texs), np.array(top), np.array(side), np.array(bot), np.array(emi), np.array(cut), shapes)

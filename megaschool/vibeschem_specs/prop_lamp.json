@@ -1,0 +1,62 @@
+{
+ "name": "lamp",
+ "minecraftVersion": "1.20.1",
+ "operations": [
+  {
+   "id": "base",
+   "type": "blocks",
+   "block": "polished_andesite",
+   "at": [
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "post",
+   "type": "box",
+   "from": [
+    0,
+    1,
+    0
+   ],
+   "to": [
+    0,
+    4,
+    0
+   ],
+   "block": "polished_blackstone_wall"
+  },
+  {
+   "id": "arm",
+   "type": "blocks",
+   "block": "dark_oak_fence",
+   "at": [
+    [
+     0,
+     5,
+     0
+    ],
+    [
+     1,
+     5,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "lantern",
+   "type": "blocks",
+   "block": "lantern[hanging=true]",
+   "at": [
+    [
+     1,
+     4,
+     0
+    ]
+   ]
+  }
+ ]
+}

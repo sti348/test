@@ -1,0 +1,142 @@
+{
+ "name": "curtain-gray_modern-S",
+ "minecraftVersion": "1.20.1",
+ "description": "VibeSchem facade module 'curtain' (gray_modern), 3x3 tiled, facing S",
+ "palette": {
+  "wall": "light_gray_concrete",
+  "accent": "gray_concrete",
+  "band": "white_concrete",
+  "rail": "light_gray_concrete",
+  "column": "gray_concrete",
+  "floor": "smooth_stone",
+  "back": "black_concrete",
+  "trim": "white_concrete",
+  "pane": "glass_pane",
+  "frame": "gray_concrete",
+  "cap": "smooth_stone_slab[type=bottom]",
+  "sill": "smooth_quartz_slab[type=top]",
+  "door": "dark_oak_door"
+ },
+ "components": {
+  "bay": {
+   "operations": [
+    {
+     "id": "interior",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      2,
+      3,
+      0
+     ],
+     "block": "back"
+    },
+    {
+     "id": "glass",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      1
+     ],
+     "to": [
+      2,
+      3,
+      1
+     ],
+     "block": "pane"
+    },
+    {
+     "id": "transom",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      1
+     ],
+     "to": [
+      2,
+      0,
+      1
+     ],
+     "block": "column"
+    },
+    {
+     "id": "mullion",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      1
+     ],
+     "to": [
+      0,
+      3,
+      1
+     ],
+     "block": "column"
+    },
+    {
+     "id": "floor_ledge",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      2
+     ],
+     "to": [
+      2,
+      0,
+      2
+     ],
+     "block": "sill"
+    }
+   ]
+  }
+ },
+ "operations": [
+  {
+   "id": "tiles",
+   "type": "group",
+   "rotate": 0,
+   "operations": [
+    {
+     "id": "rows",
+     "type": "group",
+     "repeat": {
+      "count": 3,
+      "offset": [
+       0,
+       4,
+       0
+      ]
+     },
+     "operations": [
+      {
+       "id": "row",
+       "type": "place",
+       "component": "bay",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "repeat": {
+        "count": 3,
+        "offset": [
+         3,
+         0,
+         0
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

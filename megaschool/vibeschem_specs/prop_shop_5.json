@@ -1,0 +1,207 @@
+{
+ "name": "shop-5",
+ "minecraftVersion": "1.20.1",
+ "seed": 994394,
+ "palette": {
+  "wall": {
+   "mix": {
+    "white_terracotta": 1
+   },
+   "scale": 2
+  },
+  "sign": "red_concrete",
+  "awning": "red_wool",
+  "awning_trim": "red_carpet",
+  "trim": "smooth_stone_slab"
+ },
+ "operations": [
+  {
+   "id": "body",
+   "type": "box",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    8,
+    9,
+    9
+   ],
+   "block": "wall"
+  },
+  {
+   "id": "inside",
+   "type": "box",
+   "from": [
+    1,
+    1,
+    1
+   ],
+   "to": [
+    7,
+    2,
+    8
+   ],
+   "block": "air"
+  },
+  {
+   "id": "front_glass",
+   "type": "box",
+   "from": [
+    1,
+    1,
+    0
+   ],
+   "to": [
+    7,
+    2,
+    0
+   ],
+   "block": "glass_pane"
+  },
+  {
+   "id": "door",
+   "type": "blocks",
+   "block": "dark_oak_door[facing=north]",
+   "at": [
+    [
+     4,
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "floor",
+   "type": "box",
+   "from": [
+    1,
+    0,
+    1
+   ],
+   "to": [
+    7,
+    0,
+    8
+   ],
+   "block": "smooth_stone"
+  },
+  {
+   "id": "shelf",
+   "type": "box",
+   "from": [
+    1,
+    1,
+    8
+   ],
+   "to": [
+    7,
+    2,
+    8
+   ],
+   "block": "bookshelf"
+  },
+  {
+   "id": "lights",
+   "type": "box",
+   "from": [
+    2,
+    2,
+    4
+   ],
+   "to": [
+    2,
+    2,
+    4
+   ],
+   "block": "lantern[hanging=true]"
+  },
+  {
+   "id": "signboard",
+   "type": "box",
+   "from": [
+    0,
+    3,
+    -1
+   ],
+   "to": [
+    8,
+    3,
+    -1
+   ],
+   "block": "sign"
+  },
+  {
+   "id": "awning",
+   "type": "box",
+   "from": [
+    1,
+    3,
+    -2
+   ],
+   "to": [
+    7,
+    3,
+    -2
+   ],
+   "block": "awning"
+  },
+  {
+   "id": "awning_edge",
+   "type": "box",
+   "from": [
+    1,
+    2,
+    -2
+   ],
+   "to": [
+    7,
+    2,
+    -2
+   ],
+   "block": "awning_trim"
+  },
+  {
+   "id": "upper_windows",
+   "type": "script",
+   "args": {
+    "w": 9,
+    "h": 10
+   },
+   "code": "for (let y = 5; y < args.h - 1; y += 3) for (let x = 1; x < args.w - 1; x += 3) { set(x, y, 0, 'glass_pane'); set(x + 1, y, 0, 'glass_pane'); set(x, y - 1, -1, 'smooth_stone_slab[type=top]'); set(x + 1, y - 1, -1, 'smooth_stone_slab[type=top]'); if (chance(0.3)) set(x, y, -1, 'iron_block'); }"
+  },
+  {
+   "id": "roof",
+   "type": "roof",
+   "shape": "flat",
+   "from": [
+    0,
+    10,
+    0
+   ],
+   "to": [
+    8,
+    10,
+    9
+   ],
+   "block": "trim",
+   "overhang": 0
+  },
+  {
+   "id": "parapet",
+   "type": "box",
+   "from": [
+    0,
+    11,
+    0
+   ],
+   "to": [
+    8,
+    11,
+    0
+   ],
+   "block": "smooth_quartz_slab"
+  }
+ ]
+}

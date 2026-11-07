@@ -1,0 +1,157 @@
+{
+ "name": "ribbon-brutal-S",
+ "minecraftVersion": "1.20.1",
+ "description": "VibeSchem facade module 'ribbon' (brutal), 3x3 tiled, facing S",
+ "palette": {
+  "wall": "polished_andesite",
+  "accent": "stone_bricks",
+  "band": "smooth_stone",
+  "rail": "polished_andesite",
+  "column": "stone_bricks",
+  "floor": "smooth_stone",
+  "back": "black_concrete",
+  "trim": "smooth_stone",
+  "pane": "glass_pane",
+  "frame": "stone_bricks",
+  "cap": "polished_andesite_slab[type=bottom]",
+  "sill": "smooth_stone_slab[type=top]",
+  "door": "dark_oak_door"
+ },
+ "components": {
+  "bay": {
+   "operations": [
+    {
+     "id": "back_wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      3,
+      3,
+      0
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "interior",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      1
+     ],
+     "to": [
+      3,
+      3,
+      1
+     ],
+     "block": "back"
+    },
+    {
+     "id": "spandrel",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      2
+     ],
+     "to": [
+      3,
+      1,
+      2
+     ],
+     "block": "band"
+    },
+    {
+     "id": "ribbon",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      2
+     ],
+     "to": [
+      3,
+      3,
+      2
+     ],
+     "block": "pane"
+    },
+    {
+     "id": "mullion",
+     "type": "box",
+     "from": [
+      0,
+      2,
+      2
+     ],
+     "to": [
+      0,
+      3,
+      2
+     ],
+     "block": "column"
+    },
+    {
+     "id": "sill",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      3
+     ],
+     "to": [
+      3,
+      1,
+      3
+     ],
+     "block": "sill"
+    }
+   ]
+  }
+ },
+ "operations": [
+  {
+   "id": "tiles",
+   "type": "group",
+   "rotate": 0,
+   "operations": [
+    {
+     "id": "rows",
+     "type": "group",
+     "repeat": {
+      "count": 3,
+      "offset": [
+       0,
+       4,
+       0
+      ]
+     },
+     "operations": [
+      {
+       "id": "row",
+       "type": "place",
+       "component": "bay",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "repeat": {
+        "count": 3,
+        "offset": [
+         4,
+         0,
+         0
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

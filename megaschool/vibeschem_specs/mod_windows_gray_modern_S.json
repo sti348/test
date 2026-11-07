@@ -1,0 +1,217 @@
+{
+ "name": "windows-gray_modern-S",
+ "minecraftVersion": "1.20.1",
+ "description": "VibeSchem facade module 'windows' (gray_modern), 3x3 tiled, facing S",
+ "palette": {
+  "wall": "light_gray_concrete",
+  "accent": "gray_concrete",
+  "band": "white_concrete",
+  "rail": "light_gray_concrete",
+  "column": "gray_concrete",
+  "floor": "smooth_stone",
+  "back": "black_concrete",
+  "trim": "white_concrete",
+  "pane": "glass_pane",
+  "frame": "gray_concrete",
+  "cap": "smooth_stone_slab[type=bottom]",
+  "sill": "smooth_quartz_slab[type=top]",
+  "door": "dark_oak_door"
+ },
+ "components": {
+  "bay": {
+   "operations": [
+    {
+     "id": "back_wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      7,
+      3,
+      0
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "inner_wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      1
+     ],
+     "to": [
+      7,
+      3,
+      1
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      2
+     ],
+     "to": [
+      7,
+      3,
+      2
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "opening",
+     "type": "box",
+     "from": [
+      2,
+      2,
+      2
+     ],
+     "to": [
+      6,
+      3,
+      2
+     ],
+     "block": "air"
+    },
+    {
+     "id": "panes",
+     "type": "box",
+     "from": [
+      2,
+      2,
+      1
+     ],
+     "to": [
+      6,
+      3,
+      1
+     ],
+     "block": "pane"
+    },
+    {
+     "id": "mullion",
+     "type": "box",
+     "from": [
+      4,
+      2,
+      1
+     ],
+     "to": [
+      4,
+      3,
+      1
+     ],
+     "block": "frame"
+    },
+    {
+     "id": "interior",
+     "type": "box",
+     "from": [
+      2,
+      2,
+      0
+     ],
+     "to": [
+      6,
+      3,
+      0
+     ],
+     "block": "back"
+    },
+    {
+     "id": "floor_band",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      3
+     ],
+     "to": [
+      7,
+      0,
+      3
+     ],
+     "block": "band"
+    },
+    {
+     "id": "pilaster",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      3
+     ],
+     "to": [
+      0,
+      3,
+      3
+     ],
+     "block": "column"
+    },
+    {
+     "id": "sill",
+     "type": "box",
+     "from": [
+      2,
+      1,
+      3
+     ],
+     "to": [
+      6,
+      1,
+      3
+     ],
+     "block": "sill"
+    }
+   ]
+  }
+ },
+ "operations": [
+  {
+   "id": "tiles",
+   "type": "group",
+   "rotate": 0,
+   "operations": [
+    {
+     "id": "rows",
+     "type": "group",
+     "repeat": {
+      "count": 3,
+      "offset": [
+       0,
+       4,
+       0
+      ]
+     },
+     "operations": [
+      {
+       "id": "row",
+       "type": "place",
+       "component": "bay",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "repeat": {
+        "count": 3,
+        "offset": [
+         8,
+         0,
+         0
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

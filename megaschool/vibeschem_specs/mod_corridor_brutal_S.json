@@ -1,0 +1,307 @@
+{
+ "name": "corridor-brutal-S",
+ "minecraftVersion": "1.20.1",
+ "description": "VibeSchem facade module 'corridor' (brutal), 3x3 tiled, facing S",
+ "palette": {
+  "wall": "polished_andesite",
+  "accent": "stone_bricks",
+  "band": "smooth_stone",
+  "rail": "polished_andesite",
+  "column": "stone_bricks",
+  "floor": "smooth_stone",
+  "back": "black_concrete",
+  "trim": "smooth_stone",
+  "pane": "glass_pane",
+  "frame": "stone_bricks",
+  "cap": "polished_andesite_slab[type=bottom]",
+  "sill": "smooth_stone_slab[type=top]",
+  "door": "dark_oak_door"
+ },
+ "components": {
+  "bay": {
+   "operations": [
+    {
+     "id": "back_wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      0
+     ],
+     "to": [
+      9,
+      3,
+      0
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "class_wall",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      1
+     ],
+     "to": [
+      9,
+      3,
+      1
+     ],
+     "block": "wall"
+    },
+    {
+     "id": "door_back",
+     "type": "box",
+     "from": [
+      2,
+      1,
+      0
+     ],
+     "to": [
+      2,
+      1,
+      1
+     ],
+     "block": "back"
+    },
+    {
+     "id": "op3",
+     "type": "box",
+     "from": [
+      2,
+      2,
+      0
+     ],
+     "to": [
+      2,
+      2,
+      1
+     ],
+     "block": "back"
+    },
+    {
+     "id": "door",
+     "type": "box",
+     "from": [
+      2,
+      1,
+      1
+     ],
+     "to": [
+      2,
+      1,
+      1
+     ],
+     "block": "door[facing=south]"
+    },
+    {
+     "id": "transom",
+     "type": "box",
+     "from": [
+      2,
+      3,
+      1
+     ],
+     "to": [
+      2,
+      3,
+      1
+     ],
+     "block": "pane"
+    },
+    {
+     "id": "op6",
+     "type": "box",
+     "from": [
+      2,
+      3,
+      0
+     ],
+     "to": [
+      2,
+      3,
+      0
+     ],
+     "block": "back"
+    },
+    {
+     "id": "windows",
+     "type": "box",
+     "from": [
+      4,
+      2,
+      1
+     ],
+     "to": [
+      8,
+      3,
+      1
+     ],
+     "block": "pane"
+    },
+    {
+     "id": "interior",
+     "type": "box",
+     "from": [
+      4,
+      2,
+      0
+     ],
+     "to": [
+      8,
+      3,
+      0
+     ],
+     "block": "back"
+    },
+    {
+     "id": "corridor_floor",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      2
+     ],
+     "to": [
+      9,
+      0,
+      3
+     ],
+     "block": "floor"
+    },
+    {
+     "id": "slab_edge",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      4
+     ],
+     "to": [
+      9,
+      0,
+      4
+     ],
+     "block": "band"
+    },
+    {
+     "id": "parapet",
+     "type": "box",
+     "from": [
+      1,
+      1,
+      4
+     ],
+     "to": [
+      9,
+      1,
+      4
+     ],
+     "block": "rail"
+    },
+    {
+     "id": "handrail",
+     "type": "box",
+     "from": [
+      1,
+      2,
+      4
+     ],
+     "to": [
+      9,
+      2,
+      4
+     ],
+     "block": "cap"
+    },
+    {
+     "id": "column",
+     "type": "box",
+     "from": [
+      0,
+      1,
+      4
+     ],
+     "to": [
+      0,
+      3,
+      4
+     ],
+     "block": "column"
+    },
+    {
+     "id": "pilaster",
+     "type": "box",
+     "from": [
+      0,
+      0,
+      5
+     ],
+     "to": [
+      0,
+      3,
+      5
+     ],
+     "block": "column"
+    },
+    {
+     "id": "drip_ledge",
+     "type": "box",
+     "from": [
+      1,
+      0,
+      5
+     ],
+     "to": [
+      9,
+      0,
+      5
+     ],
+     "block": "sill"
+    }
+   ]
+  }
+ },
+ "operations": [
+  {
+   "id": "tiles",
+   "type": "group",
+   "rotate": 0,
+   "operations": [
+    {
+     "id": "rows",
+     "type": "group",
+     "repeat": {
+      "count": 3,
+      "offset": [
+       0,
+       4,
+       0
+      ]
+     },
+     "operations": [
+      {
+       "id": "row",
+       "type": "place",
+       "component": "bay",
+       "at": [
+        0,
+        0,
+        0
+       ],
+       "repeat": {
+        "count": 3,
+        "offset": [
+         10,
+         0,
+         0
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

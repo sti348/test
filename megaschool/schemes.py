@@ -22,12 +22,15 @@ class Scheme:
     door: int
     roof: int
     trim: int        # cornice / parapet cap
+    names: dict = None   # role -> block id string (for VibeSchem palettes)
 
 
 def _s(name, wall, accent, band, rail, column, floor, glass, back, lit="ochre_froglight",
        door="dark_oak_planks", roof="light_gray_concrete", trim="smooth_quartz"):
+    names = dict(wall=wall, accent=accent, band=band, rail=rail, column=column, floor=floor, glass=glass,
+                 back=back, lit=lit, door=door, roof=roof, trim=trim)
     return Scheme(name, B(wall), B(accent), B(band), B(rail), B(column), B(floor), B(glass), B(back),
-                  B(lit), B(door), B(roof), B(trim))
+                  B(lit), B(door), B(roof), B(trim), names)
 
 
 SCHEMES = {

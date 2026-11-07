@@ -81,6 +81,43 @@ def _sz(fn, kw):
     return fn(np.random.default_rng(0), **kw).shape
 
 
+# ---------------------------------------------------------------- VibeSchem props
+def _vs_prop(rng, prop):
+    import vibeschem
+    return vibeschem.prop(prop).copy()
+
+
+def vs_place(L, prop, x, z, y=GROUND_Y):
+    """Place a VibeSchem-compiled prop with its spec point [0,0,0] at (x, y, z)."""
+    import vibeschem
+    if not vibeschem.has_cache():
+        return False
+    A, (ox, oy, oz) = vibeschem.load()["prop/" + prop]
+    L.add(Piece(prop.split("_")[0], int(x) + ox, int(y) + oy, int(z) + oz, A.shape, _vs_prop, 0, kw={"prop": prop}))
+    return True
+
+
+VS_TREES = {"oak": ["tree_oak_%d" % i for i in range(6)] + ["tree_big_oak_%d" % i for i in range(3)],
+            "birch": ["tree_birch_%d" % i for i in range(3)],
+            "cherry": ["tree_cherry_%d" % i for i in range(3)],
+            "dark": ["tree_big_oak_%d" % i for i in range(3)] + ["tree_bush_0", "tree_bush_1"]}
+
+
+def plant(L, rng, x, z, kind="oak"):
+    """A tree: one of VibeSchem's procedural trees (falls back to the built-in one)."""
+    seed = int(rng.integers(1 << 30))
+    if vs_place(L, VS_TREES[kind][seed % len(VS_TREES[kind])], x, z):
+        return
+    tr = bd.tree(np.random.default_rng(seed), kind)
+    h, dz, dx = tr.shape
+    L.add(Piece("tree", int(x) - dx // 2, GROUND_Y, int(z) - dz // 2, tr.shape, bd.tree, seed, kind=kind))
+
+
+def lamp_at(L, x, z):
+    if not vs_place(L, "lamp", x, z):
+        L.add(Piece("lamp", int(x), GROUND_Y, int(z), (6, 1, 1), bd.lamp, 0))
+
+
 def trees_along(L, rng, x0, z0, x1, z1, spacing=12, kinds=("oak",), lamps=True):
     """Row of trees (and lamps between them) along a line (axis-aligned)."""
     n = max(1, int(math.hypot(x1 - x0, z1 - z0) // spacing))
@@ -88,14 +125,9 @@ def trees_along(L, rng, x0, z0, x1, z1, spacing=12, kinds=("oak",), lamps=True):
         t = i / n
         x = x0 + (x1 - x0) * t
         z = z0 + (z1 - z0) * t
-        k = kinds[rng.integers(len(kinds))]
-        seed = int(rng.integers(1 << 30))
-        tr = bd.tree(np.random.default_rng(seed), k)
-        h, dz, dx = tr.shape
-        L.add(Piece("tree", int(x) - dx // 2, GROUND_Y, int(z) - dz // 2, tr.shape, bd.tree, seed, kind=k))
+        plant(L, rng, x, z, str(kinds[rng.integers(len(kinds))]))
         if lamps and i < n and i % 2 == 0:
-            xm, zm = x + (x1 - x0) / n / 2, z + (z1 - z0) / n / 2
-            L.add(Piece("lamp", int(xm), GROUND_Y, int(zm), (6, 1, 1), bd.lamp, 0))
+            lamp_at(L, x + (x1 - x0) / n / 2, z + (z1 - z0) / n / 2)
 
 
 def lot_ground(L, x0, z0, x1, z1):
@@ -188,10 +220,7 @@ def lot_courtyard(L, rng, x0, z0, x1, z1, namer):
     for _ in range(14):
         tx = int(rng.integers(c0 + 4, c1 - 8))
         tz = int(rng.integers(d0 + 4, d1 - 8))
-        seed = int(rng.integers(1 << 30))
-        kind = "cherry" if rng.random() < 0.3 else "oak"
-        tr = bd.tree(np.random.default_rng(seed), kind)
-        L.add(Piece("tree", tx, GROUND_Y, tz, tr.shape, bd.tree, seed, kind=kind))
+        plant(L, rng, tx, tz, "cherry" if rng.random() < 0.3 else "oak")
 
 
 def lot_towers(L, rng, x0, z0, x1, z1, namer):
@@ -222,7 +251,8 @@ def lot_dorms(L, rng, x0, z0, x1, z1, namer, n=5):
     # bike sheds along the west edge
     for k in range(n - 1):
         zz = int(z0 + 8 + (k + 1) * pitch - 3)
-        place(L, "bikes", bd.bike_shed, (4, 5, 40), x0 + 20, zz, int(rng.integers(1 << 30)), length=40)
+        if not vs_place(L, "bike_shed", x0 + 21, zz + 1):
+            place(L, "bikes", bd.bike_shed, (4, 5, 40), x0 + 20, zz, int(rng.integers(1 << 30)), length=40)
 
 
 def lot_lab(L, rng, x0, z0, x1, z1, namer):
@@ -268,10 +298,10 @@ def lot_garden(L, rng, x0, z0, x1, z1, namer, globe=False):
             continue
         if (cx + 10 < tx < cx + 80) and (cz + 20 < tz < cz + 70):
             continue
-        seed = int(rng.integers(1 << 30))
-        kind = rng.choice(["oak", "oak", "birch", "cherry", "dark"])
-        tr = bd.tree(np.random.default_rng(seed), str(kind))
-        L.add(Piece("tree", tx, GROUND_Y, tz, tr.shape, bd.tree, seed, kind=str(kind)))
+        plant(L, rng, tx, tz, str(rng.choice(["oak", "oak", "birch", "cherry", "dark"])))
+    for k in range(8):
+        bx = cx + 10 + 14 * k if k < 4 else cx - 16 - 14 * (k - 4)
+        vs_place(L, "bench", bx, cz - 6)
 
 
 # ---------------------------------------------------------------- the south zone
@@ -353,8 +383,14 @@ def south_zone(L, rng, namer):
         if abs(x + w / 2) < 24:
             x += w + 2
             continue
-        seed = int(rng.integers(1 << 30))
-        place(L, "shop", shop, (12, 12, w), x, STREET_Z + 36, seed, w=w, label=SHOPS[k % len(SHOPS)])
+        import vibeschem
+        if vibeschem.has_cache():
+            name = "shop_%d" % int(rng.integers(10))
+            w = vibeschem.load()["prop/" + name][0].shape[2]
+            vs_place(L, name, x, STREET_Z + 39)
+        else:
+            seed = int(rng.integers(1 << 30))
+            place(L, "shop", shop, (12, 12, w), x, STREET_Z + 36, seed, w=w, label=SHOPS[k % len(SHOPS)])
         x += w + 1
         k += 1
     # ---- perimeter wall with the gate
@@ -365,7 +401,8 @@ def south_zone(L, rng, namer):
     place(L, "wall", wall_seg, (5, 2, EAST_X - WEST_X), WEST_X, NORTH_Z - 2, 0, n=EAST_X - WEST_X, axis="x")
     g = _sz(lm.gate, {})
     place(L, "gate", lm.gate, g, -g[2] // 2, GATE_Z - 15, 11)
-    place(L, "guard", lm.guard_house, (6, 8, 12), 150, GATE_Z - 14, 0)
+    if not vs_place(L, "guard_house", 150, GATE_Z - 14):
+        place(L, "guard", lm.guard_house, (6, 8, 12), 150, GATE_Z - 14, 0)
     place(L, "sliding_gate", sliding_gate, (2, 1, 160), -100, GATE_Z + 2, 0, n=160)
     # ---- central avenue + flag plaza
     L.rect(-128, 640, 128, GATE_Z, GRASS)
@@ -384,6 +421,9 @@ def south_zone(L, rng, namer):
     for x in (-96, 96):
         trees_along(L, rng, x, 650, x, GATE_Z - 20, spacing=14, kinds=("oak", "cherry"), lamps=False)
     place(L, "flag", lm.flagpole, _sz(lm.flagpole, {}), -12, fz - 12, 3)
+    for z in range(fz + 75, GATE_Z - 30, 20):
+        vs_place(L, "bench", -34, z)
+        vs_place(L, "bench", 32, z)
     # ---- main building + portico + stair
     place(L, "main", lm.main_building, (380, 296, 1088), -544, 600 - 296, 5)
     pt = _sz(lm.portico, {})
@@ -427,8 +467,9 @@ def courts(L, x0, z0, x1, z1):
     L.fn(cx0 - 2, cz0 - 2, cx1 + 2, cz1 + 2, courts_fn(cx0, cz0, cx1, cz1))
     for x in range(cx0, cx1 - 14, 21):
         for z in range(cz0, cz1 - 28, 35):
-            place(L, "hoop", bd.hoop, (5, 3, 3), x + 6, z - 1, 0, facing=1)
-            place(L, "hoop", bd.hoop, (5, 3, 3), x + 6, z + 26, 0, facing=-1)
+            if not (vs_place(L, "hoop_s", x + 7, z - 2) and vs_place(L, "hoop_n", x + 7, z + 29)):
+                place(L, "hoop", bd.hoop, (5, 3, 3), x + 6, z - 1, 0, facing=1)
+                place(L, "hoop", bd.hoop, (5, 3, 3), x + 6, z + 26, 0, facing=-1)
 
 
 def playground(L, rng, x0, z0, x1, z1):

@@ -1,0 +1,45 @@
+{
+ "name": "bench",
+ "minecraftVersion": "1.20.1",
+ "operations": [
+  {
+   "id": "seat",
+   "type": "box",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    2,
+    0,
+    0
+   ],
+   "block": "spruce_stairs[facing=north]"
+  },
+  {
+   "id": "arms",
+   "type": "blocks",
+   "block": "spruce_trapdoor[open=true,facing=east]",
+   "at": [
+    [
+     -1,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "arms2",
+   "type": "blocks",
+   "block": "spruce_trapdoor[open=true,facing=west]",
+   "at": [
+    [
+     3,
+     0,
+     0
+    ]
+   ]
+  }
+ ]
+}

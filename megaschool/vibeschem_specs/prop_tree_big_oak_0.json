@@ -1,0 +1,17 @@
+{
+ "name": "tree-big_oak-0",
+ "minecraftVersion": "1.20.1",
+ "seed": 0,
+ "operations": [
+  {
+   "id": "tree",
+   "type": "tree",
+   "at": [
+    0,
+    0,
+    0
+   ],
+   "kind": "big_oak"
+  }
+ ]
+}

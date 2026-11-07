@@ -209,3 +209,86 @@ def letters(F, s, y_top, u_center, px, fg, bg=None, gap=None, mirror=False, vert
     tgt = F[ya:yb, ua:ub, d_fg]
     tgt[sub] = fg
     return F
+
+
+# ---------------------------------------------------------------- VibeSchem modules
+USE_VIBESCHEM = True
+_PANE_CACHE = {}
+
+
+def _is_pane(F):
+    import anvil
+    n = len(anvil.all_names())
+    lut = _PANE_CACHE.get(n)
+    if lut is None:
+        lut = np.array(["_pane" in s for s in anvil.all_names()], bool)
+        _PANE_CACHE.clear()
+        _PANE_CACHE[n] = lut
+    return lut[F]
+
+
+def _light_vs(F, sc, rng, frac, d_back):
+    """Some classrooms lit: the dark 'interior' behind a pane becomes a froglight."""
+    if frac <= 0:
+        return
+    cand = (F[:, :, d_back] == sc.back) & _is_pane(F[:, :, d_back - 1])
+    r = rng.random(cand.shape) < frac
+    r = r | np.roll(r, 1, 1) | np.roll(r, -1, 1) | np.roll(r, 2, 1)
+    F[:, :, d_back][cand & r] = sc.lit
+
+
+def vibeschem_face(style, H, W, sc, rng, side, lit=0.02, accent_every=0, ac=0.15, pilaster=True,
+                   laundry=0.25, spandrel=None, fins=0, **_ignored):
+    """Facade tiled from the VibeSchem-compiled module for this style/scheme/side."""
+    import vibeschem
+    M = vibeschem.module(style, sc.name, side)
+    fh, bay, D = M.shape
+    uoff = bay // 2 if style in ("corridor", "windows") else 0
+    F = _tile(M, H, W, 0, uoff)
+    u = (np.arange(W) + uoff) % bay
+    if style == "corridor":
+        if accent_every:
+            for y in range(1, H, fh * accent_every):
+                row = F[y, :, 1]
+                row[row == sc.rail] = sc.accent
+        _light_vs(F, sc, rng, lit, 5)
+    elif style == "windows":
+        if not pilaster:
+            F[:, u == 0, 0] = 0
+        if accent_every:
+            for y in range(0, H, fh * accent_every):
+                F[y:y + 2, :, 1] = sc.accent
+                F[y, :, 0][F[y, :, 0] != 0] = sc.accent
+        if ac:
+            for y in range(fh + 1, H - 1, fh):
+                pick = (u == 2) & (rng.random(W) < ac)
+                F[y, pick, 0] = AC
+        _light_vs(F, sc, rng, lit, 3)
+    elif style == "balcony":
+        for y in range(fh + 2, H - 1, fh):
+            for u0 in np.nonzero(u == 1)[0]:
+                r = rng.random()
+                if r < laundry:
+                    cols = u0 + rng.permutation(bay - 2)[:int(rng.integers(1, 4))]
+                    cols = cols[cols < W]
+                    F[y, cols, 1] = LAUNDRY[rng.integers(len(LAUNDRY))]
+                elif r < laundry + ac * 0.5 and u0 + 3 < W:
+                    F[y - 1, u0 + 3, 1] = AC
+        _light_vs(F, sc, rng, lit + 0.01, 3)
+    elif style == "ribbon":
+        if spandrel is not None:
+            F[:, :, 1][F[:, :, 1] == sc.band] = spandrel
+        if fins:
+            F[:, ::fins, 0] = sc.accent
+        _light_vs(F, sc, rng, lit, 2)
+    elif style == "curtain":
+        _light_vs(F, sc, rng, lit, 2)
+    return F
+
+
+def face(style, H, W, sc, rng, side, **kw):
+    if USE_VIBESCHEM and style in ("corridor", "windows", "balcony", "ribbon", "curtain"):
+        import vibeschem
+        if vibeschem.has_cache():
+            return vibeschem_face(style, H, W, sc, rng, side, **kw)
+    return STYLES[style](H, W, sc, rng, **kw)

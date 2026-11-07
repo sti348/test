@@ -177,7 +177,7 @@ def box(rng, dx, dz, H, sc, faces, extra=0, parapet=2, roof=True, piers=True, si
         style, kw = spec
         kw = dict(kw)
         text = kw.pop("text", None)
-        F = fc.STYLES[style](H, face_width(side, dx, dz), sc, rng, **kw)
+        F = fc.face(style, H, face_width(side, dx, dz), sc, rng, side, **kw)
         if text:
             for t in text:
                 t = dict(t)

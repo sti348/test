@@ -16,7 +16,8 @@ class Grid:
 
 def _march(G, o, d, maxdist, tex, alpha_test=True, max_steps=4000):
     """Returns (block, t, axis, stepsign) per ray; block 0 = nothing hit."""
-    T, top, side, bot, emi, cut = tex
+    T, top, side, bot, emi, cut, shp = tex
+    partial = np.any(shp != np.array([0, 0, 0, 1, 1, 1.0]), axis=1)
     V = G.V
     Y, Z, X = V.shape
     N = len(o)
@@ -63,6 +64,28 @@ def _march(G, o, d, maxdist, tex, alpha_test=True, max_steps=4000):
         b = np.zeros(len(act), np.int64)
         b[alive] = V[lc[alive, 1], lc[alive, 2], lc[alive, 0]]
         h = b != 0
+        # partial blocks (slabs, panes, doors...): intersect the ray with the sub-box
+        if h.any():
+            hi = np.nonzero(h)[0]
+            pc = hi[partial[b[hi]]]
+            if len(pc):
+                box = shp[b[pc]]
+                oo = o[act[pc]] - c[pc]
+                dd = d[act[pc]]
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    t1 = (box[:, 0:3] - oo) / dd
+                    t2 = (box[:, 3:6] - oo) / dd
+                tlo = np.where(np.isnan(np.minimum(t1, t2)), -np.inf, np.minimum(t1, t2))
+                thi = np.where(np.isnan(np.maximum(t1, t2)), np.inf, np.maximum(t1, t2))
+                tn = tlo.max(axis=1)
+                tf = thi.min(axis=1)
+                miss = (tn > tf) | (tf < t[pc])
+                h[pc[miss]] = False
+                ok = pc[~miss]
+                tnew = np.maximum(tn[~miss], t[ok])
+                axn = np.where(tn[~miss] >= t[ok], tlo[~miss].argmax(axis=1), ax[ok])
+                t[ok] = tnew
+                ax[ok] = axn
         if alpha_test and h.any():
             hi = np.nonzero(h)[0]
             cand = hi[cut[b[hi]]]
@@ -118,7 +141,7 @@ def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, 
            shadows=True, night=False, tex=None, ss=1):
     """yaw like Minecraft: 0 = +Z (south), 180 = -Z (north); pitch>0 looks down."""
     tex = tex or textures.atlas()
-    T, top, side, bot, emi, cut = tex
+    T, top, side, bot, emi, cut, shp = tex
     W, H = w * ss, h * ss
     yr, pr = math.radians(yaw), math.radians(pitch)
     fwd = np.array([-math.sin(yr) * math.cos(pr), -math.sin(pr), math.cos(yr) * math.cos(pr)])
