@@ -9,6 +9,36 @@ import campus
 
 NS = "wuya"
 
+def region_viewpoints():
+    """Teleport spots in the new regions (beyond the campus and in the Nether)."""
+    import regions as R
+    px, pz = R.GATE_OW
+    main = R.island_top("main")
+    lh = R.island_top("lighthouse")
+    big = R.SPHERES[0]
+    floor = R.SEABED_DEEP - 20 + int(big[3] * 0.45) + 1
+    v = {
+        "portal": (px + 70.5, -60, pz + 0.5, 90, -18, "巨型地狱门"),
+        "sinkhole": (R.SX + 445.5, -60, R.SZ + 0.5, 90, 35, "天坑边缘"),
+        "sinkhole_bridge": (R.SX + 220.5, -60, R.SZ + 0.5, 90, 25, "天坑上的桥"),
+        "sinkhole_floor": (R.SX + 70.5, R.LEDGES[0][1] + 1, R.SZ + 60.5, 135, -45, "天坑底"),
+        "archipelago": (main[1] + 0.5, main[5] + 1, main[2] + 110.5, 180, -10, "海上学院"),
+        "lighthouse": (lh[1] + 0.5, lh[5] + 1 + 482, lh[2] + 25.5, 180, 20, "灯塔顶"),
+        "sea_surface": (big[1] + 0.5, R.SEA + 2, big[2] + 0.5, 0, 10, "海面浮台（梯子直通海底玻璃球）"),
+        "sphere": (big[1] + 20.5, floor, big[2] + 40.5, 200, -25, "海底玻璃球学校"),
+        "sky_stair": (R.SKY[0][0] + 0.5, -60, R.SKY[0][1] + R.SKY[0][2] + 30.5, 180, -40, "通往空岛的螺旋阶梯"),
+    }
+    names = ["sky1", "sky2", "sky3", "sky4", "end"]
+    labels = ["第一座空岛（y400）", "第二座空岛（y720）", "第三座空岛（y1040）", "第四座空岛（y1360）", "末地空岛（y1720）"]
+    for k, (x, z, Rr, top, _s, _r) in enumerate(R.SKY):
+        v[names[k]] = (x + 0.5, top + 1, z + 75.5, 180, -8, labels[k])
+    gx, gz = R.GATE_NE
+    v["nether"] = (gx + 60.5, R.NETHER_FLOOR, gz + 0.5, 90, -15, "地狱学校（下界门前）", "the_nether")
+    ax, az = R.ACADEMY_NE
+    v["nether_academy"] = (ax + 0.5, R.NETHER_FLOOR, az + 120.5, 180, -20, "地狱学院", "the_nether")
+    return v
+
+
 def viewpoints():
     """Teleport spots, derived from the generated layout."""
     L = campus.build()
@@ -46,6 +76,7 @@ def viewpoints():
         "buses": (fac["bus_lot"].x + 150.5, -58, fac["bus_lot"].z + 40.5, 90, 4, "校车停车场"),
         "grove": (grove.x + 2.5, -60, grove.z + 96.5, 328, -5, "暮色树林"),
         "sky": (300.5, 230, 1160.5, 192, 22, "高空俯瞰"),
+        **region_viewpoints(),
     }
 
 
@@ -69,14 +100,17 @@ def write(dst):
     lines = ['tellraw @s {"text":"—— 无涯中学 · 指令 ——","color":"gold"}']
     for k, v in VIEWPOINTS.items():
         lines.append('tellraw @s {"text":"/function wuya:tp/%s   %s","color":"aqua"}' % (k, v[5]))
+
     lines += [
         'tellraw @s {"text":"/function wuya:tiny     缩小成十分之一（1.20.5+），巨物感拉满","color":"light_purple"}',
         'tellraw @s {"text":"/function wuya:normal   恢复正常大小","color":"light_purple"}',
         'tellraw @s {"text":"/function wuya:day | wuya:dusk | wuya:night   切换时间","color":"green"}',
     ]
     funcs["help"] = "\n".join(lines)
-    for k, (x, y, z, yaw, pitch, _) in VIEWPOINTS.items():
-        funcs[f"tp/{k}"] = f"tp @s {x} {y} {z} {yaw} {pitch}"
+    for k, vp in VIEWPOINTS.items():
+        x, y, z, yaw, pitch = vp[:5]
+        dim = vp[6] if len(vp) > 6 else "overworld"
+        funcs[f"tp/{k}"] = f"execute in minecraft:{dim} run tp @s {x} {y} {z} {yaw} {pitch}"
     funcs["day"] = "time set 1000"
     funcs["dusk"] = "time set 13000"
     funcs["night"] = "time set 18000"

@@ -38,10 +38,17 @@ SPECIAL = {
     "tall_grass": (("tall_grass_bottom", GRASS),) * 3,
     "large_fern": (("large_fern_bottom", GRASS),) * 3,
     "lily_pad": (("lily_pad", np.array([32, 128, 48]) / 255.0),) * 3,
+    "lava": ("lava_still",) * 3,
+    "magma_block": ("magma",) * 3,
+    "fire": ("fire_0",) * 3,
+    "soul_fire": ("soul_fire_0",) * 3,
+    "cave_vines": ("cave_vines",) * 3,
+    "cave_air": ("glass",) * 3,
     "azalea": ("azalea_top", "azalea_side", "azalea_top"),
 }
 EMISSIVE = {"ochre_froglight", "pearlescent_froglight", "verdant_froglight", "sea_lantern", "glowstone",
-            "shroomlight", "lantern", "redstone_lamp[lit=true]", "jack_o_lantern"}
+            "shroomlight", "lantern", "redstone_lamp[lit=true]", "jack_o_lantern", "lava", "magma_block",
+            "soul_lantern", "soul_fire", "fire", "nether_portal", "crying_obsidian", "end_rod", "glow_lichen"}
 
 
 def _load(name):

@@ -1,0 +1,36 @@
+# mcbuild project (minecraft-build-design).  python <skill>/scripts/mcb.py <command> -p <this folder>
+[project]
+name = "无涯中学 · 空岛学院（石）"
+id = "WuyaSkyAcademyStone"
+version = "1.21.11"
+lang = "zh"
+author = "无涯中学"
+
+[site]
+source = "flat"                # the campus is superflat: grass at y=-61 on two dirt layers on bedrock
+ground_y = -61
+layers = [["dirt", 2]]
+base = "bedrock"
+box = [-12, -64, -12, 132, 45, 132]
+
+[design]
+script = "design.py"
+origin = [0, -60, 0]           # local (0,0,0) = first air block above the grass at the plot's NW corner
+turns = 0
+
+[export]
+mode = "portable"
+target_version = "1.20.1"    # the map is written in the 1.20.1 format
+schem = true
+max_region = 64
+
+[verify]
+spawnproof = true
+spawnproof_strict = false      # open landscape at twilight: dark grass is reported, not fatal (the map is peaceful)
+walk_start = [60, -60, 2]
+walk_targets = { "keep" = [56, -59, 64] }
+
+[preview]
+title = "无涯中学 · 空岛学院（石）"
+front = "south"
+context = 20

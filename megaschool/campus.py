@@ -25,6 +25,7 @@ SOUTH_ZONE = 528             # z >= this is hand-laid (avenue, playground ...)
 SOUTH_EDGE = 1100            # the world extends past the gate for the approach
 STREET_Z = GATE_Z + 154
 SPAWN = (0, GROUND_Y, STREET_Z + 31)
+WEST_GAP = (250, 350)        # opening in the west wall toward the giant Nether portal
 
 MAX_FLOORS = 82
 
@@ -409,8 +410,10 @@ def south_zone(L, rng, namer):
     # ---- perimeter wall with the gate
     for xa, xb in ((WEST_X, -140), (140, EAST_X)):
         place(L, "wall", wall_seg, (5, 2, xb - xa), xa, GATE_Z, 0, n=xb - xa, axis="x")
-    for xa in (WEST_X - 2, EAST_X):
-        place(L, "wall", wall_seg, (5, GATE_Z - NORTH_Z, 2), xa, NORTH_Z, 0, n=GATE_Z - NORTH_Z, axis="z")
+    place(L, "wall", wall_seg, (5, GATE_Z - NORTH_Z, 2), EAST_X, NORTH_Z, 0, n=GATE_Z - NORTH_Z, axis="z")
+    # the west wall has a gap facing the giant Nether portal and the sinkhole
+    for za, zb in ((NORTH_Z, WEST_GAP[0]), (WEST_GAP[1], GATE_Z)):
+        place(L, "wall", wall_seg, (5, zb - za, 2), WEST_X - 2, za, 0, n=zb - za, axis="z")
     place(L, "wall", wall_seg, (5, 2, EAST_X - WEST_X), WEST_X, NORTH_Z - 2, 0, n=EAST_X - WEST_X, axis="x")
     g = _sz(lm.gate, {})
     place(L, "gate", lm.gate, g, -g[2] // 2, GATE_Z - 15, 11)

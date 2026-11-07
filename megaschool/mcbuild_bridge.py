@@ -42,12 +42,12 @@ source = "flat"                # the campus is superflat: grass at y=-61 on two 
 ground_y = -61
 layers = [["dirt", 2]]
 base = "bedrock"
-box = [{bx0}, -64, {bz0}, {bx1}, 320, {bz1}]
+box = [{bx0}, -64, {bz0}, {bx1}, {by1}, {bz1}]
 
 [design]
 script = "design.py"
 origin = [0, -60, 0]           # local (0,0,0) = first air block above the grass at the plot's NW corner
-turns = 0
+turns = {turns}
 
 [export]
 mode = "portable"
@@ -66,16 +66,15 @@ front = "south"
 context = 20
 '''
 
-DESIGN_PY = '''"""{title} - see ../../mcbuild_designs.py ({fn}).  Run with `mcb design -p .`"""
+DESIGN_PY = '''"""{title} - see ../../{module}.py ({fn}).  Run with `mcb design -p .`"""
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 from mcbuild import Build, get_project
-import mcbuild_designs as D
-
 P = get_project()
 B = Build(P.site(), P.name)
 F = B.frame(tuple(P.cfg["design"]["origin"]), turns=P.cfg["design"].get("turns", 0))
-INFO = D.{fn}(F)
+import {module} as M
+INFO = M.{fn}(F, **{kwargs})
 B.notes.append("无涯中学 {title}：由 megaschool/mcbuild_designs.py 生成，放进地图时按地块左上角对齐。")
 '''
 
@@ -100,9 +99,22 @@ def w(p):
     return (p[0], p[1] - 60, p[2])
 
 
-def write_project(name):
+def all_designs():
+    """name -> (function, W, D, H, title, kwargs, module) for every mcbuild design."""
     import mcbuild_designs as D
-    fn, (W, Dd), title = D.DESIGNS[name]
+    import mcbuild_regions as R
+    out = {}
+    for k, (fn, (W, Dd), title) in D.DESIGNS.items():
+        out[k] = (fn, W, Dd, 330 if k == "water_tower" else 260, title, {}, "mcbuild_designs")
+    for k, (fn, (W, Dd, H), title, kw) in R.REGION_DESIGNS.items():
+        out[k] = (fn, W, Dd, H + 20, title, kw, "mcbuild_regions")
+    return out
+
+
+def write_project(name):
+    fn, W, Dd, H, title, kw, module = all_designs()[name]
+    kw = dict(kw)
+    turns = kw.pop("_turns", 0)
     d = os.path.join(PROJECTS, name)
     os.makedirs(d, exist_ok=True)
     m = 12
@@ -110,21 +122,25 @@ def write_project(name):
         bx0, bz0, bx1, bz1 = -48, -48, 48, 48
     else:
         bx0, bz0, bx1, bz1 = -m, -m, W + m, Dd + m
+        if turns:                                            # rotated about the origin: cover all quadrants
+            R_ = max(W, Dd) + m
+            bx0, bz0, bx1, bz1 = -R_, -R_, R_, R_
     info = {}
     # walk targets come from the design itself: run it once on a throwaway frame
     try:
         sys.path.insert(0, os.path.join(SKILL, "scripts"))
         from mcbuild import Build
         from mcbuild.terrain import make_flat
-        site = make_flat((bx0, -64, bz0, bx1, 320, bz1), -61, layers=(("dirt", 2),), base="bedrock")
+        site = make_flat((bx0, -64, bz0, bx1, -60 + H, bz1), -61, layers=(("dirt", 2),), base="bedrock")
         B = Build(site, name)
-        info = fn(B.frame((0, -60, 0))) or {}
+        info = fn(B.frame((0, -60, 0), turns=turns), **kw) or {}
     except Exception as e:                                   # noqa: BLE001 - reported by `mcb design` later
         print("  (dry run failed:", e, ")")
     open(os.path.join(d, "project.toml"), "w", encoding="utf-8").write(TOML.format(
         title=title, cid="".join(p.capitalize() for p in name.split("_")), bx0=bx0, bz0=bz0, bx1=bx1, bz1=bz1,
-        target=TARGET, walk=walk_toml(info)))
-    open(os.path.join(d, "design.py"), "w", encoding="utf-8").write(DESIGN_PY.format(title=title, fn=fn.__name__))
+        target=TARGET, walk=walk_toml(info) if not turns else "", by1=-60 + H, turns=turns))
+    open(os.path.join(d, "design.py"), "w", encoding="utf-8").write(
+        DESIGN_PY.format(title=title, fn=fn.__name__, module=module, kwargs=repr(kw)))
     return d
 
 
@@ -182,13 +198,13 @@ def _summary(project):
 
 
 def sync(names=None):
-    import mcbuild_designs as D
     sys.path.insert(0, HERE)
     out = {}
     if os.path.exists(CACHE):
         out = json.loads(gzip.decompress(open(CACHE, "rb").read()))
-    report = {}
-    for name in D.DESIGNS:
+    sp = os.path.join(PROJECTS, "verification-summary.json")
+    report = json.load(open(sp, encoding="utf-8")) if os.path.exists(sp) else {}   # merge, partial syncs keep the rest
+    for name in all_designs():
         if names and name not in names:
             continue
         d = write_project(name)
@@ -206,9 +222,25 @@ def sync(names=None):
         print(f"  {name:16s} {A.shape}  verify: {report[name]}", flush=True)
     with open(CACHE, "wb") as f:
         f.write(gzip.compress(json.dumps(out, separators=(",", ":")).encode(), 9))
+    with open(sp, "w", encoding="utf-8") as f:
+        json.dump({k: report[k] for k in all_designs() if k in report}, f, indent=1, ensure_ascii=False)
+    print(f"cache: {CACHE} ({os.path.getsize(CACHE) / 1e3:.0f} kB)")
+
+
+def rebuild_summary():
+    """Re-read every project's verification.json (no mcb needed)."""
+    out = json.loads(gzip.decompress(open(CACHE, "rb").read()))
+    report = {}
+    for name in all_designs():
+        d = os.path.join(PROJECTS, name)
+        report[name] = _summary(d)
+        if name in out:
+            c = out[name]
+            A = np.frombuffer(zlib.decompress(base64.b64decode(c["data"])), np.uint16)
+            report[name]["blocks"] = int((A != 0).sum())
     with open(os.path.join(PROJECTS, "verification-summary.json"), "w", encoding="utf-8") as f:
         json.dump(report, f, indent=1, ensure_ascii=False)
-    print(f"cache: {CACHE} ({os.path.getsize(CACHE) / 1e3:.0f} kB)")
+    return report
 
 
 _LOADED = None
@@ -242,5 +274,8 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "sync"
     if cmd == "sync":
         sync(sys.argv[2:] or None)
+    elif cmd == "summary":
+        for k, v in rebuild_summary().items():
+            print(f"{k:24s} {v.get('status')} err {v.get('errors')} warn {v.get('warnings')} blocks {v.get('blocks')} walk {v.get('walk')}")
     elif cmd == "previews":
         previews(sys.argv[2:])

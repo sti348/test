@@ -233,5 +233,389 @@
    "{'check': 'dark spawnable surfaces (block light 0)', 'count': 24337, 'examples': [[0, -61, 0], [0, -61, 1], [0, -61, 2], [0, -61, 3], [0, -61, 4], [0, -61, 5], "
   ],
   "blocks": 45390
+ },
+ "sea_academy": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 2,
+  "states_validated": 42,
+  "rule_problems": 0,
+  "floating": 1,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "18539/63448",
+  "walk": {
+   "start": [
+    80,
+    -60,
+    2
+   ],
+   "reachableCells": 32528,
+   "targets": {
+    "court": true,
+    "hall": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'parts not connected to the ground (floating)', 'parts': [{'cells': 5, 'min': [80, -21, 80], 'max': [80, -17, 80]}]}",
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 18539, 'examples': [[0, -61, 0], [0, -61, 1], [0, -61, 2], [0, -61, 3], [0, -61, 4], [0, -61, 5], "
+  ],
+  "blocks": 105319
+ },
+ "lighthouse_school": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 31,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "13613/14503",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 13613, 'examples': [[0, -61, 0], [0, -61, 1], [0, -61, 2], [0, -61, 3], [0, -61, 4], [0, -61, 5], "
+  ],
+  "blocks": 129651
+ },
+ "island_classroom": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 21,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "675/1170",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 675, 'examples': [[-2, -57, -1], [-2, -57, 0], [-2, -57, 1], [-2, -57, 2], [-2, -57, 3], [-2, -57,"
+  ],
+  "blocks": 3032
+ },
+ "dome_school_big": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 32,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "30134/44603",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 30134, 'examples': [[119, -58, 130], [120, -58, 130], [121, -58, 130], [122, -58, 130], [123, -58,"
+  ],
+  "blocks": 8362276
+ },
+ "dome_school_small": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 38,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "11591/20411",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 11591, 'examples': [[76, -58, 85], [77, -58, 85], [78, -58, 85], [79, -58, 79], [79, -58, 85], [79"
+  ],
+  "blocks": 2378726
+ },
+ "pit_tower": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 19,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "803714/859539",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 803714, 'examples': [[-6, -61, -6], [-6, -61, -5], [-6, -61, -4], [-6, -61, -3], [-6, -61, -2], [-"
+  ],
+  "blocks": 1150131
+ },
+ "cliff_school": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 20,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "321/1464",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 321, 'examples': [[5, -52, 23], [6, -60, 19], [6, -52, 10], [6, -52, 22], [6, -52, 23], [6, -52, 2"
+  ],
+  "blocks": 12760
+ },
+ "cliff_school_t1": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 20,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "321/1464",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 321, 'examples': [[-23, -52, 5], [-19, -60, 6], [-10, -52, 6], [-22, -52, 6], [-23, -52, 6], [-24,"
+  ],
+  "blocks": 12760
+ },
+ "cliff_school_t2": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 20,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "321/1464",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 321, 'examples': [[-5, -52, -23], [-6, -60, -19], [-6, -52, -10], [-6, -52, -22], [-6, -52, -23], "
+  ],
+  "blocks": 12760
+ },
+ "cliff_school_t3": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 20,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "321/1464",
+  "walk": null,
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 321, 'examples': [[23, -52, -5], [19, -60, -6], [10, -52, -6], [22, -52, -6], [23, -52, -6], [24, "
+  ],
+  "blocks": 12760
+ },
+ "sky_academy_white": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 2,
+  "states_validated": 39,
+  "rule_problems": 0,
+  "floating": 7,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "12115/21083",
+  "walk": {
+   "start": [
+    60,
+    -60,
+    2
+   ],
+   "reachableCells": 16338,
+   "targets": {
+    "keep": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'parts not connected to the ground (floating)', 'parts': [{'cells': 1, 'min': [60, -44, 60], 'max': [60, -44, 60]}, {'cells': 1, 'min': [60, -12, 60],",
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 12115, 'examples': [[0, -61, 13], [0, -61, 14], [0, -61, 15], [0, -61, 16], [0, -61, 17], [0, -61,"
+  ],
+  "blocks": 50667
+ },
+ "sky_academy_sand": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 2,
+  "states_validated": 42,
+  "rule_problems": 0,
+  "floating": 7,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "12115/21076",
+  "walk": {
+   "start": [
+    60,
+    -60,
+    2
+   ],
+   "reachableCells": 16338,
+   "targets": {
+    "keep": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'parts not connected to the ground (floating)', 'parts': [{'cells': 1, 'min': [60, -44, 60], 'max': [60, -44, 60]}, {'cells': 1, 'min': [60, -12, 60],",
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 12115, 'examples': [[0, -61, 13], [0, -61, 14], [0, -61, 15], [0, -61, 16], [0, -61, 17], [0, -61,"
+  ],
+  "blocks": 51384
+ },
+ "sky_academy_stone": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 2,
+  "states_validated": 41,
+  "rule_problems": 0,
+  "floating": 7,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "12115/21076",
+  "walk": {
+   "start": [
+    60,
+    -60,
+    2
+   ],
+   "reachableCells": 16338,
+   "targets": {
+    "keep": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'parts not connected to the ground (floating)', 'parts': [{'cells': 1, 'min': [60, -44, 60], 'max': [60, -44, 60]}, {'cells': 1, 'min': [60, -12, 60],",
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 12115, 'examples': [[0, -61, 13], [0, -61, 14], [0, -61, 15], [0, -61, 16], [0, -61, 17], [0, -61,"
+  ],
+  "blocks": 51417
+ },
+ "sky_academy_brick": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 2,
+  "states_validated": 42,
+  "rule_problems": 0,
+  "floating": 7,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "12115/21076",
+  "walk": {
+   "start": [
+    60,
+    -60,
+    2
+   ],
+   "reachableCells": 16338,
+   "targets": {
+    "keep": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'parts not connected to the ground (floating)', 'parts': [{'cells': 1, 'min': [60, -44, 60], 'max': [60, -44, 60]}, {'cells': 1, 'min': [60, -12, 60],",
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 12115, 'examples': [[0, -61, 13], [0, -61, 14], [0, -61, 15], [0, -61, 16], [0, -61, 17], [0, -61,"
+  ],
+  "blocks": 51477
+ },
+ "end_academy": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 20,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "18648/23698",
+  "walk": {
+   "start": [
+    70,
+    -60,
+    4
+   ],
+   "reachableCells": 26370,
+   "targets": {
+    "hall": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 18648, 'examples': [[0, -61, 0], [0, -61, 1], [0, -61, 2], [0, -61, 3], [0, -61, 4], [0, -61, 5], "
+  ],
+  "blocks": 64233
+ },
+ "infernal_academy": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 48,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "118078/229776",
+  "walk": {
+   "start": [
+    100,
+    -60,
+    199
+   ],
+   "reachableCells": 26773,
+   "targets": {
+    "crown": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 118078, 'examples': [[0, -61, 0], [0, -61, 1], [0, -61, 2], [0, -61, 198], [0, -61, 199], [1, -61,"
+  ],
+  "blocks": 311867
+ },
+ "nether_gate_overworld": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 20,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "2226/4127",
+  "walk": {
+   "start": [
+    14,
+    -60,
+    56
+   ],
+   "reachableCells": 12792,
+   "targets": {
+    "threshold": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 2226, 'examples': [[12, -61, 13], [12, -61, 14], [12, -61, 18], [12, -61, 19], [12, -61, 31], [12,"
+  ],
+  "blocks": 20152
+ },
+ "nether_gate_nether": {
+  "status": "PASS",
+  "errors": 0,
+  "warnings": 1,
+  "states_validated": 17,
+  "rule_problems": 0,
+  "floating": 0,
+  "missing_in_1_20_1": [],
+  "dark_surfaces": "2129/3308",
+  "walk": {
+   "start": [
+    14,
+    -60,
+    56
+   ],
+   "reachableCells": 7944,
+   "targets": {
+    "threshold": true
+   }
+  },
+  "first_errors": [],
+  "first_warnings": [
+   "{'check': 'dark spawnable surfaces (block light 0)', 'count': 2129, 'examples': [[12, -61, 12], [12, -61, 13], [12, -61, 14], [12, -61, 15], [12, -61, 16], [12,"
+  ],
+  "blocks": 18932
  }
 }

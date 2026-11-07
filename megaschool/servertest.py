@@ -32,7 +32,7 @@ def run(world, ver, commands, timeout=900):
     open(os.path.join(d, "server.properties"), "w").write(
         "online-mode=false\nlevel-name=world\nmax-tick-time=-1\nspawn-protection=0\n"
         "view-distance=4\nsimulation-distance=4\nenable-rcon=false\nlevel-type=flat\n")
-    p = subprocess.Popen([java_for(ver), "-Xmx6G", "-jar", os.path.join(SRV, f"server-{ver}.jar"), "nogui"],
+    p = subprocess.Popen([java_for(ver), os.environ.get("MC_XMX", "-Xmx6G"), "-jar", os.path.join(SRV, f"server-{ver}.jar"), "nogui"],
                          cwd=d, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     lines = []
     done = threading.Event()

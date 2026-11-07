@@ -23,8 +23,11 @@ GAME_RULES = {
 }
 
 
-def flat_generator():
-    layers = [("minecraft:bedrock", 1), ("minecraft:dirt", 2), ("minecraft:grass_block", 1)]
+def flat_generator(min_y=-1024, ground=-61):
+    """Superflat columns that meet the generated map: grass at `ground` on two
+    dirt layers on stone, bedrock at the (extended) bottom of the world."""
+    layers = [("minecraft:bedrock", 1), ("minecraft:stone", ground - min_y - 3), ("minecraft:dirt", 2),
+              ("minecraft:grass_block", 1)]
     return {
         "type": "minecraft:flat",
         "settings": {

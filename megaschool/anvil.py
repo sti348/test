@@ -79,7 +79,7 @@ def _pack(indices: np.ndarray, bits: int) -> np.ndarray:
     return packed.view(np.int64)
 
 
-def encode_section(sec: np.ndarray, y: int) -> dict:
+def encode_section(sec: np.ndarray, y: int, biome: str = "minecraft:plains") -> dict:
     """sec: (16,16,16) uint16 indexed [y,z,x]."""
     flat = sec.reshape(-1)
     lo = flat.min()
@@ -91,7 +91,7 @@ def encode_section(sec: np.ndarray, y: int) -> dict:
         bs = {"palette": List([_palette_entry(int(p)) for p in pal]),
               "data": LongArray(_pack(inv, bits))}
     return {"Y": Byte(y), "block_states": bs,
-            "biomes": {"palette": List(["minecraft:plains"])}}
+            "biomes": {"palette": List([biome])}}
 
 
 def encode_chunk(col: np.ndarray, cx: int, cz: int) -> bytes:

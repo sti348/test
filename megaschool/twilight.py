@@ -20,6 +20,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 VANILLA = os.path.join(HERE, "vanilla")
 
 AMBIENT = 0.2                 # vanilla overworld 0.0, nether 0.1
+# No height limit: the overworld runs from -1024 to the game's maximum of 2032,
+# the Nether from 0 to 1024 (vanilla: -64..320 and 0..256).
+OW_MIN_Y, OW_HEIGHT = -1024, 3056
+NETHER_MIN_Y, NETHER_HEIGHT = 0, 1024
 SKY = "#8a7cd8"               # lavender-violet (the game darkens it with the time of day)
 FOG = "#a497d8"
 WATER = "#3b5fb0"
@@ -45,6 +49,7 @@ def dimension(ver):
     d = json.load(open(os.path.join(VANILLA, f"{ver}_dimension_type_overworld.json")))
     d = copy.deepcopy(d)
     d["ambient_light"] = AMBIENT
+    d["min_y"], d["height"], d["logical_height"] = OW_MIN_Y, OW_HEIGHT, OW_HEIGHT
     if "attributes" in d:
         # only touch attributes this version already defines (1.21.11 has no
         # ambient_light_color - an unknown key stops the world from loading)
@@ -53,6 +58,15 @@ def dimension(ver):
                      ("minecraft:visual/fog_color", FOG), ("minecraft:visual/sky_color", SKY)):
             if k in a:
                 a[k] = v
+    return d
+
+
+NETHER_GROUPS = [(15, 93, "1.20.1"), (94, 100, "1.21.11"), (101, 120, "26.1"), (121, 1000, "26.3")]
+
+
+def nether(ver):
+    d = copy.deepcopy(json.load(open(os.path.join(VANILLA, f"{ver}_dimension_type_the_nether.json"))))
+    d["min_y"], d["height"], d["logical_height"] = NETHER_MIN_Y, NETHER_HEIGHT, NETHER_HEIGHT
     return d
 
 
@@ -94,6 +108,11 @@ def write(dst):
         _w(os.path.join(root, "data", "minecraft", "dimension_type", "overworld.json"), dimension(ver))
         if lo != 15:
             entries.append({"formats": [lo, hi], "min_format": lo, "max_format": hi, "directory": f"tw_dim_{lo}"})
+    for lo, hi, ver in NETHER_GROUPS:
+        root = dst if lo == 15 else os.path.join(dst, f"tw_nether_{lo}")
+        _w(os.path.join(root, "data", "minecraft", "dimension_type", "the_nether.json"), nether(ver))
+        if lo != 15:
+            entries.append({"formats": [lo, hi], "min_format": lo, "max_format": hi, "directory": f"tw_nether_{lo}"})
     for lo, hi, ver in BIOME_GROUPS:
         root = dst if lo == 15 else os.path.join(dst, f"tw_biome_{lo}")
         _w(os.path.join(root, "data", "minecraft", "worldgen", "biome", "plains.json"), biome(ver))

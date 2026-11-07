@@ -10,8 +10,11 @@ import textures
 
 
 class Grid:
-    def __init__(self, V, x0, z0, y0=-64):
-        self.V, self.x0, self.z0, self.y0 = V, x0, z0, y0
+    """Voxel grid V[y,z,x] whose cell (0,0,0) is world (x0, y0, z0); with
+    scale s > 1 every cell stands for an s*s*s block (level of detail)."""
+
+    def __init__(self, V, x0, z0, y0=-64, scale=1):
+        self.V, self.x0, self.z0, self.y0, self.scale = V, x0, z0, y0, scale
 
 
 def _march(G, o, d, maxdist, tex, alpha_test=True, max_steps=4000):
@@ -169,6 +172,48 @@ def sky_twilight(d):
     return col
 
 
+def _render_medium(G, o, d, maxdist, tex, mode, haze, H, W, h, w, ss):
+    """Nether (no sky, red haze, lava and fire glowing) or underwater (water is
+    rendered as blue-green fog, not as cubes)."""
+    T, top, side, bot, emi, cut, shp = tex
+    b, t, ax, step = _march(G, o, d, maxdist, tex)
+    hit = b != 0
+    if mode == "nether":
+        bg, amb, fogc, gain = np.array([0.22, 0.04, 0.03]), np.array([0.62, 0.36, 0.30]), np.array([0.34, 0.07, 0.05]), 0.9
+    else:
+        bg, amb, fogc, gain = np.array([0.02, 0.09, 0.16]), np.array([0.30, 0.42, 0.58]), np.array([0.03, 0.16, 0.26]), 0.9
+    col = np.tile(bg, (len(d), 1))
+    hi = np.nonzero(hit)[0]
+    p = o[hi] + d[hi] * t[hi, None]
+    tid = _face_tex(b[hi], ax[hi], step[hi], top, side, bot)
+    u, v = _uv(p, ax[hi], step[hi])
+    c = T[tid, v, u, :3].astype(np.float64)
+    a = ax[hi]
+    sgn = step[hi, a]
+    nrm = np.zeros((len(hi), 3))
+    nrm[np.arange(len(hi)), a] = -sgn
+    shade = np.where(a == 1, np.where(sgn < 0, 1.0, 0.5), np.where(a == 0, 0.6, 0.8))
+    light3 = amb[None] * shade[:, None]
+    if not hasattr(G, "glow"):
+        G.glow = glow_field(G.V, emi)
+    F, cell = G.glow
+    q = ((p + nrm * 0.6) - np.array([G.x0, G.y0, G.z0])) / cell
+    qi = np.clip(q.astype(np.int64), 0, np.array(F.shape)[[2, 0, 1]] - 1)
+    gl = F[qi[:, 1], qi[:, 2], qi[:, 0]]
+    light3 = light3 + np.array([1.0, 0.62, 0.32])[None] * np.clip(gl * gain, 0, 1.4)[:, None]
+    e = emi[b[hi]]
+    light3 = np.where(e[:, None], np.array([1.3, 1.1, 0.9])[None], light3)
+    c = c * light3
+    f = 1 - np.exp(-haze * t[hi])
+    f = np.where(e, f * 0.5, f)
+    c = c * (1 - f[:, None]) + fogc * f[:, None]
+    col[hi] = c
+    img = (np.clip(col, 0, 1) * 255).astype(np.uint8).reshape(H, W, 3)
+    if ss > 1:
+        img = img.reshape(h, ss, w, ss, 3).mean(axis=(1, 3)).astype(np.uint8)
+    return img
+
+
 def glow_field(V, emi, cell=4, radius=3):
     """Cheap stand-in for block light: emissive blocks counted per 4^3 cell and
     box-blurred.  Returns (field, cell)."""
@@ -201,7 +246,7 @@ def sky_color(d, night=False):
 
 
 def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, sun=(0.45, 0.8, 0.35),
-           shadows=True, night=False, tex=None, ss=1, dusk=False, twilight=False):
+           shadows=True, night=False, tex=None, ss=1, dusk=False, twilight=False, mode=None):
     """yaw like Minecraft: 0 = +Z (south), 180 = -Z (north); pitch>0 looks down."""
     tex = tex or textures.atlas()
     T, top, side, bot, emi, cut, shp = tex
@@ -218,7 +263,14 @@ def render(G, cam, yaw, pitch, w=960, h=540, fov=70, maxdist=1100, haze=0.0012, 
     py = (1 - 2 * (ys + 0.5) / H) * th
     d = fwd[None] + px.reshape(-1, 1) * right[None] + py.reshape(-1, 1) * up[None]
     d /= np.linalg.norm(d, axis=1, keepdims=True)
-    o = np.broadcast_to(np.array(cam, float), d.shape).copy()
+    s_ = getattr(G, "scale", 1)
+    org = np.array([G.x0, G.y0, G.z0], float)
+    cam_g = (np.array(cam, float) - org) / s_ + org             # camera in grid units
+    o = np.broadcast_to(cam_g, d.shape).copy()
+    haze = haze * s_
+    maxdist = maxdist / s_
+    if mode in ("nether", "underwater"):
+        return _render_medium(G, o, d, maxdist, tex, mode, haze, H, W, h, w, ss)
     b, t, ax, step = _march(G, o, d, maxdist, tex)
     hit = b != 0
     col = sky_twilight(d) if twilight else (sky_dusk(d) if dusk else sky_color(d, night))
