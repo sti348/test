@@ -10,6 +10,8 @@ import numpy as np
 
 from anvil import B
 import buildings as bd
+import iconic as ic
+import monuments as mon
 import landmarks as lm
 from buildings import GROUND_Y, Piece
 
@@ -161,6 +163,180 @@ def lot_trees(L, rng, x0, z0, x1, z1):
     trees_along(L, rng, x0 + 8, z1 - 3, x1 - 8, z1 - 3)
     trees_along(L, rng, x0 + 2, z0 + 14, x0 + 2, z1 - 14, lamps=False)
     trees_along(L, rng, x1 - 3, z0 + 14, x1 - 3, z1 - 14, lamps=False)
+
+
+# ---------------------------------------------------------------- landmark-style teaching buildings
+def _seed(rng):
+    return int(rng.integers(1 << 30))
+
+
+def lot_gothic(L, rng, x0, z0, x1, z1, namer):
+    """学习塔: a stone Gothic tower with unbroken ribs (cathedral-of-learning style)."""
+    f = floors_for((x0 + x1) / 2, (z0 + z1) / 2, rng, 1.0)
+    floors = int(np.clip(48 + (f - 26) * 0.65, 48, 80))
+    W = 96 if x1 - x0 >= 170 else 80
+    cx, cz = (x0 + x1) // 2, (z0 + z1) // 2
+    place(L, "gothic", ic.gothic_tower, ic.gothic_size(W, floors), cx - W // 2, cz - W // 2, _seed(rng), W=W,
+          floors=floors, seed=_seed(rng))
+
+
+def lot_cocoon(L, rng, x0, z0, x1, z1, namer):
+    """茧形塔: an egg-shaped tower in a white diamond lattice."""
+    f = floors_for((x0 + x1) / 2, (z0 + z1) / 2, rng, 1.0)
+    floors = int(np.clip(30 + f // 2, 40, 70))
+    W = int(min(x1 - x0, z1 - z0) - 40) // 2 * 2
+    W = min(W, 112)
+    cx, cz = (x0 + x1) // 2, (z0 + z1) // 2
+    sch = str(rng.choice(["gray_modern", "gray_modern", "blue_white", "brutal"]))
+    place(L, "cocoon", ic.cocoon_tower, ic.cocoon_size(W, floors), cx - W // 2, cz - W // 2, _seed(rng), W=W,
+          floors=floors, scheme=sch, seed=_seed(rng))
+
+
+def lot_twin(L, rng, x0, z0, x1, z1, namer):
+    """双塔门楼: twin slab towers joined at the top into a giant gate."""
+    f = floors_for((x0 + x1) / 2, (z0 + z1) / 2, rng, 1.0)
+    floors = int(np.clip(25 + f // 2, 35, 65))
+    Tw, Td, gap = 50, 32, 44
+    dx = 2 * Tw + gap
+    cx, cz = (x0 + x1) // 2, (z0 + z1) // 2
+    sch = str(rng.choice(["gray_modern", "tile_gray", "white_red", "brutal"]))
+    place(L, "twin", ic.twin_gate, ic.twin_size(Tw, Td, gap, floors), cx - dx // 2, cz - Td // 2, _seed(rng),
+          Tw=Tw, Td=Td, gap=gap, floors=floors, scheme=sch, seed=_seed(rng))
+    # a forecourt in front of the gate opening
+    L.rect(cx - gap // 2, cz + Td // 2, cx + gap // 2, z1 - 6, PLAZA)
+
+
+def lot_ring(L, rng, x0, z0, x1, z1, namer):
+    """环形外廊楼: a drum of classrooms, every floor's corridor on its inner face."""
+    f = floors_for((x0 + x1) / 2, (z0 + z1) / 2, rng, 1.0)
+    floors = int(np.clip(f * 0.375, 12, 30))
+    O = int(min(x1 - x0, z1 - z0) - 14) // 2 * 2
+    cx, cz = (x0 + x1) // 2, (z0 + z1) // 2
+    sch = SCHEME_POOL[rng.integers(len(SCHEME_POOL))]
+    place(L, "ring", ic.ring_hall, ic.ring_size(O, floors), cx - O // 2, cz - O // 2, _seed(rng), O=O,
+          floors=floors, scheme=sch, seed=_seed(rng))
+    def court(xs, zs):
+        d = np.hypot(xs - cx + 0.5, zs - cz + 0.5)
+        return d < O / 2 - 26, np.where((d.astype(int) // 6) % 2 == 0, GRASS, MOSS).astype(np.uint16)
+    L.fn(cx - O // 2, cz - O // 2, cx + O // 2, cz + O // 2, court)
+    for k in range(10):
+        a = 2 * math.pi * k / 10
+        plant(L, rng, int(cx + (O / 2 - 46) * math.cos(a)), int(cz + (O / 2 - 46) * math.sin(a)),
+              "cherry" if k % 2 else "oak")
+
+
+def lot_terrace(L, rng, x0, z0, x1, z1, namer):
+    """退台楼: a long block stepping back on both sides, corridors and planters on every terrace."""
+    f = floors_for((x0 + x1) / 2, (z0 + z1) / 2, rng, 1.0)
+    tf = int(np.clip(f // 12, 2, 6))
+    Lx, Dz = x1 - x0 - 16, z1 - z0 - 30
+    tiers = 6
+    step = max(5, (Dz // 2 - 12) // tiers)
+    sch = str(rng.choice(["cream_brick", "white_red", "ochre", "red_brick", "blue_white"]))
+    place(L, "terrace", ic.terrace, ic.terrace_size(Lx, Dz, tiers, tf), x0 + 8, z0 + 15, _seed(rng), L=Lx,
+          Dbase=Dz, tiers=tiers, tier_floors=tf, step=step, scheme=sch, seed=_seed(rng))
+
+
+def lot_wave(L, rng, x0, z0, x1, z1, namer):
+    """波浪楼: a slab bent into one full sine wave, corridors along its south face."""
+    f = floors_for((x0 + x1) / 2, (z0 + z1) / 2, rng, 1.0)
+    Lx = x1 - x0 - 16
+    amp, Dp = 22, 24
+    f = max(10, f // 2)
+    n = 2 if z1 - z0 >= 170 else 1
+    sch = SCHEME_POOL[rng.integers(len(SCHEME_POOL))]
+    dz = ic.wave_size(Lx, amp, Dp, f)[1]
+    for k in range(n):
+        zz = z0 + 8 + k * (z1 - z0 - 16 - dz) // max(1, n - 1) if n > 1 else (z0 + z1 - dz) // 2
+        ff = max(10, f - 4 * (n - 1 - k))
+        place(L, "wave", ic.wave_slab, ic.wave_size(Lx, amp, Dp, ff), x0 + 8, zz, _seed(rng), L=Lx, amp=amp,
+              wl=Lx, Dp=Dp, floors=ff, scheme=sch, seed=_seed(rng), corridor="S" if k == n - 1 else "N")
+
+
+def lot_bow(L, rng, x0, z0, x1, z1, namer):
+    """小弯弓楼: a lot-sized bow, concave side (open corridors) facing south."""
+    f = floors_for((x0 + x1) / 2, (z0 + z1) / 2, rng, 1.0)
+    W = x1 - x0 - 12
+    R, D = 150, 28
+    f = max(10, f // 2)
+    half = math.degrees(math.asin(min(0.99, (W / 2 - 6) / (R + D))))
+    cxw, czw = (x0 + x1) / 2, z0 + 10 + R + D
+    dx, dz = W, int(R + D - (R) * math.cos(math.radians(half))) + 8
+    hh = ic.H_of(f + 4) + 2
+    sch = SCHEME_POOL[rng.integers(len(SCHEME_POOL))]
+    lx0, lz0 = int(cxw - W / 2), z0 + 6
+    place(L, "bow", ic.arc_segment, (hh, dz, dx), lx0, lz0, _seed(rng), dx=dx, dz=dz, hh=hh,
+          cx=cxw - lx0, cz=czw - lz0, R=R, D=D, a0=-half, a1=half, steps=[(90, f)], scheme=sch,
+          end_towers=((-half + 1.5, 3), (half - 1.5, 3)), seed=_seed(rng))
+
+
+LANDMARK_LOTS = {"gothic": lot_gothic, "cocoon": lot_cocoon, "twin": lot_twin, "ring": lot_ring,
+                 "terrace": lot_terrace, "wave": lot_wave, "bow": lot_bow}
+
+
+# ---------------------------------------------------------------- the bow-shaped main hall + tower of learning
+ARC_C = (0, 1370)            # centre of the main hall's circle
+ARC_R, ARC_D = 920, 36       # inner radius (concave face toward the gate), depth
+ARC_HALF = 36                # degrees each side
+ARC_STEPS = [(4.5, 35), (14, 32), (24, 29), (90, 25)]
+TOWER_W, TOWER_FLOORS = 112, 80
+
+
+def arc_z(x, r=ARC_R):
+    return ARC_C[1] - math.sqrt(r * r - x * x)
+
+
+def main_hall(L, rng):
+    cxw, czw = ARC_C
+    tz = int(arc_z(0, ARC_R + ARC_D / 2))
+    hole = (-TOWER_W // 2 - 2, tz - TOWER_W // 2 - 2, TOWER_W // 2 + 2, tz + TOWER_W // 2 + 2)
+    gates = [-21.0, -6.9, 6.9, 21.0]
+    edges = list(np.linspace(-ARC_HALF, ARC_HALF, 11))
+    hh = ic.H_of(35 + 7) + 2
+    for k, (a0, a1) in enumerate(zip(edges[:-1], edges[1:])):
+        pts = []
+        for t in np.linspace(a0, a1, 24):
+            for rr in (ARC_R - 6, ARC_R + ARC_D + 6):
+                pts.append((cxw + rr * math.sin(math.radians(t)), czw - rr * math.cos(math.radians(t))))
+        xs_, zs_ = zip(*pts)
+        X0, X1 = int(math.floor(min(xs_))) - 2, int(math.ceil(max(xs_))) + 2
+        Z0, Z1 = int(math.floor(min(zs_))) - 2, int(math.ceil(max(zs_))) + 2
+        ends = []
+        if k == 0:
+            ends.append((-ARC_HALF + 1.4, 7))
+        if k == len(edges) - 2:
+            ends.append((ARC_HALF - 1.4, 7))
+        a1e = a1 + (0.0001 if k == len(edges) - 2 else 0)
+        place(L, "main", ic.arc_segment, (hh, Z1 - Z0, X1 - X0), X0, Z0, 500 + k, dx=X1 - X0, dz=Z1 - Z0, hh=hh,
+              cx=cxw - X0, cz=czw - Z0, R=ARC_R, D=ARC_D, a0=float(a0), a1=float(a1e), steps=ARC_STEPS,
+              scheme="white_red", style="grid", gates=tuple(g for g in gates if a0 <= g < a1),
+              hole=(hole[0] - X0, hole[1] - Z0, hole[2] - X0, hole[3] - Z0), end_towers=tuple(ends), seed=500 + k)
+    place(L, "learning_tower", ic.gothic_tower, ic.gothic_size(TOWER_W, TOWER_FLOORS), -TOWER_W // 2,
+          tz - TOWER_W // 2, 7, W=TOWER_W, floors=TOWER_FLOORS, seed=7)
+    # forecourt: the crescent between the hall and the avenue, paved in rings
+    def forecourt(xs, zs):
+        r = np.hypot(xs - cxw, zs - czw)
+        m = (r < ARC_R - 1) & (zs < 652)
+        ring = (np.floor((ARC_R - r) / 6).astype(int) % 2 == 0)
+        out = np.where(ring, PAVE, PLAZA).astype(np.uint16)
+        out[np.abs(xs) < 22] = PLAZA
+        return m, out
+    L.fn(-560, 440, 560, 652, forecourt)
+    # rows of trees following the curve
+    for rr in (ARC_R - 40, ARC_R - 80):
+        for t in np.arange(-ARC_HALF + 2, ARC_HALF - 1, 2.2):
+            x = cxw + rr * math.sin(math.radians(t))
+            z = czw - rr * math.cos(math.radians(t))
+            if abs(x) < 70 or z > 640:
+                continue
+            plant(L, rng, int(x), int(z), "cherry" if int(t * 10) % 3 == 0 else "oak")
+    # behind the hall: a lawn with groves
+    L.rect(-544, 304, 544, 600, GRASS)
+    for _ in range(140):
+        x = int(rng.integers(-530, 530))
+        z = int(rng.integers(312, 590))
+        if z < arc_z(x, ARC_R + ARC_D) - 14:
+            plant(L, rng, x, z, "birch" if rng.random() < 0.3 else "oak")
 
 
 SCHEME_POOL = ["white_red", "white_red", "cream_brick", "blue_white", "gray_modern", "red_brick", "brutal",
@@ -375,7 +551,7 @@ def south_zone(L, rng, namer):
         return m, out
     L.fn(-160, GATE_Z + 8, 160, STREET_Z - 6, approach)
     for x in (-150, -110, -70, 70, 110, 150):
-        trees_along(L, rng, x, GATE_Z + 20, x, STREET_Z - 14, spacing=12, kinds=("oak", "cherry"), lamps=x in (-70, 70))
+        trees_along(L, rng, x, GATE_Z + 60, x, STREET_Z - 14, spacing=12, kinds=("oak", "cherry"), lamps=x in (-70, 70))
     for xa, xb in ((-HALF + 4, -180), (180, HALF - 4)):
         trees_along(L, rng, xa, GATE_Z + 14, xb, GATE_Z + 14, spacing=12)
     L.rect(-HALF, STREET_Z - 6, HALF, STREET_Z, WALK)
@@ -415,11 +591,11 @@ def south_zone(L, rng, namer):
     for za, zb in ((NORTH_Z, WEST_GAP[0]), (WEST_GAP[1], GATE_Z)):
         place(L, "wall", wall_seg, (5, zb - za, 2), WEST_X - 2, za, 0, n=zb - za, axis="z")
     place(L, "wall", wall_seg, (5, 2, EAST_X - WEST_X), WEST_X, NORTH_Z - 2, 0, n=EAST_X - WEST_X, axis="x")
-    g = _sz(lm.gate, {})
-    place(L, "gate", lm.gate, g, -g[2] // 2, GATE_Z - 15, 11)
+    # the school gate: a triumphal arch astride the avenue (no lettering)
+    g = mon.triumphal_size()
+    place(L, "gate", mon.triumphal_arch, g, -g[2] // 2, GATE_Z - g[1] // 2, 11)
     if not vs_place(L, "guard_house", 150, GATE_Z + 5):
         place(L, "guard", lm.guard_house, (6, 8, 12), 150, GATE_Z - 14, 0)
-    place(L, "sliding_gate", sliding_gate, (2, 1, 160), -100, GATE_Z + 2, 0, n=160)
     # ---- central avenue + flag plaza
     L.rect(-128, 640, 128, GATE_Z, GRASS)
     L.rect(-28, 640, 28, GATE_Z + 2, PAVE)
@@ -432,12 +608,12 @@ def south_zone(L, rng, namer):
         return m, out
     L.fn(-60, fz - 60, 60, fz + 60, plaza)
     for x in (-40, 40):
-        trees_along(L, rng, x, fz + 66, x, GATE_Z - 20, spacing=10)
+        trees_along(L, rng, x, fz + 66, x, GATE_Z - 64, spacing=10)
         trees_along(L, rng, x, 672, x, fz - 66, spacing=10)
     for x in (-96, 96):
-        trees_along(L, rng, x, 650, x, GATE_Z - 20, spacing=14, kinds=("oak", "cherry"), lamps=False)
+        trees_along(L, rng, x, 650, x, GATE_Z - 64, spacing=14, kinds=("oak", "cherry"), lamps=False)
     place(L, "flag", lm.flagpole, _sz(lm.flagpole, {}), -12, fz - 12, 3)
-    for z in range(fz + 75, GATE_Z - 30, 20):
+    for z in range(fz + 75, GATE_Z - 64, 20):
         vs_place(L, "bench", -34, z)
         vs_place(L, "bench", 32, z)
     # covered walkways (风雨廊) both sides of the avenue, the fountain, a bus stop
@@ -447,14 +623,8 @@ def south_zone(L, rng, namer):
     mcb_place(L, "bus_stop", 30, STREET_Z + 29)
     mcb_place(L, "bus_lot", -700, GATE_Z + 25)
     mcb_place(L, "car_park", 400, GATE_Z + 25)
-    # ---- main building + portico + stair
-    place(L, "main", lm.main_building, (380, 296, 1088), -544, 600 - 296, 5)
-    pt = _sz(lm.portico, {})
-    place(L, "portico", lm.portico, pt, -pt[2] // 2, 600, 6)
-    st = _sz(lm.stairs, dict(width=296, steps=10))
-    place(L, "stairs", lm.stairs, st, -148, 620, 0, width=296, steps=10)
-    L.rect(-560, 530, 560, 640, PAVE)
-    L.rect(-200, 600, 200, 672, PLAZA)
+    # ---- main hall: a kilometre-long bow embracing the forecourt, the tower of learning at its apex
+    main_hall(L, rng)
     # ---- teaching-building rows on both sides of the avenue (the "canyon")
     za, zb = 652, GATE_Z - 8
     k = 0
@@ -469,8 +639,10 @@ def south_zone(L, rng, namer):
             if side == 1 and k == 3:
                 courts(L, a, za, b, zb)
                 continue
-            kind = "slabs" if k < 3 else ["slabs", "dorms", "courtyard", "slabs", "towers"][(k + side) % 5]
-            if kind == "slabs":
+            kind = ["wave", "twin", "terrace", "cocoon", "bow", "ring", "slabs", "gothic", "dorms"][(k * 2 + side * 5) % 9]
+            if kind in LANDMARK_LOTS:
+                LANDMARK_LOTS[kind](L, rng, a, za, b, zb, namer)
+            elif kind == "slabs":
                 lot_slabs(L, rng, a, za, b, zb, namer, n=3)
             elif kind == "dorms":
                 lot_dorms(L, rng, a, za, b, zb, namer, n=6)
@@ -565,6 +737,7 @@ def goal(rng, flip=False):
 
 # ---------------------------------------------------------------- whole campus
 ENDLESS_ROW = -4
+LINKED_ROW = -7              # the chain of linked teaching-and-lab blocks
 
 
 def endless_segment(rng, dx, H, arch, first, last, char):
@@ -633,7 +806,7 @@ def build(seed=20260901):
     special = {(0, 1): "library", (-2, 1): "gym", (-2, 0): "canteen", (0, -1): "garden_globe",
                (-5, -2): "garden", (5, -6): "garden", (-7, -8): "garden", (3, -9): "garden", (8, 0): "garden",
                (-8, 1): "garden", (0, -6): "gym", (6, -2): "canteen", (0, -8): "water_tower", (-4, -6): "observatory",
-               (7, -8): "observatory", (0, -7): "garden"}
+               (7, -8): "observatory"}
     pg = {(i, r) for i in (2, 3, 4) for r in (0, 1)}
     playground(L, rng, 2 * PITCH - LOT // 2, 0 * PITCH + ZOFF - LOT // 2, 4 * PITCH + LOT // 2, 1 * PITCH + ZOFF + LOT // 2)
     # the endless building: one segment per lot column, arches where the roads pass
@@ -667,6 +840,22 @@ def build(seed=20260901):
             if (i, r) in pg:
                 continue
             lot_ground(L, x0, z0, x1, z1)
+            if r == LINKED_ROW:
+                valid = [j for j in ioffs if min(j * PITCH + LOT // 2, EAST_X - 6) - max(j * PITCH - LOT // 2, WEST_X + 6) >= 110]
+                first, last = i == valid[0], i == valid[-1]
+                w = x1 - x0
+                dxs = w if last else w + ROAD
+                Bd, fl = 34, 22
+                dz = ic.linked_size(dxs, Bd, fl)[1]
+                zz = (z0 + z1) // 2 - dz // 2
+                L.rect(x0 + 5, z0 + 5, x1 - 5, z1 - 5, GRASS)
+                L.rect(x0, zz + dz, x1 + (0 if last else ROAD), zz + dz + 14, PLAZA)
+                place(L, "linked", ic.linked_segment, ic.linked_size(dxs, Bd, fl), x0, zz, int(rng.integers(1 << 30)),
+                      dx=dxs, blocks=2, Bd=Bd, floors=fl, scheme="tile_gray", seed=int(rng.integers(1 << 30)),
+                      first=first, last=last, road=(None, None) if last else (w, w + ROAD))
+                trees_along(L, rng, x0 + 6, zz + dz + 24, x1 - 6, zz + dz + 24, spacing=10)
+                trees_along(L, rng, x0 + 6, zz - 12, x1 - 6, zz - 12, spacing=10)
+                continue
             if r == ENDLESS_ROW:
                 # linear park along the endless building
                 L.rect(x0 + 5, z0 + 5, x1 - 5, z1 - 5, GRASS)
@@ -677,8 +866,14 @@ def build(seed=20260901):
             kind = special.get((i, r))
             if kind is None:
                 rr = rng.random()
-                kind = ("slabs" if rr < 0.36 else "courtyard" if rr < 0.56 else "towers" if rr < 0.70
-                        else "dorms" if rr < 0.86 else "lab")
+                kinds = [("slabs", .14), ("courtyard", .08), ("towers", .05), ("dorms", .13), ("lab", .05),
+                         ("gothic", .07), ("cocoon", .09), ("twin", .09), ("ring", .08), ("terrace", .08),
+                         ("wave", .08), ("bow", .06)]
+                acc = 0.0
+                for kind, p in kinds:
+                    acc += p
+                    if rr < acc:
+                        break
             if kind == "library":
                 lb = _sz(lm.library, {})
                 place(L, "library", lm.library, lb, cx - lb[2] // 2, z1 - lb[1] - 4, 21)
@@ -696,6 +891,8 @@ def build(seed=20260901):
                 mcb_place(L, "water_tower", cx, cz)
             elif kind == "observatory":
                 place(L, "observatory", observatory, (164, 123, 123), cx - 61, cz - 61, 0)
+            elif kind in LANDMARK_LOTS:
+                LANDMARK_LOTS[kind](L, rng, x0, z0, x1, z1, namer)
             else:
                 {"slabs": lot_slabs, "courtyard": lot_courtyard, "towers": lot_towers,
                  "dorms": lot_dorms, "lab": lot_lab}[kind](L, rng, x0, z0, x1, z1, namer)

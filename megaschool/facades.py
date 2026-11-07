@@ -287,12 +287,75 @@ def vibeschem_face(style, H, W, sc, rng, side, lit=0.02, accent_every=0, ac=0.15
     return F
 
 
+SCALE = 2          # every facade module is drawn at twice its size: 8-block storeys, big windows
+
+
 def face(style, H, W, sc, rng, side, **kw):
-    if USE_VIBESCHEM and style in ("corridor", "windows", "balcony", "ribbon", "curtain"):
-        import vibeschem
-        if vibeschem.has_cache():
-            return vibeschem_face(style, H, W, sc, rng, side, **kw)
-    return STYLES[style](H, W, sc, rng, **kw)
+    """A facade at giant scale: the module is laid out at half size and every
+    block doubled up and along the wall, so storeys are 8 blocks tall and the
+    windows, doors and parapets twice as large - far fewer of them."""
+    s = SCALE if style not in ("blank",) else 1
+    h, w = -(-H // s), -(-W // s)
+    if USE_VIBESCHEM and style in ("corridor", "windows", "balcony", "ribbon", "curtain") and _vs_ok():
+        F = vibeschem_face(style, h, w, sc, rng, side, **kw)
+    else:
+        F = STYLES[style](h, w, sc, rng, **kw)
+    if s > 1:
+        F = np.repeat(np.repeat(F, s, axis=0), s, axis=1)[:H, :W].copy()
+    return declutter(F, style, sc)
+
+
+def _vs_ok():
+    import vibeschem
+    return vibeschem.has_cache()
+
+
+_OPENING = None
+
+
+def _opening_lut():
+    """Blocks that make a wall read as 'holes': glass, panes, bars, lights, AC, laundry."""
+    global _OPENING
+    import anvil
+    names = anvil.all_names()
+    if _OPENING is None or len(_OPENING) != len(names):
+        _OPENING = np.array([any(k in s for k in ("glass", "_pane", "iron_bars", "froglight", "sea_lantern",
+                                                   "shroomlight", "iron_block", "_wool", "glowstone"))
+                             for s in names], bool)
+    return _OPENING
+
+
+def declutter(F, style, sc, group=40, belt_every=5, edge=10):
+    """No wall of identical little windows: keep windows only in wide groups
+    (60 % of every 40 blocks), with broad solid piers between the groups,
+    a solid belt every few floors and solid ends.  Open corridors stay
+    open (they read as horizontal bands, not holes); only their back walls
+    are thinned out."""
+    H, W, D = F.shape
+    if style in ("stair", "blank") or W < 2 * edge + 8:
+        return F
+    lut = _opening_lut()
+    u = np.arange(W)
+    off = (W % group) // 2
+    g = (u - off) % group
+    keep_u = (g >= group * 0.2) & (g < group * 0.8) & (u >= edge) & (u < W - edge)
+    floor = np.arange(H) // 4
+    keep_y = (floor % belt_every) != belt_every - 1
+    keep_y[:4] = True
+    keep = keep_y[:, None] & keep_u[None, :]
+    first = 2 if style == "corridor" else 0       # corridor: leave parapet/columns, fill the back wall
+    for d in range(first, D):
+        sl = F[:, :, d]
+        hole = lut[sl] & ~keep
+        if style != "corridor" and d <= 1:
+            sl[hole] = 0 if d == 0 else sc.wall
+        else:
+            sl[hole] = sc.wall
+        if style != "corridor" and d == 1:
+            # recessed windows leave d=1 empty: fill it flush where windows were removed
+            empty = (sl == 0) & ~keep & (F[:, :, min(d + 1, D - 1)] != 0)
+            sl[empty] = sc.wall
+    return F
 
 
 # ---------------------------------------------------------------- monumental treatment

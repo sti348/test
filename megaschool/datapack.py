@@ -22,20 +22,29 @@ def region_viewpoints():
         "sinkhole": (R.SX + 445.5, -60, R.SZ + 0.5, 90, 35, "天坑边缘"),
         "sinkhole_bridge": (R.SX + 220.5, -60, R.SZ + 0.5, 90, 25, "天坑上的桥"),
         "sinkhole_floor": (R.SX + 70.5, R.LEDGES[0][1] + 1, R.SZ + 60.5, 135, -45, "天坑底"),
-        "archipelago": (main[1] + 0.5, main[5] + 1, main[2] + 110.5, 180, -10, "海上学院"),
+        "archipelago": (main[1] + 0.5, main[5] + 1, main[2] + 300.5, 180, -14, "海上学院（主岛）"),
+        "sea_dorms": (R.island_top("dorm")[1] + 0.5, R.island_top("dorm")[5] + 1, R.island_top("dorm")[2] + 100.5, 180, -12, "宿舍岛"),
+        "sea_library": (R.island_top("library")[1] + 0.5, R.island_top("library")[5] + 1, R.island_top("library")[2] + 110.5, 180, -12, "图书馆岛"),
         "lighthouse": (lh[1] + 0.5, lh[5] + 1 + 482, lh[2] + 25.5, 180, 20, "灯塔顶"),
         "sea_surface": (big[1] + 0.5, R.SEA + 2, big[2] + 0.5, 0, 10, "海面浮台（梯子直通海底玻璃球）"),
         "sphere": (big[1] + 20.5, floor, big[2] + 40.5, 200, -25, "海底玻璃球学校"),
+        "sphere_dorm": (R.SPHERES[1][1] + 0.5, floor, R.SPHERES[1][2] + 76.5, 180, -20, "海底宿舍球"),
+        "sphere_library": (R.SPHERES[2][1] + 0.5, floor, R.SPHERES[2][2] + 76.5, 180, -15, "海底图书馆球"),
+        "sinkhole_library": (R.SX - 190.5, R.LEDGES[0][1] + 1, R.SZ + 90.5, 180, -20, "天坑底的图书馆"),
+        "desert": (R.PYR[0] + 0.5, -60, -2130.5, 180, -16, "沙漠学校（金字塔大道）"),
+        "pyramid": (R.PYR[0] + 0.5, -60, R.PYR[1] + 300.5, 180, -55, "金字塔正门"),
+        "oasis": (R.OASIS[0] + 0.5, -60, R.OASIS[1] + 110.5, 160, -10, "绿洲"),
         "sky_stair": (R.SKY[0][0] + 0.5, -60, R.SKY[0][1] + R.SKY[0][2] + 30.5, 180, -40, "通往空岛的螺旋阶梯"),
     }
     names = ["sky1", "sky2", "sky3", "sky4", "end"]
     labels = ["第一座空岛（y400）", "第二座空岛（y720）", "第三座空岛（y1040）", "第四座空岛（y1360）", "末地空岛（y1720）"]
     for k, (x, z, Rr, top, _s, _r) in enumerate(R.SKY):
-        v[names[k]] = (x + 0.5, top + 1, z + 75.5, 180, -8, labels[k])
+        v[names[k]] = (x + 0.5, top + 1, z + int(Rr * 0.8) + 0.5, 180, -14, labels[k])
     gx, gz = R.GATE_NE
     v["nether"] = (gx + 60.5, R.NETHER_FLOOR, gz + 0.5, 90, -15, "地狱学校（下界门前）", "the_nether")
     ax, az = R.ACADEMY_NE
-    v["nether_academy"] = (ax + 0.5, R.NETHER_FLOOR, az + 120.5, 180, -20, "地狱学院", "the_nether")
+    v["nether_academy"] = (ax + 0.5, R.NETHER_FLOOR, az + 240.5, 180, -25, "地狱学院（黑石金字塔）", "the_nether")
+    v["nether_library"] = (R.NE_LIBRARY[0] + 0.5, R.NETHER_FLOOR, R.NE_LIBRARY[1] + 100.5, 180, -15, "地狱图书馆", "the_nether")
     return v
 
 
@@ -47,8 +56,8 @@ def viewpoints():
     p = min(slabs, key=lambda q: (q.x, q.z))
     side = p.kw["corridor_side"]
     zc = p.z + 3 + (p.kw["Dp"] - 3 if side == "S" else 2)       # corridor walkway (d = 2)
-    floor = (p.kw["H"] // 4) // 2
-    cy = campus.GROUND_Y + 4 * floor + 1
+    floor = (p.kw["H"] // 8) // 2                     # facades are drawn at 2x: 8-block storeys
+    cy = campus.GROUND_Y + 8 * floor + 2
     tc = [q for q in L.pieces if q.name == "stand"][0]
     lib = [q for q in L.pieces if q.name == "library"][0]
     wt = [q for q in L.pieces if q.name == "water_tower"][0]
@@ -60,11 +69,12 @@ def viewpoints():
         # name: (x, y, z, yaw, pitch, label)
         "gate": (sx + 0.5, sy, sz + 0.5, 180, -12, "校门外（出生点）"),
         "plaza": (0.5, -60, campus.FLAG_Z + 70.5, 180, -20, "升旗广场"),
-        "steps": (0.5, -54, 641.5, 180, -35, "主楼台阶与巨柱"),
+        "tower": (0.5, -60, 566.5, 180, -42, "学习塔脚下（弯弓楼正中）"),
+        "bow_corridor": (300.5, -19, 498.5, 90, 0, "弯弓楼外廊（第 6 层）"),
         "canyon": (366.5, -60, campus.GATE_Z - 20.5, 180, -25, "东侧教学楼峡谷"),
         "corridor": (p.x + 20.5, cy, zc + 0.5, 270, 0, "教学楼外廊（%s）" % p.kw["name"]),
-        "clock": (0.5, 250, 690.5, 180, 0, "钟楼正前方半空"),
-        "roof": (200.5, 223, 570.5, 180, 10, "主楼屋顶"),
+        "tower_air": (0.5, 380, 760.5, 180, 0, "学习塔正前方半空"),
+        "roof": (260.5, 174, 505.5, 180, 10, "弯弓楼屋顶"),
         "playground": (tc.x + 165.5, -38, tc.z + 14.5, 0, 5, "操场看台"),
         "library": (0.5, -60, lib.z1 + 32.5, 180, -30, "图书馆柱廊"),
         "endless": (40.5, -60, ez + 120.5, 230, -16, "无尽长廊楼"),

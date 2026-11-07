@@ -25,6 +25,8 @@ import numpy as np
 
 from anvil import B
 from buildings import Piece
+import iconic as ic
+import monuments as mon
 
 GROUND = -61
 SEA = -62                        # top water block of the sea
@@ -73,17 +75,17 @@ def smooth(t):
 OCEAN = (2048, -1800, 4800, 1300)
 ISLANDS = [
     # name, x, z, R, plateau radius, plateau top y, school
-    ("main", 2850, -200, 150, 92, -55, "sea_academy"),
-    ("lighthouse", 3250, 520, 64, 34, -57, "lighthouse_school"),
-    ("a", 2500, 380, 46, 0, -58, "island_classroom"),
-    ("b", 2560, -820, 52, 0, -58, "island_classroom"),
-    ("c", 3080, -1050, 58, 0, -57, "island_classroom"),
-    ("d", 3300, -560, 44, 0, -58, "island_classroom"),
-    ("e", 2700, 820, 40, 0, -58, "island_classroom"),
-    ("f", 2380, -360, 34, 0, -59, None),
-    ("g", 3400, 120, 30, 0, -59, None),
+    ("main", 2900, -250, 470, 360, -55, "sea_campus"),          # giant bow academy, library, dorms
+    ("lighthouse", 3560, 720, 110, 60, -57, "lighthouse_school"),
+    ("dorm", 2420, 760, 170, 125, -56, "sea_dorms"),
+    ("library", 2480, -1250, 170, 125, -56, "sea_library"),
+    ("annex", 3400, -1200, 150, 100, -55, "sea_academy"),
+    ("c", 3700, -560, 70, 0, -58, "island_classroom"),
+    ("e", 2350, 150, 60, 0, -58, "island_classroom"),
+    ("f", 3300, 450, 55, 0, -59, None),
+    ("g", 2300, -650, 45, 0, -59, None),
 ]
-SPHERES = [("dome_school_big", 4150, -150, 130), ("dome_school_small", 4470, 470, 85), ("dome_school_small", 3960, -760, 85)]
+SPHERES = [("dome_school_big", 4150, -150, 130), ("sphere_dorm", 4480, 480, 105), ("sphere_library", 3960, -780, 105)]
 SEABED_DEEP = -800
 
 
@@ -159,23 +161,26 @@ class Sinkhole:
 
 # ------------------------------------------------------------------ north: sky islands
 SKY = [
-    # x, z, R, top y, school, rock
-    (-520, -2650, 190, 400, "sky_academy_white", "stone"),
-    (430, -2950, 170, 720, "sky_academy_sand", "sandstone"),
-    (-400, -3300, 160, 1040, "sky_academy_stone", "stone"),
-    (480, -3560, 150, 1360, "sky_academy_brick", "stone"),
-    (0, -3150, 180, 1720, "end_academy", "end"),
+    # x, z, R, top y, theme, rock
+    (-1000, -2650, 380, 400, "t_sky", "stone"),
+    (800, -2800, 340, 720, "t_sky_sand", "sandstone"),
+    (-900, -3450, 330, 1040, "t_sky_stone", "stone"),
+    (950, -3560, 320, 1360, "t_sky_brick", "stone"),
+    (0, -3150, 360, 1720, "t_end", "end"),
 ]
 END_ISLAND = SKY[-1]
 
 
-def sky_island(rng, R, rock, iseed):
+def sky_island(rng, R, rock, iseed, tile=None):
     """A floating island: flat-topped plateau, rough rim, an inverted rocky cone
-    beneath with strata, hanging roots and moss.  Local y = 0 is the top surface."""
-    depth = int(R * 1.25)
+    beneath with strata, hanging roots and moss.  Local y = 0 is the top surface.
+    tile = (x0, z0, x1, z1) in local cells builds just that part (big islands
+    are placed as several pieces)."""
+    depth = sky_depth(R)
     n = 2 * R + 1
-    A = np.zeros((depth + 4, n, n), np.uint16)
-    zs, xs = np.mgrid[0:n, 0:n].astype(np.float64)
+    tx0, tz0, tx1, tz1 = tile if tile else (0, 0, n, n)
+    A = np.zeros((depth + 4, tz1 - tz0, tx1 - tx0), np.uint16)
+    zs, xs = np.mgrid[tz0:tz1, tx0:tx1].astype(np.float64)
     wx, wz = xs - R, zs - R
     seed = iseed
     r = np.hypot(wx, wz) * (1 + 0.15 * fbm(xs + seed * 31, zs, 40, seed))
@@ -217,9 +222,26 @@ def sky_island(rng, R, rock, iseed):
     return A[::1]
 
 
-def sky_island_size(R):
-    depth = int(R * 1.25)
-    return (depth + 4, 2 * R + 1, 2 * R + 1)
+def sky_depth(R):
+    return int(R * 1.25) if R < 120 else int(150 + (R - 120) * 0.8)
+
+
+def sky_island_size(R, tile=None):
+    n = 2 * R + 1
+    tx0, tz0, tx1, tz1 = tile if tile else (0, 0, n, n)
+    return (sky_depth(R) + 4, tz1 - tz0, tx1 - tx0)
+
+
+def place_sky_island(out, name, x, top, z, R, rock, iseed, tiles=1):
+    """Place an island centred on (x, z) with its surface at `top`, in tiles x tiles pieces."""
+    n = 2 * R + 1
+    cuts = np.linspace(0, n, tiles + 1).astype(int)
+    for a in range(tiles):
+        for b in range(tiles):
+            t = (int(cuts[a]), int(cuts[b]), int(cuts[a + 1]), int(cuts[b + 1]))
+            sz = sky_island_size(R, t)
+            _p(out, name, x - R + t[0], top - sz[0] + 4, z - R + t[1], sz, sky_island, iseed * 100 + a * 10 + b,
+               R=R, rock=rock, iseed=iseed, tile=t)
 
 
 def spiral_stair(rng, h, r_in=5, r_out=9, mat="polished_andesite", rail="andesite_wall"):
@@ -330,7 +352,12 @@ NETHER_BOX = (-820, -560, 260, 620)
 GATE_OW = (-2240, 300)                     # portal plane x, centre z (overworld)
 GATE_NE = (GATE_OW[0] // 8, GATE_OW[1] // 8)
 NETHER_FLOOR = 64
-ACADEMY_NE = (-280, -230)                  # centre of the infernal academy
+ACADEMY_NE = (-280, -230)                  # centre of the giant ziggurat academy
+NE_LIBRARY = (60, -250)
+NE_DORMS = [((-620, -250), "z"), ((-300, 360), "x")]
+NE_ANNEX = (40, 300)                       # the mcbuild infernal academy
+NETHER_FLAT = [(GATE_NE[0], GATE_NE[1], 70), (ACADEMY_NE[0], ACADEMY_NE[1], 270), (NE_LIBRARY[0], NE_LIBRARY[1], 130),
+               (-620, -250, 150), (-300, 360, 160), (NE_ANNEX[0], NE_ANNEX[1], 150)]
 
 
 def nether_ground(x, z):
@@ -360,7 +387,7 @@ class NetherCavern:
         lakes = fbm(xs, zs, 110, 43) < -0.22
         g = np.where(lakes, 26 + np.round(4 * n).astype(np.int32), g)
         # flat plaza around the gate and the academy, and the causeway between
-        for (cx, cz, rad) in ((GATE_NE[0], GATE_NE[1], 70), (ACADEMY_NE[0], ACADEMY_NE[1], 125)):
+        for (cx, cz, rad) in NETHER_FLAT:
             g = np.where(np.hypot(xs - cx, zs - cz) < rad, NETHER_FLOOR - 1, g)
         g = np.where((np.abs(xs - GATE_NE[0]) < 8) & (zs < GATE_NE[1]) & (zs > ACADEMY_NE[1]), NETHER_FLOOR - 1, g)
         ceil = 560 + np.round(70 * fbm(xs, zs, 80, 45) + 25 * vnoise(xs, zs, 9, 47)).astype(np.int32)
@@ -446,23 +473,224 @@ def place_mcb_center(out, name, cx, y, cz):
                      kw={"name": name}))
 
 
-def _p(out, name, x, y, z, size, fn, seed=0, **kw):
-    out.append(Piece(name, int(x), int(y), int(z), size, fn, abs(int(seed)), kw=kw))
+def _p(out, name, x, y, z, size, fn, _seed=0, **kw):
+    out.append(Piece(name, int(x), int(y), int(z), size, fn, abs(int(_seed)), kw=kw))
+
+
+def glass_sphere(rng, R, content="dorm"):
+    """A glass sphere on the sea floor (local 0 = its lowest point), air inside,
+    a grassy floor disc at 0.45 R holding a dormitory ring or a domed library."""
+    n = 2 * R + 1
+    zz, yy, xx = np.mgrid[0:n, 0:n, 0:n] - R
+    d = np.sqrt(xx * xx + yy * yy + zz * zz)
+    A = np.zeros((n, n, n), np.uint16)
+    A[d < R - 2] = B("cave_air")
+    shell = (d >= R - 2) & (d < R + 0.5)
+    ang = np.degrees(np.arctan2(zz, xx))
+    rib = shell & ((np.mod(ang + 360, 15) < 1.6) | (np.mod(yy + 400, 16) < 1))
+    A[shell] = B("light_blue_stained_glass")
+    A[rib] = B("white_concrete")
+    A = A.transpose(1, 0, 2).copy()                     # mgrid order was (z, y, x) -> (y, z, x)
+    fy = int(R * 0.45)
+    rad = math.sqrt(R * R - (R - fy) ** 2) - 2
+    zs, xs = np.mgrid[0:n, 0:n] - R
+    disc = np.hypot(xs, zs) < rad
+    for k in range(4):
+        A[fy - k][disc & (A[fy - k] == B("cave_air"))] = B("white_concrete") if k else B("grass_block")
+    A[fy][disc & (np.mod(np.hypot(xs, zs).astype(int), 18) < 3)] = B("smooth_quartz")
+    if content == "dorm":
+        O = int(2 * rad - 24) // 2 * 2
+        D = ic.ring_hall(rng, O=O, thick=22, floors=7, scheme="t_glass", seed=int(rng.integers(1 << 30)))
+    else:
+        D = ic.library_hall(rng, W=124, D=96, floors=6, dome=True, scheme="t_glass", seed=int(rng.integers(1 << 30)))
+    h, dz, dx = D.shape
+    from buildings import paste
+    paste(A, D, fy + 1, R - dz // 2, R - dx // 2)
+    # lamps around the disc
+    for k in range(24):
+        a_ = 2 * math.pi * k / 24
+        x, z = int(R + (rad - 6) * math.cos(a_)), int(R + (rad - 6) * math.sin(a_))
+        A[fy + 1:fy + 4, z, x] = B("white_concrete")
+        A[fy + 4, z, x] = B("sea_lantern")
+    return A
+
+
+def place_arc(out, name, cx, y, cz, R, D, a0, a1, steps, scheme, nseg=6, gates=(), end_extra=4):
+    """A bow-shaped hall around the circle centred (cx, cz), split into pieces."""
+    edges = np.linspace(a0, a1, nseg + 1)
+    top = max(f for _, f in steps) + end_extra
+    hh = ic.H_of(top) + 2
+    for k in range(nseg):
+        b0, b1 = float(edges[k]), float(edges[k + 1])
+        pts = [(cx + rr * math.sin(math.radians(t)), cz - rr * math.cos(math.radians(t)))
+               for t in np.linspace(b0, b1, 16) for rr in (R - 6, R + D + 6)]
+        xs_, zs_ = zip(*pts)
+        X0, X1 = int(math.floor(min(xs_))) - 2, int(math.ceil(max(xs_))) + 2
+        Z0, Z1 = int(math.floor(min(zs_))) - 2, int(math.ceil(max(zs_))) + 2
+        ends = []
+        if k == 0:
+            ends.append((a0 + 1.6, end_extra))
+        if k == nseg - 1:
+            ends.append((a1 - 1.6, end_extra))
+        _p(out, name, X0, y, Z0, (hh, Z1 - Z0, X1 - X0), ic.arc_segment, 900 + k, dx=X1 - X0, dz=Z1 - Z0, hh=hh,
+           cx=cx - X0, cz=cz - Z0, R=R, D=D, a0=b0, a1=b1 + (1e-4 if k == nseg - 1 else 0), steps=steps,
+           scheme=scheme, gates=tuple(g for g in gates if b0 <= g < b1), end_towers=tuple(ends), seed=900 + k)
+
+
+def place_center(out, name, fn, size, cx, y, cz, _seed, **kw):
+    _p(out, name, cx - size[2] // 2, y, cz - size[1] // 2, size, fn, _seed, **kw)
+
+
+def school_ensemble(out, rng, theme, cx, y, cz, R, kind):
+    """A super-large school for a plateau of radius ~R at height y: a giant
+    teaching building of the given kind, a domed library and a dormitory,
+    all in the environment's theme."""
+    sd = lambda: int(rng.integers(1 << 30))
+    if kind == "bow":
+        Ra = int(R * 0.62)
+        place_arc(out, "academy", cx, y, cz + int(R * 0.18), Ra, 38, -56, 56, [(18, 28), (36, 25), (90, 22)], theme,
+                  gates=(0.0,))
+        lib_at, dorm_at = (cx, cz + int(R * 0.12)), (cx, cz + int(R * 0.55))
+    elif kind == "ziggurat":
+        L = int(R * 1.05)
+        sz = ic.terrace_size(L, L, 6, 4)
+        place_center(out, "academy", ic.terrace, sz, cx, y, cz - int(R * 0.18), sd(), L=L, Dbase=L, tiers=6,
+                     tier_floors=4, step=max(8, L // 14), scheme=theme, seed=sd(), square=True)
+        lib_at, dorm_at = (cx - int(R * 0.42), cz + int(R * 0.52)), (cx + int(R * 0.40), cz + int(R * 0.55))
+    elif kind == "ring":
+        O = int(R * 1.05) // 2 * 2
+        sz = ic.ring_size(O, 20)
+        place_center(out, "academy", ic.ring_hall, sz, cx, y, cz - int(R * 0.2), sd(), O=O, thick=30, floors=20,
+                     scheme=theme, seed=sd())
+        lib_at, dorm_at = (cx - int(R * 0.42), cz + int(R * 0.55)), (cx + int(R * 0.40), cz + int(R * 0.58))
+    elif kind == "gothic":
+        W = int(R * 0.36)
+        sz = ic.gothic_size(W, 56)
+        place_center(out, "academy", ic.gothic_tower, sz, cx, y, cz - int(R * 0.25), sd(), W=W, floors=56,
+                     scheme=theme, seed=sd())
+        lib_at, dorm_at = (cx - int(R * 0.38), cz + int(R * 0.35)), (cx + int(R * 0.35), cz + int(R * 0.45))
+    elif kind == "spires":                         # three Gothic spires of different heights (End)
+        # the End island is near the top of the world: keep every spire under y 2032
+        fmax = max(10, ((2030 - y - 70) - 1) // ic.FH)
+        for (dx, dz, W, f) in ((0, -int(R * 0.28), int(R * 0.3), fmax), (-int(R * 0.4), -int(R * 0.02), int(R * 0.22), fmax - 6),
+                               (int(R * 0.4), -int(R * 0.02), int(R * 0.22), fmax - 6)):
+            sz = ic.gothic_size(W, f)
+            place_center(out, "academy", ic.gothic_tower, sz, cx + dx, y, cz + dz, sd(), W=W, floors=f, scheme=theme,
+                         seed=sd())
+        lib_at, dorm_at = (cx - int(R * 0.30), cz + int(R * 0.45)), (cx + int(R * 0.32), cz + int(R * 0.48))
+    Wl = int(R * 0.42) // 2 * 2
+    Dl = int(Wl * 0.72)
+    place_center(out, "library", ic.library_hall, ic.library_size(Wl, Dl, 8), lib_at[0], y, lib_at[1], sd(),
+                 W=Wl, D=Dl, floors=8, scheme=theme, seed=sd())
+    Ld = int(R * 0.5)
+    place_center(out, "dorm", ic.dorm_block, ic.dorm_size(Ld, 30, 14), dorm_at[0], y, dorm_at[1], sd(),
+                 L=Ld, D=30, floors=14, scheme=theme, seed=sd())
+
+
+DESERT = (2300, -4060, 5060, -1950)
+PYR = (3650, -3000)                    # pyramid centre
+OASIS = (3120, -2260, 80)
+DESERT_FLAT = [(PYR[0], PYR[1], 480), (3250, -2470, 160), (3990, -2450, 200),
+               (OASIS[0], OASIS[1], OASIS[2] + 50)]
+
+
+class Desert:
+    """Dunes all round, flattened where the school stands; sand on sandstone."""
+    bbox = DESERT
+
+    def apply(self, m, x0, z0):
+        xs, zs = _grid(m, x0, z0)
+        X0, Z0, X1, Z1 = DESERT
+        inside = (xs >= X0) & (xs < X1) & (zs >= Z0) & (zs < Z1)
+        if not inside.any():
+            return
+        edge = np.minimum.reduce([xs - X0, X1 - xs, zs - Z0, Z1 - zs]).astype(np.float64)
+        dune = 9 * (1 + np.sin((xs * 0.8 + zs * 0.35) / 34 + 3 * fbm(xs, zs, 120, 61))) + 10 * fbm(xs, zs, 90, 63)
+        flat = np.zeros(xs.shape)
+        for (cx, cz, r) in DESERT_FLAT:
+            flat = np.maximum(flat, 1 - smooth((np.hypot(xs - cx, zs - cz) - r) / 70))
+        # the processional avenue from the south to the pyramid
+        avenue = (zs < -2100) & (zs > PYR[1])
+        flat = np.maximum(flat, (1 - smooth((np.abs(xs - PYR[0]) - 70) / 50)) * avenue)
+        h = np.maximum(0, dune) * smooth(edge / 240) * (1 - flat)
+        g = np.round(GROUND + h).astype(np.int32)
+        m["ground"][inside] = g[inside]
+        top = np.full(xs.shape, B("sand"), np.uint16)
+        top[(np.abs(xs - PYR[0]) < 22) & (zs > PYR[1]) & (zs < -2100)] = B("cut_sandstone")
+        top[(np.hypot(xs - PYR[0], zs - PYR[1]) < 330) & (np.hypot(xs - PYR[0], zs - PYR[1]) >= 290)] = B("smooth_sandstone")
+        od = np.hypot(xs - OASIS[0], zs - OASIS[1]) + 8 * fbm(xs, zs, 20, 65)
+        water = inside & (od < OASIS[2])
+        g2 = np.where(water, GROUND - 4, g)
+        m["ground"][water] = g2[water]
+        m["fluid"][water] = GROUND - 1
+        m["fluid_id"][water] = B("water")
+        top[(od >= OASIS[2]) & (od < OASIS[2] + 14)] = B("grass_block")
+        m["top"][inside] = top[inside]
+        m["sub"][inside] = B("sandstone")
+
+
+def desert(out, rng):
+    """The desert school: the pyramid, an avenue of obelisks, a temple-like
+    library, three dormitories and an oasis with palms."""
+    px, pz = PYR
+    B_ = mon.PYR_B
+    cuts = np.linspace(0, B_, 5).astype(int)
+    for a in range(4):
+        for b in range(4):
+            t = (int(cuts[a]), int(cuts[b]), int(cuts[a + 1]), int(cuts[b + 1]))
+            _p(out, "pyramid", px - B_ // 2 + t[0], GROUND + 1, pz - B_ // 2 + t[1], mon.pyramid_tile_size(*t),
+               mon.pyramid, 0, tx0=t[0], tz0=t[1], tx1=t[2], tz1=t[3])
+    ob = mon.obelisk(rng).shape
+    for z in range(pz + B_ // 2 + 60, -2120, 90):
+        for sx in (-44, 44):
+            _p(out, "obelisk", px + sx - ob[2] // 2, GROUND + 1, z, ob, mon.obelisk, 0)
+    # four great obelisks at the pyramid's corners
+    for (sx, sz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)):
+        big = mon.obelisk(rng, w=14, h=200).shape
+        _p(out, "obelisk", px + sx * (B_ // 2 + 40) - big[2] // 2, GROUND + 1, pz + sz * (B_ // 2 + 40) - big[1] // 2,
+           big, mon.obelisk, 0, w=14, h=200)
+    sd = lambda: int(rng.integers(1 << 30))
+    place_center(out, "library", ic.library_hall, ic.library_size(200, 140, 9, False), 3250, GROUND + 1, -2470, sd(),
+                 W=200, D=140, floors=9, dome=False, scheme="t_desert", seed=sd())
+    for k, z in enumerate((-2560, -2450, -2340)):
+        place_center(out, "dorm", ic.dorm_block, ic.dorm_size(240, 34, 12), 3990, GROUND + 1, z, sd(),
+                     L=240, D=34, floors=12, scheme="t_desert", seed=sd())
+    ox, oz, orad = OASIS
+    for k in range(26):
+        a = 2 * math.pi * k / 26 + rng.uniform(-0.1, 0.1)
+        r = orad + rng.uniform(2, 12)
+        p = mon.palm(rng)
+        _p(out, "palm", ox + r * math.cos(a) - p.shape[2] // 2, GROUND + 1, oz + r * math.sin(a) - p.shape[1] // 2,
+           p.shape, _palm, k, h=p.shape[0] - 6)
+
+
+def _palm(rng, h):
+    return mon.palm(rng, h)
 
 
 def overworld():
     """-> (pieces, landforms) for the new overworld regions."""
     rng = np.random.default_rng(7)
-    out, lands = [], [Ocean(), Sinkhole()]
-    # --- archipelago
+    out, lands = [], [Ocean(), Sinkhole(), Desert()]
+    # --- archipelago: the main island carries a giant school, others a dorm
+    # quarter, a library, an annex and small classrooms
     for (name, ix, iz, R, pr, top, school) in ISLANDS:
-        if school == "sea_academy":
-            place_mcb_center(out, school, ix, top + 1, iz)
-        elif school == "lighthouse_school":
+        if school == "sea_campus":
+            school_ensemble(out, rng, "t_sea", ix, top + 1, iz, pr, "bow")
+        elif school == "sea_dorms":
+            for dz in (-42, 42):
+                place_center(out, "dorm", ic.dorm_block, ic.dorm_size(200, 30, 16), ix, top + 1, iz + dz,
+                             int(rng.integers(1 << 30)), L=200, D=30, floors=16, scheme="t_sea",
+                             seed=int(rng.integers(1 << 30)))
+        elif school == "sea_library":
+            place_center(out, "library", ic.library_hall, ic.library_size(180, 130, 10), ix, top + 1, iz,
+                         int(rng.integers(1 << 30)), W=180, D=130, floors=10, scheme="t_sea", seed=5)
+        elif school in ("sea_academy", "lighthouse_school"):
             place_mcb_center(out, school, ix, top + 1, iz)
         elif school == "island_classroom":
             place_mcb(out, school, ix - 15, top + 1 - 4, iz - 10)
-    for (a, b) in (("main", "lighthouse"), ("main", "a"), ("main", "b"), ("main", "d"), ("b", "c"), ("a", "e"), ("main", "f"), ("lighthouse", "g")):
+    for (a, b) in (("main", "lighthouse"), ("main", "dorm"), ("main", "library"), ("library", "annex"), ("main", "e"),
+                   ("main", "g"), ("main", "f"), ("lighthouse", "f"), ("annex", "c")):
         _, ax, az, aR, apr, atop, _s = island_top(a)
         _, bx, bz, bR, bpr, btop, _s = island_top(b)
         y = -56
@@ -482,12 +710,17 @@ def overworld():
             _p(out, "bridge", bx - 3, y, z0, (6, z1 - z0, 7), deck_bridge, 0, length=z1 - z0, axis="z")
             for k in range(0, z1 - z0, 24):
                 _p(out, "pier", bx - 1, SEA - 60, z0 + k, (60 + y - SEA, 3, 3), _pillar, 0, h=60 + y - SEA)
-    # --- glass spheres on the trench floor, tunnels, lift tube and pontoon
+    # --- glass spheres on the trench floor (school, dormitories, library), tunnels, lift tube and pontoon
     sph = []
     floor = SEABED_DEEP - 20 + int(SPHERES[0][3] * 0.45)      # common floor level of the three spheres
     for (name, sx, sz, R) in SPHERES:
         y = floor - int(R * 0.45)
-        place_mcb_center(out, name, sx, y, sz)
+        if name.startswith("dome_school"):
+            place_mcb_center(out, name, sx, y, sz)
+        else:
+            n = 2 * R + 1
+            _p(out, name, sx - R, y, sz - R, (n, n, n), glass_sphere, 31 + len(sph), R=R,
+               content="dorm" if name == "sphere_dorm" else "library")
         sph.append((sx, sz, R, y))
     (bx_, bz_, bR, by_) = sph[0]
     fy = floor + 1                                           # standing level inside
@@ -502,9 +735,15 @@ def overworld():
         _p(out, "tube", sx - 4, fy - 2, z0, (9, z1 - z0, 9), glass_tube, 0, length=z1 - z0, axis="z")
     _p(out, "lift", bx_ - 4, fy, bz_ - 4, (SEA + 8 - fy, 9, 9), lift_tube, 0, h=SEA + 8 - fy)
     _p(out, "pontoon", bx_ - 10, SEA + 1, bz_ - 10, (10, 21, 21), pontoon, 0)
-    # --- sinkhole: tower, ledge schools, bridges, waterfalls
+    # --- sinkhole: tower, ledge schools, a library and dormitories on the floor, bridges, waterfalls
     floor = LEDGES[0][1] + 1
     place_mcb_center(out, "pit_tower", SX, floor, SZ)
+    place_center(out, "library", ic.library_hall, ic.library_size(150, 100, 8), SX - 190, floor, SZ, 41,
+                 W=150, D=100, floors=8, scheme="t_cliff", seed=41)
+    place_center(out, "dorm", ic.dorm_block, ic.dorm_size(180, 30, 14), SX, floor, SZ - 212, 42,
+                 L=180, D=30, floors=14, scheme="t_cliff", seed=42)
+    place_center(out, "dorm", ic.dorm_block, ic.dorm_size(180, 30, 14), SX - 70, floor, SZ + 198, 43,
+                 L=180, D=30, floors=14, scheme="t_cliff", seed=43)
     for k, (ro, ytop) in enumerate(LEDGES[1:]):
         ri = LEDGES[k][0]
         rm = (ri + ro) / 2
@@ -534,28 +773,27 @@ def overworld():
             h = upper - ytop
             _p(out, "waterfall", x, ytop + 1, z, (h, 1, 5), column, 0, h=h, kind="water", w=5)
     # --- the giant Nether portal west of the campus
-
     px, pz = GATE_OW
     place_mcb(out, "nether_gate_overworld", px - 33, GROUND + 1, pz - 56)
-    # --- sky islands, stairways, bridges, waterfalls, little rocks
-    for k, (x, z, R, top, school, rock) in enumerate(SKY):
-        sz_ = sky_island_size(R)
-        _p(out, "sky_island", x - R, top - sz_[0] + 4, z - R, sz_, sky_island, k, R=R, rock=rock, iseed=k + 1)
-        place_mcb_center(out, school, x, top + 1, z)
-        for j in range(14):
-            rr = int(rng.integers(8, 22))
+    # --- sky islands: a giant school on each, waterfalls, stairways, bridges, little rocks
+    kinds = ["ziggurat", "ring", "gothic", "bow", "spires"]
+    for k, (x, z, R, top, theme, rock) in enumerate(SKY):
+        place_sky_island(out, "sky_island", x, top, z, R, rock, k + 1, tiles=3)
+        school_ensemble(out, rng, theme, x, top + 1, z, int(R * 0.86), kinds[k])
+        for j in range(16):
+            rr = int(rng.integers(10, 30))
             a = rng.uniform(0, 2 * math.pi)
-            d = R + rng.uniform(25, 110)
-            ty = top + int(rng.integers(-120, 40))
+            d = R + rng.uniform(30, 160)
+            ty = top + int(rng.integers(-160, 40))
             s2 = sky_island_size(rr)
             _p(out, "sky_rock", x + d * math.cos(a) - rr, ty - s2[0] + 4, z + d * math.sin(a) - rr, s2, sky_island,
                100 + 20 * k + j, R=rr, rock=rock, iseed=100 + 20 * k + j)
         if rock != "end":
             for a in (0.4, 3.3):
-                fx, fz = x + (R - 8) * math.cos(a), z + (R - 8) * math.sin(a)
+                fx, fz = x + (R - 10) * math.cos(a), z + (R - 10) * math.sin(a)
                 h = top - GROUND - 1
                 _p(out, "waterfall", fx, GROUND + 1, fz, (h, 1, 5), column, 0, h=h, kind="water", w=5)
-                lands.append(Pond(fx + 2, fz, 14))
+                lands.append(Pond(fx + 2, fz, 16))
     # spiral stairway from the ground to the first island, then island to island
     x0, z0, R0, t0 = SKY[0][:4]
     sx, sz = x0, z0 + R0 + 14
@@ -584,6 +822,8 @@ def overworld():
             _p(out, "sky_bridge", tx - 3, bt, z_a, (6, int(z_b - z_a), 7), deck_bridge, 0, length=int(z_b - z_a), axis="z")
             x_a, x_b = sorted((tx, ex))
             _p(out, "sky_bridge", x_a, bt, ez - 3, (6, 7, max(1, int(x_b - x_a))), deck_bridge, 0, length=max(1, int(x_b - x_a)))
+    # --- the desert school
+    desert(out, rng)
     return out, lands
 
 
@@ -615,12 +855,24 @@ def nether():
     gx, gz = GATE_NE
     place_mcb(out, "nether_gate_nether", gx - 33, NETHER_FLOOR, gz - 56)
     ax, az = ACADEMY_NE
-    place_mcb_center(out, "infernal_academy", ax, NETHER_FLOOR, az)
+    # the giant ziggurat academy, a library, two dormitories, the mcbuild academy as an annex
+    L = 360
+    place_center(out, "academy", ic.terrace, ic.terrace_size(L, L, 7, 5), ax, NETHER_FLOOR, az, 51, L=L, Dbase=L,
+                 tiers=7, tier_floors=5, step=24, scheme="t_nether", seed=51, square=True)
+    place_center(out, "library", ic.library_hall, ic.library_size(180, 130, 10), NE_LIBRARY[0], NETHER_FLOOR,
+                 NE_LIBRARY[1], 52, W=180, D=130, floors=10, scheme="t_nether", seed=52)
+    for k, ((dx_, dz_), axis) in enumerate(NE_DORMS):
+        place_center(out, "dorm", ic.dorm_block, ic.dorm_size(240, 32, 18, axis), dx_, NETHER_FLOOR, dz_, 53 + k,
+                     L=240, D=32, floors=18, scheme="t_nether", seed=53 + k, axis=axis)
+    place_mcb_center(out, "infernal_academy", NE_ANNEX[0], NETHER_FLOOR, NE_ANNEX[1])
+
+    def busy(x, z, pad):
+        return any(math.hypot(x - cx, z - cz) < rad + pad for (cx, cz, rad) in NETHER_FLAT)
     X0, Z0, X1, Z1 = NETHER_BOX
     spots = []
     for _ in range(400):
         x, z = rng.integers(X0 + 100, X1 - 100), rng.integers(Z0 + 100, Z1 - 100)
-        if math.hypot(x - ax, z - az) < 150 or math.hypot(x - gx, z - gz) < 90:
+        if busy(x, z, 30):
             continue
         if any(math.hypot(x - a, z - b) < 90 for a, b, _ in spots):
             continue
@@ -632,7 +884,7 @@ def nether():
            h=640, r=r)
     for j in range(12):                                     # lavafalls from the ceiling
         x, z = rng.integers(X0 + 120, X1 - 120), rng.integers(Z0 + 120, Z1 - 120)
-        if math.hypot(x - ax, z - az) < 140 or math.hypot(x - gx, z - gz) < 80:
+        if busy(x, z, 20):
             continue
         _p(out, "lavafall", x, 30, z, (600, 1, 3), column, 0, h=600, kind="lava", w=3)
     for j in range(60):                                     # glowstone hanging under the ceiling
@@ -642,7 +894,7 @@ def nether():
         _p(out, "glowstone", x - r, c - 2 * r + 1, z - r, (2 * r + 1, 2 * r + 1, 2 * r + 1), glow_cluster, j, r=r)
     for j in range(70):                                     # giant fungi
         x, z = rng.integers(X0 + 90, X1 - 90), rng.integers(Z0 + 90, Z1 - 90)
-        if math.hypot(x - ax, z - az) < 135 or math.hypot(x - gx, z - gz) < 80:
+        if busy(x, z, 15):
             continue
         g = nether_ground(x, z)
         if g < 38:                                          # not in the lava lakes
